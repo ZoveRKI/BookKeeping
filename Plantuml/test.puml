@@ -1,0 +1,9 @@
+@startuml test
+
+entity "Test" as test {
+    + id: int
+    + name: string
+    + description: string
+}
+
+@enduml
