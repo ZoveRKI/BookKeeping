@@ -1,6 +1,6 @@
-class CreateUsersYearMonthDayRelations < ActiveRecord::Migration[8.0]
+class CreateUserYearMonthDayRelations < ActiveRecord::Migration[8.0]
   def change
-    create_table :users_year_month_day_relations do |t|
+    create_table :user_year_month_day_relations do |t|
       t.integer :user_id, null: false
       t.references :year_month, null: false, foreign_key: true
       t.integer :day, null: false
