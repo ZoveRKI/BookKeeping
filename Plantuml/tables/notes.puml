@@ -1,9 +1,9 @@
 @startuml notes
 
 entity "notes" as notes {
-    + id: int <<PK>>
+    + id: bigint <<PK>>
     --
-    # additional_expense_id: int <<FK=additional_expenses.id, Not Null>>
+    # additional_expense_id: bigint <<FK=additional_expenses.id, Not Null>>
     --
     note: string(255) <<Not Null>>
     created_at: datetime <<Not Null>>

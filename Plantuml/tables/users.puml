@@ -1,7 +1,7 @@
 @startuml users
 
 entity "users" as users {
-    + id: int <<PK>>
+    + id: bigint <<PK>>
     --
     user_name: string(255) <<Not Null>>
     password: string(255) <<Not Null>>

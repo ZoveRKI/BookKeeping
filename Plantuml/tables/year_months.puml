@@ -1,10 +1,10 @@
 @startuml year_months
 
 entity "year_months" as year_months {
-    + id: int <<PK>>
+    + id: bigint <<PK>>
     --
-    year: int <<Not Null>>
-    month: int <<Not Null>>
+    year: bigint <<Not Null>>
+    month: bigint <<Not Null>>
     created_at: datetime <<Not Null>>
     updated_at: datetime <<Not Null>>
     --
