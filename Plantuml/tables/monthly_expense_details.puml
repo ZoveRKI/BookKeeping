@@ -11,6 +11,8 @@ entity "monthly_expense_details" as monthly_expense_details {
     predict_total_monthly_expense: int <<Not Null>>
     created_at: datetime <<Not Null>>
     updated_at: datetime <<Not Null>>
+    --
+    - (user_id, year_month_id) <<Composite Unique>>
 }
 
 @enduml
