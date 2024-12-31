@@ -1,0 +1,16 @@
+@startuml monthly_expense_details
+
+entity "monthly_expense_details" as monthly_expense_details {
+    + id: int <<PK>>
+    --
+    # user_id: int <<FK=users.id, Not Null>>
+    # year_month_id: int <<FK=year_months.id, Not Null>>
+    --
+    average_daily_expense: int <<Not Null>>
+    total_monthly_expense: int <<Not Null>>
+    predict_total_monthly_expense: int <<Not Null>>
+    created_at: datetime <<Not Null>>
+    updated_at: datetime <<Not Null>>
+}
+
+@enduml

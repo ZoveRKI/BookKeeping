@@ -1,0 +1,13 @@
+@startuml additional_expenses
+
+entity "additional_expenses" as additional_expenses {
+    + id: int <<PK>>
+    --
+    # user_year_month_day_relation_id: int <<FK=user_year_month_day_relations.id, Not Null>>
+    --
+    additional_expense: int <<Not Null>>
+    created_at: datetime <<Not Null>>
+    updated_at: datetime <<Not Null>>
+}
+
+@enduml

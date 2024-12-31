@@ -1,0 +1,9 @@
+@startuml expense_package
+
+package "Expense" {
+    !include ../tables/daily_expenses.puml
+    !include ../tables/additional_expenses.puml
+    !include ../tables/notes.puml
+}
+
+additional_expenses ||--o{ notes

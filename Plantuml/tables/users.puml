@@ -1,0 +1,12 @@
+@startuml users
+
+entity "users" as users {
+    + id: int <<PK>>
+    --
+    user_name: string(255) <<Not Null>>
+    password: string(255) <<Not Null>>
+    created_at: datetime <<Not Null>>
+    updated_at: datetime <<Not Null>>
+}
+
+@enduml

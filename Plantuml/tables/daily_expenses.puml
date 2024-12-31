@@ -1,0 +1,11 @@
+@startuml daily_expenses
+
+entity "daily_expenses" as daily_expenses {
+    + user_year_month_day_relation_id: int <<PK, FK=user_year_month_day_relations.id, Not Null>>
+    --
+    expense: int <<Not Null>>
+    created_at: datetime <<Not Null>>
+    updated_at: datetime <<Not Null>>
+}
+
+@enduml

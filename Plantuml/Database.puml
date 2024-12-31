@@ -1,0 +1,10 @@
+@startuml Database
+
+!include packages/expense_package.puml
+!include packages/time_package.puml
+!include tables/monthly_expense_details.puml
+
+user_year_month_day_relations ||--|| daily_expenses
+user_year_month_day_relations ||--o{ additional_expenses
+users ||--o{ monthly_expense_details
+year_months ||--o{ monthly_expense_details

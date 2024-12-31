@@ -1,0 +1,16 @@
+@startuml user_year_month_day_relations
+
+entity "user_year_month_day_relations" as user_year_month_day_relations {
+    + id: int <<PK>>
+    --
+    # user_id: int <<FK=users.id, Not Null>>
+    # year_month_id: int <<FK=year_months.id, Not Null>>
+    --
+    day: int <<Not Null>>
+    created_at: datetime <<Not Null>>
+    updated_at: datetime <<Not Null>>
+    --
+    - (user_id, year_month_id) <<Composite Unique>>
+}
+
+@enduml

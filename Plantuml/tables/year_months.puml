@@ -1,0 +1,14 @@
+@startuml year_months
+
+entity "year_months" as year_months {
+    + id: int <<PK>>
+    --
+    year: int <<Not Null>>
+    month: int <<Not Null>>
+    created_at: datetime <<Not Null>>
+    updated_at: datetime <<Not Null>>
+    --
+    - (year, month) <<Composite Unique>>
+}
+
+@enduml

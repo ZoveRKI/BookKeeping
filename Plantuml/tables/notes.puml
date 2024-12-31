@@ -1,0 +1,13 @@
+@startuml notes
+
+entity "notes" as notes {
+    + id: int <<PK>>
+    --
+    # additional_expense_id: int <<FK=additional_expenses.id, Not Null>>
+    --
+    note: string(255) <<Not Null>>
+    created_at: datetime <<Not Null>>
+    updated_at: datetime <<Not Null>>
+}
+
+@enduml
