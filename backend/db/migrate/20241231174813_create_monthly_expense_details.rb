@@ -3,9 +3,9 @@ class CreateMonthlyExpenseDetails < ActiveRecord::Migration[8.0]
     create_table :monthly_expense_details do |t|
       t.references :user, null: false, foreign_key: true
       t.references :year_month, null: false, foreign_key: true
-      t.integer :average_daily_expense, null: false
-      t.integer :total_monthly_expense, null: false
-      t.integer :predict_total_monthly_expense, null: false
+      t.bigint :average_daily_expense, null: false
+      t.bigint :total_monthly_expense, null: false
+      t.bigint :predict_total_monthly_expense, null: false
 
       t.timestamps
     end
