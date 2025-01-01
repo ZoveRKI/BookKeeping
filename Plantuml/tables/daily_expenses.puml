@@ -3,7 +3,7 @@
 entity "daily_expenses" as daily_expenses {
     + user_year_month_day_relation_id: bigint <<PK, FK=user_year_month_day_relations.id, Not Null>>
     --
-    expense: bigint <<Not Null>>
+    daily_expense: bigint <<Not Null>>
     created_at: datetime <<Not Null>>
     updated_at: datetime <<Not Null>>
 }
