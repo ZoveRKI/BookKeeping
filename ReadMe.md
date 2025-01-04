@@ -3,6 +3,7 @@
 ![alt text](image.png)
 ## Hint
 ### GraphQL
+- IDE Path: `localhost:3000/grqphiql` ⚠️Don't forget `i`⚠️
 - `field :login, mutation: Mutations::Login`
 mutation {
     login(x, x, ....) {
