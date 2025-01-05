@@ -1,9 +1,13 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import AppRoutes from './AppRoutes'
+import { ApolloProvider } from '@apollo/client';
+import client from './apolloClient';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <AppRoutes />
+    <ApolloProvider client={client}>
+      <AppRoutes />
+    </ApolloProvider>
   </StrictMode>,
 )
