@@ -18,9 +18,7 @@ export const LoginForm: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        console.log("Form data:", { userName, password });
         try {
-            // const { data } = await login({ variables: { userName, password } });
             const { data } = await login({
                 variables: {
                     input: {
