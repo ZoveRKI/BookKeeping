@@ -36,9 +36,11 @@ export const LoginForm: React.FC = () => {
             } else {
                 // 显示错误信息
                 setError(data?.login.messages[0] || 'Unknown error');
+                console.log("Error:", error);
             }
         } catch (err) {
             setError('Login failed');
+            console.error("Error:", error);
         }
     };
 
