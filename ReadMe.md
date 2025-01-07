@@ -4,6 +4,12 @@
 ## Hint
 ### Rails
 - Use `rails new xxxx --api`
+- Create User
+```
+rails console
+
+User.create(user_name: "example_user", password: "secure_password")
+```
 ### Rails GraphQL
 - IDE Path: `localhost:3000/grqphiql` ⚠️Don't forget `i`⚠️
 - `field :login, mutation: Mutations::Login`
