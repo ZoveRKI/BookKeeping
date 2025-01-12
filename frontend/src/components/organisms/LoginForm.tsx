@@ -1,50 +1,25 @@
-import React, { useState } from 'react';
-import { useMutation } from '@apollo/client';
-import { LOGIN_MUTATION } from './../../graphql/mutations';
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import {
     Button as MuiButton,
     TextField as MuiTextField
 } from "@mui/material";
 import './organismsCSS/LoginForm.css'
 
-export const LoginForm: React.FC = () => {
-    const [userName, setUserName] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState<string | null>(null);
-    const [login] = useMutation(LOGIN_MUTATION);
-    const navigate = useNavigate();
+interface LoginFormProps {
+    userName: string;
+    password: string;
+    setUserName: (value: string) => void;
+    setPassword: (value: string) => void;
+    handleSubmit: (e: React.FormEvent) => Promise<void>
+}
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-
-        try {
-            const { data } = await login({
-                variables: {
-                    input: {
-                        userName: userName,
-                        password: password
-                    }
-                }
-            });
-
-            console.log("Data:", data);
-
-            if (data?.login.isSuccess) {
-                // 登录成功后跳转到首页
-                localStorage.setItem("userId", data?.login.userId);
-                navigate('/home');
-            } else {
-                // 显示错误信息
-                setError(data?.login.messages[0] || 'Unknown error');
-                console.log("Error:", error);
-            }
-        } catch (err) {
-            setError('Login failed');
-            console.error("Error:", error);
-        }
-    };
-
+export const LoginForm: React.FC<LoginFormProps> = ({
+    userName,
+    password,
+    setUserName,
+    setPassword,
+    handleSubmit
+}) => {
     return (
         <div className="container">
             <div className="login-box">
