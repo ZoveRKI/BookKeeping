@@ -9,3 +9,11 @@ export const LOGIN_MUTATION = gql`
     }
   }
 `;
+
+export const ADD_TIME_MUTATION = gql`
+  mutation AddTime($input: AddTimeInput!) {
+    addTime(input: $input) {
+      isSuccess
+    }
+  }
+`;
