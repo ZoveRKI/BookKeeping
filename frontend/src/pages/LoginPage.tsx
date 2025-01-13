@@ -24,7 +24,7 @@ const LoginPage: React.FC = () => {
                 }
             });
 
-            console.log("Data:", data);
+            console.log("Login Data:", data);
 
             if (data?.login.isSuccess) {
                 // 登录成功后跳转到首页

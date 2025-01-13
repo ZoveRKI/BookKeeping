@@ -16,7 +16,7 @@ const HomePage: React.FC = () => {
         }
     })
 
-    console.log('Data', data);
+    console.log('HomePage Title Data', data);
 
     const [addTime] = useMutation(ADD_TIME_MUTATION, {
         variables: {
