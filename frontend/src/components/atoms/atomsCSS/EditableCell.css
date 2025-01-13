@@ -1,0 +1,22 @@
+/* EditableCell.css */
+.editable-cell {
+    padding: '8px';
+    min-width: 10px;
+    max-width: 100px;
+    cursor: 'pointer';
+    font-size: 25px;
+    text-align: center;
+    /* border: 1px solid #c91212; */
+}
+
+.editable-cell-input {
+    width: 100%;
+    font-size: 25px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.init-text {
+    color: #aaa;
+    font-style: italic;
+}
