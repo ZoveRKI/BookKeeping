@@ -22,10 +22,21 @@ module Types
     # They will be entry points for queries on your schema.
 
     # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World!"
+    field :check_time_exists, Types::CheckDataResultType, null: false do
+      argument :user_id, ID, required: true
+      argument :year, Int, required: true
+      argument :month, Int, required: true
+    end
+
+    def check_time_exists(user_id:, year:, month:)
+      # 查找对应的 YearMonth 记录
+      year_month = YearMonth.find_by(year: year, month: month)
+
+      if year_month && UserYearMonthDayRelation.exists?(user_id: user_id, year_month_id: year_month.id)
+        { is_success: true }
+      else
+        { is_success: false }
+      end
     end
   end
 end
