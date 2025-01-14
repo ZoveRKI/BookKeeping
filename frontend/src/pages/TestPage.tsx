@@ -3,6 +3,7 @@ import {
     TextField as MuiTextField
 } from "@mui/material";
 import EditableCell from "../components/atoms/EditableCell";
+import ExpenseTable from "../components/organisms/ExpenseTable";
 
 const TestPage: React.FC = () => {
     return (
@@ -14,6 +15,8 @@ const TestPage: React.FC = () => {
             <MuiTextField id="outlined-basic" label="UserName" variant="outlined" />
             <MuiTextField id="outlined-basic" label="Password" variant="outlined" />
             <EditableCell />
+            <br />
+            <ExpenseTable />
         </>
     );
 };
