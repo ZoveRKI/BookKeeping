@@ -65,16 +65,20 @@ const ExpenseTable: React.FC = () => {
                         <tr key={index} className="table-row">
                             <td>{row.date}</td>
                             <td>
-                                <EditableCell
-                                    initialValue={row.dailyExpense}
-                                    onSave={(value) => updateRow(index, "dailyExpense", value)}
-                                />
+                                <div className="table-editable-cell">
+                                    <EditableCell
+                                        initialValue={row.dailyExpense}
+                                        onSave={(value) => updateRow(index, "dailyExpense", value)}
+                                    />
+                                </div>
                             </td>
                             <td>
-                                <EditableCell
-                                    initialValue={row.extraExpense}
-                                    onSave={(value) => updateRow(index, "extraExpense", value)}
-                                />
+                                <div className="table-editable-cell">
+                                    <EditableCell
+                                        initialValue={row.extraExpense}
+                                        onSave={(value) => updateRow(index, "extraExpense", value)}
+                                    />
+                                </div>
                             </td>
                             <div className="row-actions">
                                 {row.isEdited && (
