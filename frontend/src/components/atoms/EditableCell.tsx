@@ -7,11 +7,10 @@ type EditableCellProps = {
 };
 
 const EditableCell: React.FC<EditableCellProps> = ({
-    initialValue = '',
     onSave
 }) => {
     const [isEditing, setIsEditing] = useState(false);
-    const [value, setValue] = useState<string>(initialValue);
+    const [value, setValue] = useState<string>('');
 
     const handleDoubleClick = () => {
         setIsEditing(true);
