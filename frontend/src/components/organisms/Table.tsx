@@ -51,7 +51,7 @@ const ExpenseTable: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className="table-container">
             <table className="expense-table">
                 <thead>
                     <tr>
@@ -76,12 +76,12 @@ const ExpenseTable: React.FC = () => {
                                     onSave={(value) => updateRow(index, "extraExpense", value)}
                                 />
                             </td>
-                            <td className="row-actions">
-                                <button onClick={() => deleteRow(index)}>删除</button>
+                            <div className="row-actions">
                                 {row.isEdited && (
                                     <button onClick={() => saveRow(index)}>保存</button>
                                 )}
-                            </td>
+                                <button onClick={() => deleteRow(index)}>删除</button>
+                            </div>
                         </tr>
                     ))}
                 </tbody>

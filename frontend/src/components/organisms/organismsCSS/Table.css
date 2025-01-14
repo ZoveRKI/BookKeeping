@@ -1,10 +1,19 @@
+.table-container {
+    width: 70%;
+    /* 表格宽度 */
+    margin: 0 auto;
+    /* 居中表格和操作面板 */
+}
+
 .expense-table {
     width: 100%;
-    text-align: left;
+    text-align: center;
     border-collapse: collapse;
 }
 
 .expense-table th,
+
+
 .expense-table td {
     border: 1px solid #ddd;
     padding: 8px;
@@ -21,7 +30,7 @@
 
 .row-actions {
     position: absolute;
-    right: 10px;
+    right: -120px;
     /* 控制按钮距右边的距离 */
     top: 50%;
     transform: translateY(-50%);
