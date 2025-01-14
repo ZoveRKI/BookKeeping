@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import EditableCell from "./../atoms/EditableCell"; // 引入你提供的组件
+import "./organismsCSS/Table.css";
 
 interface TableRow {
     date: number; // 日期 (1-31)
@@ -51,18 +52,17 @@ const ExpenseTable: React.FC = () => {
 
     return (
         <div>
-            <table style={{ width: "100%", textAlign: "left", border: "1px solid black" }}>
+            <table className="expense-table">
                 <thead>
                     <tr>
                         <th>日期</th>
                         <th>日常花销</th>
                         <th>额外花销</th>
-                        <th>操作</th>
                     </tr>
                 </thead>
                 <tbody>
                     {rows.map((row, index) => (
-                        <tr key={index}>
+                        <tr key={index} className="table-row">
                             <td>{row.date}</td>
                             <td>
                                 <EditableCell
@@ -76,7 +76,7 @@ const ExpenseTable: React.FC = () => {
                                     onSave={(value) => updateRow(index, "extraExpense", value)}
                                 />
                             </td>
-                            <td>
+                            <td className="row-actions">
                                 <button onClick={() => deleteRow(index)}>删除</button>
                                 {row.isEdited && (
                                     <button onClick={() => saveRow(index)}>保存</button>
@@ -86,7 +86,7 @@ const ExpenseTable: React.FC = () => {
                     ))}
                 </tbody>
             </table>
-            <button onClick={addRow} style={{ marginTop: "10px" }}>
+            <button onClick={addRow} className="add-row-button">
                 加号
             </button>
         </div>
