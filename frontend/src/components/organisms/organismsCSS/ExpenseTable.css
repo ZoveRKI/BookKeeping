@@ -11,16 +11,14 @@
     border-collapse: collapse;
 }
 
-.expense-table th,
-
+.expense-table th {
+    background-color: #f4f4f4;
+    padding: 8px;
+}
 
 .expense-table td {
     border: 1px solid #ddd;
     padding: 8px;
-}
-
-.expense-table th {
-    background-color: #f4f4f4;
 }
 
 .table-row {
