@@ -27,13 +27,18 @@
 }
 
 .row-actions {
+    margin-left: 8px;
     position: absolute;
-    right: -120px;
-    /* 控制按钮距右边的距离 */
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     gap: 8px;
+}
+
+.action-button {
+    cursor: pointer;
+    white-space: nowrap;
+    /* 禁止文字换行 */
 }
 
 .add-row-button {

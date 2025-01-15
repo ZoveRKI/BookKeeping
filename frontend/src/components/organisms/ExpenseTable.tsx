@@ -91,9 +91,9 @@ const ExpenseTable: React.FC = () => {
                             </td>
                             <div className="row-actions">
                                 {row.isEdited && (
-                                    <button onClick={() => saveRow(index)}>保存</button>
+                                    <button className="action-button" onClick={() => saveRow(index)}>保存</button>
                                 )}
-                                <button onClick={() => deleteRow(index)}>删除</button>
+                                <button className="action-button" onClick={() => deleteRow(index)}>删除</button>
                             </div>
                         </tr>
                     ))}
