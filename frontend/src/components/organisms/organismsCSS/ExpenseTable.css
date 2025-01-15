@@ -44,6 +44,11 @@
 }
 
 .table-editable-cell {
-    position: relative;
-    right: -85px;
+    display: flex;
+    /* 使用 Flex 布局 */
+    justify-content: center;
+    /* 水平居中 */
+    /* align-items: center; */
+    /* 垂直居中 */
+    /* height: 100%; */
 }
