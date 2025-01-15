@@ -33,7 +33,7 @@ module Types
       year_month = YearMonth.find_by(year: year, month: month)
 
       if year_month && UserYearMonthDayRelation.exists?(user_id: user_id, year_month_id: year_month.id)
-        { is_success: true }
+        { is_success: true, year_month_id: year_month.id }
       else
         { is_success: false }
       end
