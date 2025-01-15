@@ -9,7 +9,7 @@ const HomePage: React.FC = () => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
 
-    const { data } = useQuery(CHECK_TIME_EXISTS_QUERY, {
+    const { data: titleData } = useQuery(CHECK_TIME_EXISTS_QUERY, {
         variables: {
             userId: localStorage.getItem("userId"),
             year: year,
@@ -17,7 +17,7 @@ const HomePage: React.FC = () => {
         }
     })
 
-    console.log('HomePage Title Data', data);
+    console.log('HomePage Title Data', titleData);
 
     const [addTime] = useMutation(ADD_TIME_MUTATION, {
         variables: {
@@ -41,16 +41,18 @@ const HomePage: React.FC = () => {
     });
 
     useEffect(() => {
-        if (data?.checkTimeExists.isSuccess === false) {
+        if (titleData?.checkTimeExists.isSuccess === false) {
             addTime();
         }
-    }, [data, addTime]);
+    }, [titleData, addTime]);
+
+
 
     return (
         <>
             <div>
                 <h1>{`${year}年${month}月`}</h1>
-                {data?.checkTimeExists.isSuccess ? null : <h2>Wrong!!!!!!</h2>}
+                {titleData?.checkTimeExists.isSuccess ? null : <h2>Wrong!!!!!!</h2>}
             </div>
             <div>
                 <ExpenseTable />
