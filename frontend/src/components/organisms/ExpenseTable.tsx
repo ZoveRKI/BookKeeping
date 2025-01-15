@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import EditableCell from "../atoms/EditableCell"; // 引入你提供的组件
 import "./organismsCSS/ExpenseTable.css";
+import AddRowButton from "../atoms/AddRowButton";
+import DeleteRowButton from "../atoms/DeleteRowButton";
+import SaveRowButton from "../atoms/SaveRowButton";
 
 interface ExpenseTableRowProps {
     date: number; // 日期 (1-31)
@@ -91,17 +94,21 @@ const ExpenseTable: React.FC = () => {
                             </td>
                             <div className="row-actions">
                                 {row.isEdited && (
-                                    <button className="action-button" onClick={() => saveRow(index)}>保存</button>
+                                    <div className="action-button">
+                                        <SaveRowButton onClick={() => saveRow(index)} />
+                                    </div>
                                 )}
-                                <button className="action-button" onClick={() => deleteRow(index)}>删除</button>
+                                <div className="action-button">
+                                    <DeleteRowButton onClick={() => deleteRow(index)} />
+                                </div>
                             </div>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <button onClick={addRow} className="add-row-button">
-                加号
-            </button>
+            <div className="add-row-button">
+                <AddRowButton onClick={addRow} />
+            </div>
         </div>
     );
 };
