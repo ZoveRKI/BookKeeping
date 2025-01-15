@@ -38,7 +38,7 @@ const ExpenseTable: React.FC = () => {
                     const updatedRow = { ...row, [key]: value };
 
                     // 检查值是否有变化，如果变化则标记为 isEdited
-                    if (row[key] !== value) {
+                    if (String(row[key]) !== value) {
                         updatedRow.isEdited = true;
                     }
                     return updatedRow;
