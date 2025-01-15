@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import { CHECK_TIME_EXISTS_QUERY } from "../graphql/queries";
 import { ADD_TIME_MUTATION } from '../graphql/mutations';
+import ExpenseTable from '../components/organisms/ExpenseTable';
 
 const HomePage: React.FC = () => {
     const currentDate = new Date();
@@ -46,10 +47,15 @@ const HomePage: React.FC = () => {
     }, [data, addTime]);
 
     return (
-        <div>
-            <h1>{`${year}年${month}月`}</h1>
-            {data?.checkTimeExists.isSuccess ? null : <h2>Wrong!!!!!!</h2>}
-        </div>
+        <>
+            <div>
+                <h1>{`${year}年${month}月`}</h1>
+                {data?.checkTimeExists.isSuccess ? null : <h2>Wrong!!!!!!</h2>}
+            </div>
+            <div>
+                <ExpenseTable />
+            </div>
+        </>
     )
 };
 
