@@ -8,7 +8,7 @@ import SaveRowButton from "../atoms/SaveRowButton";
 interface ExpenseTableRowProps {
     date: number; // 日期 (1-31)
     dailyExpense: string | number; // 日常花销
-    extraExpense: string | number; // 额外花销
+    additionalExpense: string | number; // 额外花销
     isEdited: boolean; // 是否已修改
 }
 
@@ -26,7 +26,7 @@ const ExpenseTable: React.FC = () => {
         setRows(
             (prev) => [
                 ...prev,
-                { date: newDate, dailyExpense: '', extraExpense: '', isEdited: false },
+                { date: newDate, dailyExpense: '', additionalExpense: '', isEdited: false },
             ]
         );
     };
@@ -51,7 +51,7 @@ const ExpenseTable: React.FC = () => {
     const saveRow = (index: number) => {
         const updatedRowdata = rows[index];
         updatedRowdata.dailyExpense = Number(updatedRowdata.dailyExpense);
-        updatedRowdata.extraExpense = Number(updatedRowdata.extraExpense);
+        updatedRowdata.additionalExpense = Number(updatedRowdata.additionalExpense);
         console.log("Saving row:", updatedRowdata); // 模拟保存操作
 
         // 保存成功后重置 isEdited 状态
@@ -88,7 +88,7 @@ const ExpenseTable: React.FC = () => {
                             <td>
                                 <div className="table-editable-cell">
                                     <EditableCell
-                                        onSave={(value) => updateRow(index, "extraExpense", value)}
+                                        onSave={(value) => updateRow(index, "additionalExpense", value)}
                                     />
                                 </div>
                             </td>
