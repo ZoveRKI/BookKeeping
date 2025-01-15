@@ -48,6 +48,7 @@ const ExpenseTable: React.FC = () => {
         );
     };
 
+    // TODO: Mutation
     const saveRow = (index: number) => {
         const updatedRowdata = rows[index];
         updatedRowdata.dailyExpense = Number(updatedRowdata.dailyExpense);
@@ -60,6 +61,7 @@ const ExpenseTable: React.FC = () => {
         );
     };
 
+    // TODO: Mutation
     const deleteRow = (index: number) => {
         setRows((prev) => prev.filter((_, i) => i !== index));
     };
