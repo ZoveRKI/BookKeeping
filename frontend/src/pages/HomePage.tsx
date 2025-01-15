@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
-import { CHECK_TIME_EXISTS_QUERY } from "../graphql/queries";
+import {
+    CHECK_TIME_EXISTS_QUERY,
+    CHECK_EXPENSE_TABLE_DATA_QUERY
+} from "../graphql/queries";
 import { ADD_TIME_MUTATION } from '../graphql/mutations';
 import ExpenseTable from '../components/organisms/ExpenseTable';
 
