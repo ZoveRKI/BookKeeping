@@ -15,8 +15,7 @@ module Mutations
       )
 
       if user_year_month_day_relation.nil?
-        current_date = Date.today
-        day = current_date.day
+        day = 1
 
         user_year_month_day_relation = UserYearMonthDayRelation.create(
           user_id: user_id,
