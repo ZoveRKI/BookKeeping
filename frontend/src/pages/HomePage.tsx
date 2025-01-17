@@ -46,6 +46,7 @@ const HomePage: React.FC = () => {
     useEffect(() => {
         if (titleData?.checkTimeExists.isSuccess === false) {
             addTime();
+            window.location.reload();
         }
     }, [titleData, addTime]);
 
