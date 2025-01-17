@@ -49,8 +49,18 @@ const HomePage: React.FC = () => {
         }
     }, [titleData, addTime]);
 
+    // Table Data
+    const { data: tableData } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
+        skip: !titleData?.checkTimeExists.yearMonthId,
+        variables: {
+            userId: localStorage.getItem("userId"),
+            yearMonthId: titleData?.checkTimeExists.yearMonthId
+        }
+    })
 
+    console.log('HomePage Table Data', tableData);
 
+    // TODO: 可以把Wrong提示符换成动画
     return (
         <>
             <div>
