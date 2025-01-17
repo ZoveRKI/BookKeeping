@@ -21,8 +21,9 @@ module Types
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
 
-    # TODO: remove me
-    field :check_time_exists, Types::CheckDataResultType, null: false do
+    # My Query
+    # 查找用户是否已经拥有某个年月
+    field :check_time_exists, Types::CheckTimeExistsType, null: false do
       argument :user_id, ID, required: true
       argument :year, Int, required: true
       argument :month, Int, required: true
