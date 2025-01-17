@@ -10,13 +10,15 @@ export const CHECK_TIME_EXISTS_QUERY = gql`
 `;
 
 export const CHECK_EXPENSE_TABLE_DATA_QUERY = gql`
-  query CheckExpenseTableData($userId: ID!, $year: Int!, $month: Int!) {
-    checkExpenseTableData(userId: $userId, year: $year, month: $month) {
+  query CheckExpenseTableData($userId: ID!, $yearMonthId: ID!) {
+    checkExpenseTableData(userId: $userId, yearMonthId: $yearMonthId) {
         hasData
-        data {
+        expenseTableData {
           date
           dailyExpense
-          additionalExpense
+          additionalExpense {
+            amount
+          }
           isEdited
         }
     }
