@@ -4,6 +4,12 @@ import "./organismsCSS/ExpenseTable.css";
 import AddRowButton from "../atoms/AddRowButton";
 import DeleteRowButton from "../atoms/DeleteRowButton";
 import SaveRowButton from "../atoms/SaveRowButton";
+import { useMutation } from '@apollo/client';
+import { SAVE_ROW_DATA_MUTATION } from "../../graphql/mutations";
+
+interface ExpenseTableProps {
+    yearMonthId: number;
+}
 
 interface ExpenseTableRowProps {
     date: number; // 日期 (1-31)
@@ -12,7 +18,9 @@ interface ExpenseTableRowProps {
     isEdited: boolean; // 是否已修改
 }
 
-const ExpenseTable: React.FC = () => {
+const ExpenseTable: React.FC<ExpenseTableProps> = ({
+    yearMonthId,
+}) => {
     const [rows, setRows] = useState<ExpenseTableRowProps[]>([]);
 
     const addRow = () => {
@@ -38,7 +46,7 @@ const ExpenseTable: React.FC = () => {
                     const updatedRow = { ...row, [key]: value };
 
                     // 检查值是否有变化，如果变化则标记为 isEdited
-                    if (String(row[key]) !== value) {
+                    if (row[key] !== value) {
                         updatedRow.isEdited = true;
                     }
                     return updatedRow;
@@ -48,18 +56,51 @@ const ExpenseTable: React.FC = () => {
         );
     };
 
-    // TODO: Mutation
+    const [saveRowData] = useMutation(SAVE_ROW_DATA_MUTATION, {
+        onCompleted: (mutationData) => {
+            console.log("Mutation result:", mutationData);
+            if (mutationData.saveRowData.isSuccess) {
+                setRows((prev) =>
+                    prev.map((row) =>
+                        row.date === mutationData.saveRowData.date
+                            ? { ...row, isEdited: false }
+                            : row
+                    )
+                );
+                console.log("Success");
+            } else {
+                console.error("Failed");
+            }
+        },
+        onError: (mutationError) => {
+            console.error("Mutation error:", mutationError);
+        },
+    });
+
     const saveRow = (index: number) => {
         const updatedRowdata = rows[index];
-        updatedRowdata.dailyExpense = Number(updatedRowdata.dailyExpense);
-        updatedRowdata.additionalExpense = Number(updatedRowdata.additionalExpense);
-        console.log("Saving row:", updatedRowdata); // 模拟保存操作
+        const dailyExpense = Number(updatedRowdata.dailyExpense);
+        const additionalExpense = Number(updatedRowdata.additionalExpense);
 
-        // 保存成功后重置 isEdited 状态
-        setRows((prev) =>
-            prev.map((row, i) => (i === index ? { ...row, isEdited: false } : row))
-        );
+        if (isNaN(dailyExpense) || isNaN(additionalExpense)) {
+            alert("花销数据必须是有效数字！");
+            return;
+        }
+
+        saveRowData({
+            variables: {
+                input: {
+                    userId: localStorage.getItem("userId"),
+                    yearMonthId: yearMonthId,
+                    date: updatedRowdata.date,
+                    dailyExpense: dailyExpense,
+                    additionalExpense: additionalExpense
+                }
+            },
+        });
     };
+
+    // console.log("After saving row:", rows);
 
     // TODO: Mutation
     const deleteRow = (index: number) => {

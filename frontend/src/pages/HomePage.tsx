@@ -69,7 +69,9 @@ const HomePage: React.FC = () => {
                 {titleData?.checkTimeExists.isSuccess ? null : <h2>Wrong!!!!!!</h2>}
             </div>
             <div>
-                <ExpenseTable />
+                <ExpenseTable
+                    yearMonthId={titleData?.checkTimeExists.yearMonthId}
+                />
             </div>
         </>
     )

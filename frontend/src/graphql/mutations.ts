@@ -17,3 +17,13 @@ export const ADD_TIME_MUTATION = gql`
     }
   }
 `;
+
+export const SAVE_ROW_DATA_MUTATION = gql`
+  mutation SaveRowData($input: SaveRowDataInput!) {
+    saveRowData(input: $input) {
+      isSuccess
+      message
+      date
+    }
+  }
+`;
