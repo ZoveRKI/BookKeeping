@@ -13,14 +13,14 @@
 ActiveRecord::Schema[8.0].define(version: 2024_12_31_185530) do
   create_table "additional_expenses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_year_month_day_relation_id", null: false
-    t.bigint "additional_expense", null: false
+    t.decimal "additional_expense", precision: 15, scale: 5, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_year_month_day_relation_id"], name: "index_additional_expenses_on_user_year_month_day_relation_id"
   end
 
   create_table "daily_expenses", primary_key: "user_year_month_day_relation_id", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "daily_expense", null: false
+    t.decimal "daily_expense", precision: 15, scale: 5, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_year_month_day_relation_id"], name: "index_daily_expenses_on_user_year_month_day_relation_id"
@@ -30,11 +30,11 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_185530) do
     t.bigint "user_id", null: false
     t.bigint "year_month_id", null: false
     t.decimal "average_daily_expense", precision: 15, scale: 5, null: false
-    t.bigint "total_monthly_expense", null: false
+    t.decimal "total_monthly_expense", precision: 15, scale: 5, null: false
     t.decimal "predict_total_monthly_expense", precision: 15, scale: 5, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id", "year_month_id"], name: "index_monthly_expense_details_on_user_id_and_year_month_id", unique: true
+    t.index ["user_id", "year_month_id", "average_daily_expense", "total_monthly_expense", "predict_total_monthly_expense"], name: "idx_on_user_id_year_month_id_average_daily_expense__5f9d929b93", unique: true
     t.index ["user_id"], name: "index_monthly_expense_details_on_user_id"
     t.index ["year_month_id"], name: "index_monthly_expense_details_on_year_month_id"
   end
@@ -53,7 +53,8 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_185530) do
     t.bigint "day", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id", "year_month_id"], name: "idx_on_user_id_year_month_id_b898deb326", unique: true
+    t.index ["user_id", "year_month_id", "day"], name: "idx_on_user_id_year_month_id_day_6b2aa1c97a", unique: true
+    t.index ["user_id"], name: "index_user_year_month_day_relations_on_user_id"
     t.index ["year_month_id"], name: "index_user_year_month_day_relations_on_year_month_id"
   end
 
@@ -65,10 +66,11 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_185530) do
   end
 
   create_table "year_months", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.integer "year", null: false
-    t.integer "month", null: false
+    t.bigint "year", null: false
+    t.bigint "month", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["year", "month"], name: "index_year_months_on_year_and_month", unique: true
   end
 
   add_foreign_key "additional_expenses", "user_year_month_day_relations"
