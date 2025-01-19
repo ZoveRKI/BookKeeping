@@ -10,7 +10,7 @@ entity "user_year_month_day_relations" as user_year_month_day_relations {
     created_at: datetime <<Not Null>>
     updated_at: datetime <<Not Null>>
     --
-    - (user_id, year_month_id) <<Composite Unique>>
+    - (user_id, year_month_idm day) <<Composite Unique>>
 }
 
 @enduml
