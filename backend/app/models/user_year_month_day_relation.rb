@@ -6,5 +6,8 @@ class UserYearMonthDayRelation < ApplicationRecord
 
   validates :day, presence: true, inclusion: { in: 1..31 }
 
-  validates_uniqueness_of :user_id, scope: :year_month_id
+  validates :day, uniqueness: {
+    scope: [:user_id, :year_month_id],
+    message: "Combination of user, year-month, and day must be unique"
+  }
 end

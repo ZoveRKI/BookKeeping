@@ -6,5 +6,13 @@ class MonthlyExpenseDetail < ApplicationRecord
   validates :total_monthly_expense, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :predict_total_monthly_expense, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  validates_uniqueness_of :user_id, scope: :year_month_id
+  validates :user_id, uniqueness: {
+    scope: [
+      :year_month_id,
+      :average_daily_expense,
+      :total_monthly_expense,
+      :predict_total_monthly_expense
+    ],
+    message: "Combination of user, year-month, and expense details must be unique"
+  }
 end
