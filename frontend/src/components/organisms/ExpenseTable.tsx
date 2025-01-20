@@ -87,6 +87,11 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
             return;
         }
 
+        if (updatedRowdata.dailyExpense === '' || updatedRowdata.additionalExpense === '') {
+            alert("花销数据不能为空！");
+            return;
+        }
+
         saveRowData({
             variables: {
                 input: {
