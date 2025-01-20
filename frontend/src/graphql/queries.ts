@@ -16,9 +16,7 @@ export const CHECK_EXPENSE_TABLE_DATA_QUERY = gql`
         expenseTableData {
           date
           dailyExpense
-          additionalExpense {
-            amount
-          }
+          additionalExpense
           isEdited
         }
     }
