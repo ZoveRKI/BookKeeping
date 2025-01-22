@@ -1,6 +1,6 @@
 module Types
   class ExpenseTableDataType < Types::BaseObject
-    field :date, String, null: false
+    field :date, Int, null: false
     field :daily_expense, Float, null: true
     field :additional_expense, [Float], null: true
     field :is_edited, Boolean, null: false
