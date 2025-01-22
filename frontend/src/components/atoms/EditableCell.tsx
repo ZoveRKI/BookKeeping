@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './atomsCSS/EditableCell.css';
 
 type EditableCellProps = {
@@ -7,10 +7,15 @@ type EditableCellProps = {
 };
 
 const EditableCell: React.FC<EditableCellProps> = ({
+    initialValue = '',
     onSave
 }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [value, setValue] = useState<string>('');
+
+    useEffect(() => {
+        setValue(initialValue as string);
+    }, [initialValue]);
 
     const handleDoubleClick = () => {
         setIsEditing(true);
