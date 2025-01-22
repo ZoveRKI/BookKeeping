@@ -71,6 +71,7 @@ const HomePage: React.FC = () => {
             <div>
                 <ExpenseTable
                     yearMonthId={titleData?.checkTimeExists.yearMonthId}
+                    expenseTableData={tableData?.checkExpenseTableData.expenseTableData}
                 />
             </div>
         </>
