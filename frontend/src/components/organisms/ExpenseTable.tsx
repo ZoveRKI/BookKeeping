@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import EditableCell from "../atoms/EditableCell"; // 引入你提供的组件
 import "./organismsCSS/ExpenseTable.css";
 import AddRowButton from "../atoms/AddRowButton";
@@ -9,17 +9,19 @@ import { SAVE_ROW_DATA_MUTATION } from "../../graphql/mutations";
 
 interface ExpenseTableProps {
     yearMonthId: number;
+    expenseTableData: ExpenseTableRowProps[];
 }
 
 interface ExpenseTableRowProps {
     date: number; // 日期 (1-31)
     dailyExpense: string | number; // 日常花销
-    additionalExpense: string | number; // 额外花销
+    additionalExpense: string | number | []; // 额外花销
     isEdited: boolean; // 是否已修改
 }
 
 const ExpenseTable: React.FC<ExpenseTableProps> = ({
     yearMonthId,
+    expenseTableData,
 }) => {
     const [rows, setRows] = useState<ExpenseTableRowProps[]>([]);
 
@@ -39,14 +41,20 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
         );
     };
 
-    const updateRow = (index: number, key: keyof Omit<ExpenseTableRowProps, "date">, value: string) => {
+    const updateRow = (index: number, key: keyof Omit<ExpenseTableRowProps, "date">, value: string | string[]) => {
         setRows((prev) =>
             prev.map((row, i) => {
                 if (i === index) {
-                    const updatedRow = { ...row, [key]: value };
+                    let updatedRow = { ...row };
+                    if (key === "additionalExpense") {
+                        updatedRow[key] = value as [];
+                    } else if (key === "dailyExpense") {
+                        updatedRow[key] = value as string;
+                    }
 
                     // 检查值是否有变化，如果变化则标记为 isEdited
-                    if (row[key] !== value) {
+                    // 不管类型是什么，同样都变换为字符串进行比较，省来回变检查起来麻烦
+                    if (String(row[key]) !== String(value)) {
                         updatedRow.isEdited = true;
                     }
                     return updatedRow;
@@ -112,6 +120,12 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
         setRows((prev) => prev.filter((_, i) => i !== index));
     };
 
+    useEffect(() => {
+        setRows(expenseTableData || []);
+    }, [expenseTableData]);
+
+    // console.log('Row', rows)
+
     return (
         <div className="table-container">
             <table className="expense-table">
@@ -129,15 +143,36 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
                             <td>
                                 <div className="table-editable-cell">
                                     <EditableCell
+                                        initialValue={row.dailyExpense.toString()}
                                         onSave={(value) => updateRow(index, "dailyExpense", value)}
                                     />
                                 </div>
                             </td>
                             <td>
                                 <div className="table-editable-cell">
-                                    <EditableCell
-                                        onSave={(value) => updateRow(index, "additionalExpense", value)}
-                                    />
+                                    {/* 目前额外花销是列表但是只有一个值，所以直接转换为字符串;虽然考虑未来有可能变为多个，但目前来看，变多个不好，但也懒得去改数据库（一对多变为一对一）;如需要明确额外花销都是什么，就去用注释功能详细注明才对 */}
+                                    {/* row.additionalExpense as Array<number | string> 直接断言为列表 */}
+                                    {/* 不等于0会导致map报错，因为ts无法明确判断row.additionalExpense的类型，因为length可能未定义 */}
+                                    {Array.isArray(row.additionalExpense) && (row.additionalExpense).length > 0 ? (
+                                        row.additionalExpense.map(
+                                            (additionalExpenseValue: number | string, expenseIndex: number) => (
+                                                <EditableCell
+                                                    key={expenseIndex}
+                                                    initialValue={
+                                                        additionalExpenseValue ? additionalExpenseValue.toString() : ''
+                                                    }
+                                                    onSave={(value) => {
+                                                        const tempList = [value]
+                                                        updateRow(index, "additionalExpense", tempList)
+                                                    }}
+                                                />
+                                            )
+                                        )
+                                    ) : (
+                                        <EditableCell
+                                            onSave={(value) => updateRow(index, "additionalExpense", value)}
+                                        />
+                                    )}
                                 </div>
                             </td>
                             <div className="row-actions">
