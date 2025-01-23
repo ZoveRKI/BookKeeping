@@ -27,3 +27,12 @@ export const SAVE_ROW_DATA_MUTATION = gql`
     }
   }
 `;
+
+export const DELETE_ROW_DATA_MUTATION = gql`
+  mutation DeleteRowData($input: DeleteRowDataInput!) {
+    deleteRowData(input: $input) {
+      isSuccess
+      message
+    }
+  }
+`;

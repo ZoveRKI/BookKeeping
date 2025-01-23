@@ -5,7 +5,10 @@ import AddRowButton from "../atoms/AddRowButton";
 import DeleteRowButton from "../atoms/DeleteRowButton";
 import SaveRowButton from "../atoms/SaveRowButton";
 import { useMutation } from '@apollo/client';
-import { SAVE_ROW_DATA_MUTATION } from "../../graphql/mutations";
+import {
+    SAVE_ROW_DATA_MUTATION,
+    DELETE_ROW_DATA_MUTATION
+} from "../../graphql/mutations";
 
 interface ExpenseTableProps {
     yearMonthId: number;
@@ -116,7 +119,33 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
     // console.log("After saving row:", rows);
 
     // TODO: Mutation
+    const [deleteRowData] = useMutation(DELETE_ROW_DATA_MUTATION, {
+        onCompleted: (mutationData) => {
+            console.log("Mutation result:", mutationData);
+            if (mutationData.deleteRowData.isSuccess) {
+                console.log("Success");
+            } else {
+                console.error("Failed");
+            }
+        },
+        onError: (mutationError) => {
+            console.error("Mutation error:", mutationError);
+        },
+    });
+
     const deleteRow = (index: number) => {
+        const deletedRowData = rows[index];
+
+        deleteRowData({
+            variables: {
+                input: {
+                    userId: localStorage.getItem("userId"),
+                    yearMonthId: yearMonthId,
+                    date: deletedRowData.date
+                }
+            },
+        });
+
         setRows((prev) => prev.filter((_, i) => i !== index));
     };
 
