@@ -35,13 +35,18 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
             return;
         }
 
-        const newDate = rows.length + 1;
-        setRows(
-            (prev) => [
-                ...prev,
-                { date: newDate, dailyExpense: '', additionalExpense: '', isEdited: false },
-            ]
-        );
+        const existingDates = rows.map(row => row.date).sort((a, b) => a - b);
+        console.log('Existing Dates:', existingDates);
+
+        const missingDate = Array.from({ length: existingDates[existingDates.length - 1] }, (_, i) => i + 1)
+            .find(date => !existingDates.includes(date)) || (existingDates[existingDates.length - 1] + 1);
+
+        const newRows = [
+            ...rows,
+            { date: missingDate, dailyExpense: '', additionalExpense: '', isEdited: false },
+        ];
+
+        setRows(newRows.sort((a, b) => a.date - b.date));
     };
 
     const updateRow = (index: number, key: keyof Omit<ExpenseTableRowProps, "date">, value: string | string[]) => {
