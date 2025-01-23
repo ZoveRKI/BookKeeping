@@ -12,7 +12,7 @@ import {
 
 interface ExpenseTableProps {
     yearMonthId: number;
-    expenseTableData: ExpenseTableRowProps[];
+    expenseTableData: ExpenseTableRowProps[] | null;
 }
 
 interface ExpenseTableRowProps {
