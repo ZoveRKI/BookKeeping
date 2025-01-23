@@ -59,7 +59,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
             ) : value ? (
                 <span>{value}</span>
             ) : (
-                <span className='init-text'>{'edit'}</span>
+                <span className='init-text'>{'*'}</span>
             )}
         </div>
     );
