@@ -70,7 +70,11 @@ const HomePage: React.FC = () => {
                 <h1>{`${year}年${month}月`}</h1>
                 {titleData?.checkTimeExists.isSuccess ? null : <h2>Wrong!!!!!!</h2>}
             </div>
-            <div>
+            <div style={{
+                position: 'absolute',
+                top: '15px',
+                right: '20px'
+            }}>
                 <CustomSelectBox
                     title='Date'
                     menuItems={[
