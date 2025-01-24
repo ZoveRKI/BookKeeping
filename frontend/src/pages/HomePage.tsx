@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import {
     CHECK_TIME_EXISTS_QUERY,
@@ -6,11 +6,13 @@ import {
 } from "../graphql/queries";
 import { ADD_TIME_MUTATION } from '../graphql/mutations';
 import ExpenseTable from '../components/organisms/ExpenseTable';
+import CustomSelectBox from '../components/atoms/CustomSelectBox';
 
 const HomePage: React.FC = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
+    const [selectedValue, setSelectedValue] = useState<string | number>('');
 
     const { data: titleData } = useQuery(CHECK_TIME_EXISTS_QUERY, {
         variables: {
@@ -67,6 +69,17 @@ const HomePage: React.FC = () => {
             <div>
                 <h1>{`${year}年${month}月`}</h1>
                 {titleData?.checkTimeExists.isSuccess ? null : <h2>Wrong!!!!!!</h2>}
+            </div>
+            <div>
+                <CustomSelectBox
+                    title='Date'
+                    menuItems={[
+                        { value: 1, label: '2025年1月' },
+                        { value: 2, label: '2025年2月' },
+                    ]}
+                    selectedValue={selectedValue}
+                    setSelectedValue={setSelectedValue}
+                />
             </div>
             <div>
                 <ExpenseTable
