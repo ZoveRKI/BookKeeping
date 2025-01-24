@@ -35,6 +35,9 @@ const CustomSelectBox: React.FC<CustomSelectBoxProps> = ({
                     value={String(selectedValue)} // 将 value 转为 string 类型
                     label={title}
                     onChange={handleChange}
+                    MenuProps={{
+                        disableScrollLock: true, // 禁用滚动锁定
+                    }}
                 >
                     <MenuItem value="">
                         <em>——————</em>
