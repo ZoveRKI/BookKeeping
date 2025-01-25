@@ -30,7 +30,7 @@ const HomePage: React.FC = () => {
     // console.log('HomePage Selected Value', selectedValue);
     // console.log('Title', title);
 
-    const { data: titleData } = useQuery(CHECK_TIME_EXISTS_QUERY, {
+    const { data: titleData, loading: titleLoading } = useQuery(CHECK_TIME_EXISTS_QUERY, {
         variables: {
             userId: localStorage.getItem("userId"),
             year: year,
@@ -39,14 +39,14 @@ const HomePage: React.FC = () => {
     })
     // console.log('HomePage Title Data', titleData);
 
-    const { data: existingTimeData } = useQuery(GET_USER_EXISTING_TIME_QUERY, {
+    const { data: existingTimeData, loading: existingTimeDataLoading } = useQuery(GET_USER_EXISTING_TIME_QUERY, {
         variables: {
             userId: localStorage.getItem("userId")
         }
     });
     // console.log('Existing Time Data', existingTimeData);
 
-    const { data: tableData, } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
+    const { data: tableData, loading: tableDataLoading } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
         skip: !titleData?.checkTimeExists.yearMonthId,
         variables: {
             userId: localStorage.getItem("userId"),
@@ -101,16 +101,23 @@ const HomePage: React.FC = () => {
                 }
             )
             // console.log('Current Year Month', currentYearMonth);
-
-            setTitle(`${currentYearMonth.year}年${currentYearMonth.month}月`)
+            if (currentYearMonth) {
+                setTitle(`${currentYearMonth.year}年${currentYearMonth.month}月`)
+            } else {
+                setTitle(`${year}年${month}月`); // 如果找不到匹配的时间，设置一个默认值
+            }
         }
     }, [selectedValue, existingTimeData]);
+
+    if (titleLoading || existingTimeDataLoading || tableDataLoading) {
+        return <p>Loading...</p>;
+    }
 
     // TODO: 可以把Wrong提示符换成动画
     return (
         <>
             <div>
-                {titleData?.checkTimeExists.isSuccess ? <h1>{title}</h1> : null}
+                <h1>{title}</h1>
             </div>
             <div style={{
                 position: 'absolute',
