@@ -3,6 +3,7 @@ import { LoginForm } from "../components/organisms/LoginForm"
 import { useMutation } from '@apollo/client';
 import { LOGIN_MUTATION } from './../graphql/mutations';
 import { useNavigate } from 'react-router-dom';
+import { LoadingAnimation } from '../components/organisms/LoadingAnimation';
 
 const LoginPage: React.FC = () => {
     const [userName, setUserName] = useState('');
@@ -42,13 +43,17 @@ const LoginPage: React.FC = () => {
     };
 
     return (
-        <LoginForm
-            userName={userName}
-            password={password}
-            setUserName={setUserName}
-            setPassword={setPassword}
-            handleSubmit={handleSubmit}
-        />
+        <>
+            <LoadingAnimation />
+            <LoginForm
+                userName={userName}
+                password={password}
+                setUserName={setUserName}
+                setPassword={setPassword}
+                handleSubmit={handleSubmit}
+            />
+        </>
+
     )
 }
 
