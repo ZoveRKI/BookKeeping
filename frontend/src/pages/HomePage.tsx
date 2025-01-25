@@ -8,6 +8,7 @@ import {
 import { ADD_TIME_MUTATION } from '../graphql/mutations';
 import ExpenseTable from '../components/organisms/ExpenseTable';
 import CustomSelectBox from '../components/atoms/CustomSelectBox';
+import { LoadingAnimation } from '../components/organisms/LoadingAnimation';
 
 interface ExistingTime {
     yearMonthId: string;
@@ -110,7 +111,9 @@ const HomePage: React.FC = () => {
     }, [selectedValue, existingTimeData]);
 
     if (titleLoading || existingTimeDataLoading || tableDataLoading) {
-        return <p>Loading...</p>;
+        return (
+            <LoadingAnimation />
+        );
     }
 
     // TODO: 可以把Wrong提示符换成动画
