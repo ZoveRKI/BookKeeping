@@ -28,6 +28,7 @@ const HomePage: React.FC = () => {
     const [title, setTitle] = useState<string>("");
 
     // console.log('HomePage Selected Value', selectedValue);
+    // console.log('Title', title);
 
     const { data: titleData } = useQuery(CHECK_TIME_EXISTS_QUERY, {
         variables: {
@@ -36,8 +37,23 @@ const HomePage: React.FC = () => {
             month: month
         }
     })
-
     // console.log('HomePage Title Data', titleData);
+
+    const { data: existingTimeData } = useQuery(GET_USER_EXISTING_TIME_QUERY, {
+        variables: {
+            userId: localStorage.getItem("userId")
+        }
+    });
+    // console.log('Existing Time Data', existingTimeData);
+
+    const { data: tableData, } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
+        skip: !titleData?.checkTimeExists.yearMonthId,
+        variables: {
+            userId: localStorage.getItem("userId"),
+            yearMonthId: selectedValue
+        }
+    })
+    // console.log('HomePage Table Data', tableData);
 
     const [addTime] = useMutation(ADD_TIME_MUTATION, {
         variables: {
@@ -60,6 +76,14 @@ const HomePage: React.FC = () => {
         // },
     });
 
+    const dateSelectBoxItems: DateSelectBoxItems[] = existingTimeData?.getUserExistingTime.existingTime.map((item: ExistingTime) => {
+        return {
+            value: Number(item.yearMonthId),
+            label: `${item.year}年${item.month}月`
+        }
+    }) || [];
+    // console.log('Date Select Box Items', dateSelectBoxItems);
+
     useEffect(() => {
         if (titleData?.checkTimeExists.isSuccess === false) {
             addTime();
@@ -68,33 +92,6 @@ const HomePage: React.FC = () => {
             setSelectedValue(titleData.checkTimeExists.yearMonthId);
         }
     }, [titleData, addTime]);
-
-    // Table Data
-    const { data: tableData, } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
-        skip: !titleData?.checkTimeExists.yearMonthId,
-        variables: {
-            userId: localStorage.getItem("userId"),
-            yearMonthId: selectedValue
-        }
-    })
-
-    // console.log('HomePage Table Data', tableData);
-
-    const { data: existingTimeData } = useQuery(GET_USER_EXISTING_TIME_QUERY, {
-        variables: {
-            userId: localStorage.getItem("userId")
-        }
-    });
-
-    // console.log('Existing Time Data', existingTimeData);
-
-    const dateSelectBoxItems: DateSelectBoxItems[] = existingTimeData?.getUserExistingTime.existingTime.map((item: ExistingTime) => {
-        return {
-            value: Number(item.yearMonthId),
-            label: `${item.year}年${item.month}月`
-        }
-    }) || [];
-    // console.log('Date Select Box Items', dateSelectBoxItems);
 
     useEffect(() => {
         if (existingTimeData?.getUserExistingTime.existingTime) {
@@ -108,7 +105,6 @@ const HomePage: React.FC = () => {
             setTitle(`${currentYearMonth.year}年${currentYearMonth.month}月`)
         }
     }, [selectedValue, existingTimeData]);
-    // console.log('Title', title);
 
     // TODO: 可以把Wrong提示符换成动画
     return (
