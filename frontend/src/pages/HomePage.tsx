@@ -26,6 +26,10 @@ const HomePage: React.FC = () => {
     const month = currentDate.getMonth() + 1;
     const [selectedValue, setSelectedValue] = useState<string | number>('');
 
+    useEffect(() => {
+        refetchTableData();
+    }, [selectedValue]);
+
     // console.log('HomePage Selected Value', selectedValue);
 
     const { data: titleData } = useQuery(CHECK_TIME_EXISTS_QUERY, {
@@ -63,15 +67,17 @@ const HomePage: React.FC = () => {
         if (titleData?.checkTimeExists.isSuccess === false) {
             addTime();
             window.location.reload();
+        } else if (titleData?.checkTimeExists.yearMonthId) {
+            setSelectedValue(titleData.checkTimeExists.yearMonthId);
         }
     }, [titleData, addTime]);
 
     // Table Data
-    const { data: tableData } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
+    const { data: tableData, refetch: refetchTableData } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
         skip: !titleData?.checkTimeExists.yearMonthId,
         variables: {
             userId: localStorage.getItem("userId"),
-            yearMonthId: titleData?.checkTimeExists.yearMonthId
+            yearMonthId: selectedValue
         }
     })
 
@@ -97,8 +103,7 @@ const HomePage: React.FC = () => {
     return (
         <>
             <div>
-                <h1>{`${year}年${month}月`}</h1>
-                {titleData?.checkTimeExists.isSuccess ? null : <h2>Wrong!!!!!!</h2>}
+                {titleData?.checkTimeExists.isSuccess ? <h1>{`${year}年${month}月`}</h1> : <h1>{`?${year}年${month}月?`}</h1>}
             </div>
             <div style={{
                 position: 'absolute',
