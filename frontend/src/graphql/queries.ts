@@ -22,3 +22,15 @@ export const CHECK_EXPENSE_TABLE_DATA_QUERY = gql`
     }
   }
 `;
+
+export const GET_USER_EXISTING_TIME_QUERY = gql`
+  query GetUserExistingTime($userId: ID!) {
+    getUserExistingTime(userId: $userId) {
+        existingTime {
+          yearMonthId
+          year
+          month
+        }
+    }
+  }
+`;
