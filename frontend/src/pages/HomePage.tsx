@@ -27,10 +27,6 @@ const HomePage: React.FC = () => {
     const [selectedValue, setSelectedValue] = useState<string | number>('');
     const [title, setTitle] = useState<string>("");
 
-    // useEffect(() => {
-    //     refetchTableData();
-    // }, [selectedValue]);
-
     // console.log('HomePage Selected Value', selectedValue);
 
     const { data: titleData } = useQuery(CHECK_TIME_EXISTS_QUERY, {
@@ -74,7 +70,7 @@ const HomePage: React.FC = () => {
     }, [titleData, addTime]);
 
     // Table Data
-    const { data: tableData, refetch: refetchTableData } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
+    const { data: tableData, } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
         skip: !titleData?.checkTimeExists.yearMonthId,
         variables: {
             userId: localStorage.getItem("userId"),
