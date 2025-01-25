@@ -7,9 +7,9 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import './atomsCSS/CustomSelectBox.css'
 interface CustomSelectBoxProps {
     title: string;
-    menuItems: { value: string | number; label: string }[];
-    selectedValue: string | number; // 父组件传递的值
-    setSelectedValue: React.Dispatch<React.SetStateAction<string | number>>; // 父组件的 setState
+    menuItems: { value: string; label: string }[];
+    selectedValue: string; // 父组件传递的值
+    setSelectedValue: React.Dispatch<React.SetStateAction<string>>; // 父组件的 setState
 }
 
 const CustomSelectBox: React.FC<CustomSelectBoxProps> = ({
@@ -19,10 +19,7 @@ const CustomSelectBox: React.FC<CustomSelectBoxProps> = ({
     setSelectedValue,
 }) => {
     const handleChange = (event: SelectChangeEvent) => {
-        const value = event.target.value; // MUI 返回的值是 string 类型
-        value === "" ?
-            setSelectedValue("") :
-            setSelectedValue(isNaN(Number(value)) ? value : Number(value)); // 如果是数字，转为 number
+        setSelectedValue(event.target.value);
     };
 
     return (
@@ -32,7 +29,7 @@ const CustomSelectBox: React.FC<CustomSelectBoxProps> = ({
                 <Select
                     labelId="custom-select-label"
                     id="custom-select"
-                    value={String(selectedValue)} // 将 value 转为 string 类型
+                    value={selectedValue}
                     label={title}
                     onChange={handleChange}
                     MenuProps={{
