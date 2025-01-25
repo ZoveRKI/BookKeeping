@@ -39,9 +39,9 @@ const CustomSelectBox: React.FC<CustomSelectBoxProps> = ({
                         disableScrollLock: true, // 禁用滚动锁定
                     }}
                 >
-                    <MenuItem value="">
+                    {/* <MenuItem value="">
                         <em>——————</em>
-                    </MenuItem>
+                    </MenuItem> */}
                     {menuItems.map((item) => (
                         <MenuItem key={item.value} value={String(item.value)}>
                             {item.label}
