@@ -25,10 +25,11 @@ const HomePage: React.FC = () => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
     const [selectedValue, setSelectedValue] = useState<string | number>('');
+    const [title, setTitle] = useState<string>("");
 
-    useEffect(() => {
-        refetchTableData();
-    }, [selectedValue]);
+    // useEffect(() => {
+    //     refetchTableData();
+    // }, [selectedValue]);
 
     // console.log('HomePage Selected Value', selectedValue);
 
@@ -50,17 +51,17 @@ const HomePage: React.FC = () => {
                 month: month,
             }
         },
-        onCompleted: (mutationData) => {
-            console.log("Mutation result:", mutationData);
-            if (mutationData.addTime.isSuccess) {
-                console.log("Success")
-            } else {
-                console.error("Failed");
-            }
-        },
-        onError: (mutationError) => {
-            console.error("Mutation error:", mutationError);
-        },
+        // onCompleted: (mutationData) => {
+        //     console.log("Mutation result:", mutationData);
+        //     if (mutationData.addTime.isSuccess) {
+        //         console.log("Success")
+        //     } else {
+        //         console.error("Failed");
+        //     }
+        // },
+        // onError: (mutationError) => {
+        //     console.error("Mutation error:", mutationError);
+        // },
     });
 
     useEffect(() => {
@@ -99,11 +100,25 @@ const HomePage: React.FC = () => {
     }) || [];
     // console.log('Date Select Box Items', dateSelectBoxItems);
 
+    useEffect(() => {
+        if (existingTimeData?.getUserExistingTime.existingTime) {
+            const currentYearMonth: ExistingTime = existingTimeData?.getUserExistingTime.existingTime.find(
+                (item: ExistingTime) => {
+                    return item.yearMonthId === String(selectedValue)
+                }
+            )
+            // console.log('Current Year Month', currentYearMonth);
+
+            setTitle(`${currentYearMonth.year}年${currentYearMonth.month}月`)
+        }
+    }, [selectedValue, existingTimeData]);
+    // console.log('Title', title);
+
     // TODO: 可以把Wrong提示符换成动画
     return (
         <>
             <div>
-                {titleData?.checkTimeExists.isSuccess ? <h1>{`${year}年${month}月`}</h1> : <h1>{`?${year}年${month}月?`}</h1>}
+                {titleData?.checkTimeExists.isSuccess ? <h1>{title}</h1> : null}
             </div>
             <div style={{
                 position: 'absolute',
