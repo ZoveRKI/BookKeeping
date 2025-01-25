@@ -16,7 +16,7 @@ interface ExistingTime {
 }
 
 interface DateSelectBoxItems {
-    value: number | string;
+    value: string;
     label: string;
 }
 
@@ -24,7 +24,7 @@ const HomePage: React.FC = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
-    const [selectedValue, setSelectedValue] = useState<string | number>('');
+    const [selectedValue, setSelectedValue] = useState<string>('');
     const [title, setTitle] = useState<string>("");
 
     // console.log('HomePage Selected Value', selectedValue);
@@ -47,7 +47,7 @@ const HomePage: React.FC = () => {
     // console.log('Existing Time Data', existingTimeData);
 
     const { data: tableData, loading: tableDataLoading } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
-        skip: !titleData?.checkTimeExists.yearMonthId,
+        skip: !titleData?.checkTimeExists.yearMonthId || selectedValue === '',
         variables: {
             userId: localStorage.getItem("userId"),
             yearMonthId: selectedValue
