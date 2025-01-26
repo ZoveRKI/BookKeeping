@@ -3,13 +3,14 @@ import { useQuery, useMutation } from '@apollo/client';
 import {
     CHECK_TIME_EXISTS_QUERY,
     CHECK_EXPENSE_TABLE_DATA_QUERY,
-    GET_USER_EXISTING_TIME_QUERY
+    GET_USER_EXISTING_TIME_QUERY,
+    GET_DETAIL_TABLE_DATA_QUERY
 } from "../graphql/queries";
 import { ADD_TIME_MUTATION } from '../graphql/mutations';
 import ExpenseTable from '../components/organisms/ExpenseTable';
 import CustomSelectBox from '../components/atoms/CustomSelectBox';
 import { LoadingAnimation } from '../components/organisms/LoadingAnimation';
-import { DetailTable } from '../components/organisms/DetailTable';
+import { DetailTable, DetailTableDataProps } from '../components/organisms/DetailTable';
 
 interface ExistingTime {
     yearMonthId: string;
@@ -26,6 +27,7 @@ const HomePage: React.FC = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
+    const date = currentDate.getDate();
     const [selectedValue, setSelectedValue] = useState<string>('');
     const [title, setTitle] = useState<string>("");
 
@@ -48,6 +50,15 @@ const HomePage: React.FC = () => {
     });
     // console.log('Existing Time Data', existingTimeData);
 
+    const { data: detailTableData, loading: detailTableDataLoading } = useQuery(GET_DETAIL_TABLE_DATA_QUERY, {
+        skip: !titleData?.checkTimeExists.yearMonthId || selectedValue === '',
+        variables: {
+            userId: localStorage.getItem("userId"),
+            yearMonthId: selectedValue
+        }
+    })
+    console.log('Detail Table Data', detailTableData);
+
     const { data: tableData, loading: tableDataLoading } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
         skip: !titleData?.checkTimeExists.yearMonthId || selectedValue === '',
         variables: {
@@ -55,7 +66,7 @@ const HomePage: React.FC = () => {
             yearMonthId: selectedValue
         }
     })
-    // console.log('HomePage Table Data', tableData);
+    console.log('HomePage Table Data', tableData);
 
     const [addTime] = useMutation(ADD_TIME_MUTATION, {
         variables: {
@@ -111,14 +122,19 @@ const HomePage: React.FC = () => {
         }
     }, [selectedValue, existingTimeData]);
 
-    if (titleLoading || existingTimeDataLoading || tableDataLoading) {
+    if (titleLoading || existingTimeDataLoading || tableDataLoading || detailTableDataLoading) {
         return (
             <LoadingAnimation />
         );
     }
 
-    const elapsedDays = new Date().getDate();
-    // TODO: 可以把Wrong提示符换成动画
+    const DetailTableData: DetailTableDataProps = {
+        elapsedDays: date,
+        totalMonthlyExpense: detailTableData?.getDetailTableData.totalMonthlyExpense,
+        averageDailyExpense: detailTableData?.getDetailTableData.averageDailyExpense,
+        predictTotalMonthlyExpense: detailTableData?.getDetailTableData.predictTotalMonthlyExpense
+    }
+
     return (
         <>
             <div>
@@ -144,14 +160,7 @@ const HomePage: React.FC = () => {
                 top: '0.5%'
             }}>
                 <DetailTable
-                    DetailTableData={
-                        {
-                            elapsedDays: elapsedDays,
-                            totalMonthlyExpense: 1000,
-                            averageDailyExpense: 100,
-                            predictTotalMonthlyExpense: 2000
-                        }
-                    }
+                    DetailTableData={DetailTableData}
                 />
             </div>
             <div>

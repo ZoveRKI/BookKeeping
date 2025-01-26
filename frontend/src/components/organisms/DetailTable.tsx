@@ -5,7 +5,7 @@ interface DetailTableProps {
     DetailTableData: DetailTableDataProps | null;
 }
 
-interface DetailTableDataProps {
+export interface DetailTableDataProps {
     elapsedDays: number; // 已过天数
     averageDailyExpense: number; // 日均花销
     totalMonthlyExpense: number; // 月总花销
