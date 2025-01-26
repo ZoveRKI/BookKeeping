@@ -133,6 +133,7 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
         onCompleted: (mutationData) => {
             console.log("Mutation result:", mutationData);
             if (mutationData.deleteRowData.isSuccess) {
+                refetch(); // 重新获取数据
                 console.log("Success");
             } else {
                 console.error("Failed");
