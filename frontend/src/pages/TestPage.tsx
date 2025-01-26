@@ -27,7 +27,7 @@ const TestPage: React.FC = () => {
             <SaveRowButton />
             <br />
             <br />
-            {/* <LoadingAnimation /> */}
+            <LoadingAnimation />
             <br />
             <br />
             <div style={{
