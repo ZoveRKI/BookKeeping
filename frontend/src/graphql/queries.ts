@@ -34,3 +34,13 @@ export const GET_USER_EXISTING_TIME_QUERY = gql`
     }
   }
 `;
+
+export const GET_DETAIL_TABLE_DATA_QUERY = gql`
+  query GetDetailTableData($userId: ID!, $yearMonthId: ID!) {
+    getDetailTableData(userId: $userId, yearMonthId: $yearMonthId) {
+      totalMonthlyExpense
+      averageDailyExpense
+      predictTotalMonthlyExpense
+    }
+  }
+`;
