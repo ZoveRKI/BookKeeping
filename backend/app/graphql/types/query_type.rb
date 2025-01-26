@@ -41,6 +41,8 @@ module Types
     end
 
     # 查找用户是否已经拥有某个年月的具体数据
+    # 这里的返回值有问题。如果删除了后一天前的某天的数据，再加回来，在数据库中的id是错位的，这就会导致，天数数据不对应！！！！
+    # 应该在拿取到数据后，进行一次排序再返回；或者直接返回在前端重新排序？？
     field :check_expense_table_data, Types::CheckExpenseTableDataType, null: false do
       argument :user_id, ID, required: true
       argument :year_month_id, ID, required: true
