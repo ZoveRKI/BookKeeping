@@ -1,0 +1,15 @@
+.detail-table {
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+.detail-table th {
+    background-color: #ffe100;
+    padding: 8px;
+}
+
+.detail-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
