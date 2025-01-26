@@ -33,6 +33,23 @@ module Mutations
         expense_of_additional.save
       end
 
+      monthly_expense_detail_data = ComputeMonthlyExpenseDetailDataService.new(
+        user_id: user_id,
+        year_month_id: year_month_id
+      ).call
+
+      if monthly_expense_detail_data.present?
+        monthly_expense_detail = MonthlyExpenseDetail.find_or_initialize_by(
+          user_id: user_id,
+          year_month_id: year_month_id,
+        )
+
+        monthly_expense_detail.total_monthly_expense = monthly_expense_detail_data[:total_monthly_expense]
+        monthly_expense_detail.average_daily_expense = monthly_expense_detail_data[:average_daily_expense]
+        monthly_expense_detail.predict_total_monthly_expense = monthly_expense_detail_data[:predict_total_monthly_expense]
+        monthly_expense_detail.save
+      end
+
       if expense_of_daily.present?
         if expense_of_additional.present?
           { is_success: true, date: date, message: "Daily and Additional expense data saved successfully" }
