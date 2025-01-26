@@ -113,5 +113,29 @@ module Types
 
       { existing_time: year_month_list }
     end
+
+    # 查找用户某年某月花销详细数据
+    field :get_detail_table_data,  Types::GetDetailTableDataType, null: false do
+      argument :user_id, ID, required: true
+      argument :year_month_id, ID, required: true
+    end
+
+    def get_detail_table_data(user_id:, year_month_id:)
+      monthly_expense_detail = MonthlyExpenseDetail.find_by(user_id: user_id, year_month_id: year_month_id)
+
+      if monthly_expense_detail.present?
+        {
+          total_monthly_expense: monthly_expense_detail.total_monthly_expense,
+          average_daily_expense: monthly_expense_detail.average_daily_expense,
+          predict_total_monthly_expense: monthly_expense_detail.predict_total_monthly_expense
+        }
+      else
+        {
+          total_monthly_expense: nil,
+          average_daily_expense: nil,
+          predict_total_monthly_expense: nil
+        }
+      end
+    end
   end
 end
