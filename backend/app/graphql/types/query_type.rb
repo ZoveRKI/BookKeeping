@@ -125,8 +125,11 @@ module Types
     def get_detail_table_data(user_id:, year_month_id:)
       monthly_expense_detail = MonthlyExpenseDetail.find_by(user_id: user_id, year_month_id: year_month_id)
 
+      user_year_month_day_relations = UserYearMonthDayRelation.where(user_id: user_id, year_month_id: year_month_id)
+
       if monthly_expense_detail.present?
         {
+          recorded_date: user_year_month_day_relations.count,
           total_monthly_expense: monthly_expense_detail.total_monthly_expense,
           average_daily_expense: monthly_expense_detail.average_daily_expense,
           predict_total_monthly_expense: monthly_expense_detail.predict_total_monthly_expense
