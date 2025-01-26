@@ -9,6 +9,7 @@ import { ADD_TIME_MUTATION } from '../graphql/mutations';
 import ExpenseTable from '../components/organisms/ExpenseTable';
 import CustomSelectBox from '../components/atoms/CustomSelectBox';
 import { LoadingAnimation } from '../components/organisms/LoadingAnimation';
+import { DetailTable } from '../components/organisms/DetailTable';
 
 interface ExistingTime {
     yearMonthId: string;
@@ -116,6 +117,7 @@ const HomePage: React.FC = () => {
         );
     }
 
+    const elapsedDays = new Date().getDate();
     // TODO: 可以把Wrong提示符换成动画
     return (
         <>
@@ -132,6 +134,24 @@ const HomePage: React.FC = () => {
                     menuItems={dateSelectBoxItems}
                     selectedValue={selectedValue}
                     setSelectedValue={setSelectedValue}
+                />
+            </div>
+            <div style={{
+                width: '50%',
+                margin: '0 auto',
+                position: 'absolute',
+                left: '25%',
+                top: '0.5%'
+            }}>
+                <DetailTable
+                    DetailTableData={
+                        {
+                            elapsedDays: elapsedDays,
+                            totalMonthlyExpense: 1000,
+                            averageDailyExpense: 100,
+                            predictTotalMonthlyExpense: 2000
+                        }
+                    }
                 />
             </div>
             <div>
