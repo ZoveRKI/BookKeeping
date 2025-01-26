@@ -8,8 +8,11 @@ import AddRowButton from "../components/atoms/AddRowButton";
 import DeleteRowButton from "../components/atoms/DeleteRowButton";
 import SaveRowButton from "../components/atoms/SaveRowButton";
 import { LoadingAnimation } from '../components/organisms/LoadingAnimation';
+import { DetailTable } from '../components/organisms/DetailTable';
 
 const TestPage: React.FC = () => {
+    const elapsedDays = new Date().getDate();
+
     return (
         <>
             <h1>Welcome to the Test Page</h1>
@@ -24,7 +27,27 @@ const TestPage: React.FC = () => {
             <SaveRowButton />
             <br />
             <br />
-            <LoadingAnimation />
+            {/* <LoadingAnimation /> */}
+            <br />
+            <br />
+            <div style={{
+                width: '50%',
+                margin: '0 auto',
+                position: 'absolute',
+                left: '25%',
+                top: '0.5%'
+            }}>
+                <DetailTable
+                    DetailTableData={
+                        {
+                            elapsedDays: elapsedDays,
+                            totalMonthlyExpense: 1000,
+                            averageDailyExpense: 100,
+                            predictTotalMonthlyExpense: 2000
+                        }
+                    }
+                />
+            </div>
         </>
     );
 };
