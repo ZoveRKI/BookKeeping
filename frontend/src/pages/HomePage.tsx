@@ -27,7 +27,6 @@ const HomePage: React.FC = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
-    const date = currentDate.getDate();
     const [selectedValue, setSelectedValue] = useState<string>('');
     const [title, setTitle] = useState<string>("");
 
@@ -129,7 +128,7 @@ const HomePage: React.FC = () => {
     }
 
     const DetailTableData: DetailTableDataProps = {
-        elapsedDays: date,
+        elapsedDays: detailTableData?.getDetailTableData.recordedDate,
         totalMonthlyExpense: detailTableData?.getDetailTableData.totalMonthlyExpense,
         averageDailyExpense: detailTableData?.getDetailTableData.averageDailyExpense,
         predictTotalMonthlyExpense: detailTableData?.getDetailTableData.predictTotalMonthlyExpense

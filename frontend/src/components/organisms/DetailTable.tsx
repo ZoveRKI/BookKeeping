@@ -19,7 +19,7 @@ export const DetailTable: React.FC<DetailTableProps> = ({
         <table className="detail-table">
             <thead>
                 <tr >
-                    <th>本月已过天数</th>
+                    <th>本月已记录天数</th>
                     <th>本月总花销</th>
                     <th>平均每日花销</th>
                     <th>预计本月花销</th>
