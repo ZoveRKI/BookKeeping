@@ -13,6 +13,7 @@ import {
 interface ExpenseTableProps {
     yearMonthId: number;
     expenseTableData: ExpenseTableRowProps[] | null;
+    onRefetch: () => void; // 添加 refetch 方法作为 Prop; 考虑使用Zustand状态管理工具来代替这种方法
 }
 
 interface ExpenseTableRowProps {
@@ -25,6 +26,7 @@ interface ExpenseTableRowProps {
 const ExpenseTable: React.FC<ExpenseTableProps> = ({
     yearMonthId,
     expenseTableData,
+    onRefetch: refetch, //ES6 解构赋值语法的重命名形式
 }) => {
     const [rows, setRows] = useState<ExpenseTableRowProps[]>([]);
 
@@ -85,6 +87,7 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
                             : row
                     )
                 );
+                refetch(); // 重新获取数据
                 console.log("Success");
             } else {
                 console.error("Failed");
@@ -98,7 +101,7 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
     const saveRow = (index: number) => {
         const updatedRowdata = rows[index];
         const dailyExpense = Number(updatedRowdata.dailyExpense);
-        const additionalExpense = Number(updatedRowdata.additionalExpense);
+        const additionalExpense = Number(updatedRowdata.additionalExpense); // 列表中如果有多个数字，就会是NaN，现在没事，是因为设计的虽然是列表，但是只有一个值
 
         if (isNaN(dailyExpense) || isNaN(additionalExpense)) {
             alert("花销数据必须是有效数字！");

@@ -50,7 +50,7 @@ const HomePage: React.FC = () => {
     });
     // console.log('Existing Time Data', existingTimeData);
 
-    const { data: detailTableData, loading: detailTableDataLoading } = useQuery(GET_DETAIL_TABLE_DATA_QUERY, {
+    const { data: detailTableData, loading: detailTableDataLoading, refetch } = useQuery(GET_DETAIL_TABLE_DATA_QUERY, {
         skip: !titleData?.checkTimeExists.yearMonthId || selectedValue === '',
         variables: {
             userId: localStorage.getItem("userId"),
@@ -167,6 +167,7 @@ const HomePage: React.FC = () => {
                 <ExpenseTable
                     yearMonthId={titleData?.checkTimeExists.yearMonthId}
                     expenseTableData={tableData?.checkExpenseTableData.expenseTableData}
+                    onRefetch={refetch} // 传递 refetch 方法
                 />
             </div>
         </>
