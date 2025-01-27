@@ -128,7 +128,6 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
     // console.log("After saving row:", rows);
 
-    // TODO: Mutation
     const [deleteRowData] = useMutation(DELETE_ROW_DATA_MUTATION, {
         onCompleted: (mutationData) => {
             console.log("Mutation result:", mutationData);
