@@ -136,6 +136,7 @@ module Types
         }
       else
         {
+          recorded_date: user_year_month_day_relations.count,
           total_monthly_expense: nil,
           average_daily_expense: nil,
           predict_total_monthly_expense: nil
