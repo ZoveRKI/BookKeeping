@@ -12,7 +12,7 @@ module Mutations
       user = User.find_by(user_name: user_name)
 
       # 简单验证密码是否匹配
-      if user && user.password == password
+      if user && user.authenticate(password)
         { is_success: true, messages: [], user_id: user.id }
       else
         { is_success: false, messages: ["Invalid username or password"], user_id: nil }
