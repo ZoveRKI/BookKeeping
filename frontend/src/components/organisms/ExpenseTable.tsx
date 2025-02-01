@@ -11,7 +11,7 @@ import {
 } from "../../graphql/mutations";
 
 interface ExpenseTableProps {
-    yearMonthId: number;
+    yearMonthId: string | null;
     expenseTableData: ExpenseTableRowProps[] | null;
     onRefetch: () => void; // 添加 refetch 方法作为 Prop; 考虑使用Zustand状态管理工具来代替这种方法
 }
