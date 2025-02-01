@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import EditableCell from "../atoms/EditableCell"; // 引入你提供的组件
+import EditableCell from "../atoms/EditableCell";
 import "./organismsCSS/ExpenseTable.css";
 import AddRowButton from "../atoms/AddRowButton";
 import DeleteRowButton from "../atoms/DeleteRowButton";
@@ -31,14 +31,13 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
     const [rows, setRows] = useState<ExpenseTableRowProps[]>([]);
 
     const addRow = () => {
-        const today = new Date().getDate(); // 获取当前日期
+        const today = new Date().getDate();
         if (rows.some((row) => row.date === today)) {
             alert("已有今天的数据，不能再添加！");
             return;
         }
 
         const existingDates = rows.map(row => row.date).sort((a, b) => a - b);
-        console.log('Existing Dates:', existingDates);
 
         const missingDate = existingDates.length === 0
             ? 1
@@ -78,7 +77,6 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
     const [saveRowData] = useMutation(SAVE_ROW_DATA_MUTATION, {
         onCompleted: (mutationData) => {
-            console.log("Mutation result:", mutationData);
             if (mutationData.saveRowData.isSuccess) {
                 setRows((prev) =>
                     prev.map((row) =>
@@ -88,7 +86,6 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
                     )
                 );
                 refetch(); // 重新获取数据
-                console.log("Success");
             } else {
                 console.error("Failed");
             }
@@ -125,14 +122,10 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
         });
     };
 
-    // console.log("After saving row:", rows);
-
     const [deleteRowData] = useMutation(DELETE_ROW_DATA_MUTATION, {
         onCompleted: (mutationData) => {
-            console.log("Mutation result:", mutationData);
             if (mutationData.deleteRowData.isSuccess) {
                 refetch(); // 重新获取数据
-                console.log("Success");
             } else {
                 console.error("Failed");
             }
@@ -160,8 +153,6 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
     useEffect(() => {
         setRows(expenseTableData || []);
     }, [expenseTableData]);
-
-    // console.log('Row', rows)
 
     return (
         <div className="table-container">

@@ -34,11 +34,7 @@ const HomePage: React.FC = () => {
     const [selectedValue, setSelectedValue] = useState<string>('');
     const [title, setTitle] = useState<string>("");
 
-    // console.log('HomePage Selected Value', selectedValue);
-    // console.log('Title', title);
-
     const { data: existingTimeData, loading: existingTimeDataLoading } = useQuery(GET_USER_EXISTING_TIME_QUERY);
-    // console.log('Existing Time Data', existingTimeData);
 
     const isCurrentYearMonthExists: ExistingTime = existingTimeData?.getUserExistingTime.existingTime.find(
         (item: ExistingTime) => item.year === year && item.month === month
@@ -59,7 +55,6 @@ const HomePage: React.FC = () => {
             yearMonthId: selectedValue
         }
     })
-    // console.log('Detail Table Data', detailTableData);
 
     const { data: tableData, loading: tableDataLoading } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
         skip: !currentYearMonth.currentYearMonthId || selectedValue === '',
@@ -67,7 +62,6 @@ const HomePage: React.FC = () => {
             yearMonthId: selectedValue
         }
     })
-    // console.log('HomePage Table Data', tableData);
 
     const [addTime] = useMutation(ADD_TIME_MUTATION, {
         variables: {
@@ -76,17 +70,6 @@ const HomePage: React.FC = () => {
                 month: month,
             }
         },
-        // onCompleted: (mutationData) => {
-        //     console.log("Mutation result:", mutationData);
-        //     if (mutationData.addTime.isSuccess) {
-        //         console.log("Success")
-        //     } else {
-        //         console.error("Failed");
-        //     }
-        // },
-        // onError: (mutationError) => {
-        //     console.error("Mutation error:", mutationError);
-        // },
     });
 
     const dateSelectBoxItems: DateSelectBoxItems[] = existingTimeData?.getUserExistingTime.existingTime.map((item: ExistingTime) => {
@@ -95,7 +78,6 @@ const HomePage: React.FC = () => {
             label: `${item.year}年${item.month}月`
         }
     }) || [];
-    // console.log('Date Select Box Items', dateSelectBoxItems);
 
     useEffect(() => {
         if (!existingTimeDataLoading && currentYearMonth.isCurrentYearMonthExists === false) {
@@ -113,7 +95,7 @@ const HomePage: React.FC = () => {
                     return item.yearMonthId === String(selectedValue)
                 }
             )
-            // console.log('Current Year Month', currentYearMonth);
+
             if (currentYearMonth) {
                 setTitle(`${currentYearMonth.year}年${currentYearMonth.month}月`)
             } else {
