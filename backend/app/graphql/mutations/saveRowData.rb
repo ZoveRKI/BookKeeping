@@ -31,6 +31,12 @@ module Mutations
 
         expense_of_additional.additional_expense = additional_expense
         expense_of_additional.save
+      elsif additional_expense.present? && additional_expense == 0
+        expense_of_additional = AdditionalExpense.find_by(
+          user_year_month_day_relation_id: user_year_month_day_relation.id
+        )   # 修改时无需initialize，直接查找即可
+
+        expense_of_additional&.destroy if expense_of_additional.present?
       end
 
       monthly_expense_detail_data = ComputeMonthlyExpenseDetailDataService.new(
