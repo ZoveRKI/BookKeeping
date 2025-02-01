@@ -11,10 +11,15 @@ class GraphqlController < ApplicationController
     query = params[:query]
     operation_name = params[:operationName]
     context = {
-      # Query context goes here, for example:
-      # current_user: current_user,
+      session: session,  # 传递 session 进 GraphQL
+      current_user: current_user  # 方便后续查询当前用户
     }
-    result = BackendSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+    result = BackendSchema.execute(
+      query,
+      variables: variables,
+      context: context,
+      operation_name: operation_name
+    )
     render json: result
   rescue StandardError => e
     raise e unless Rails.env.development?

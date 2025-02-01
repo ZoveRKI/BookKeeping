@@ -34,5 +34,8 @@ module Backend
     # config.eager_load_paths << Rails.root.join("extras")
     # config.action_controller.forgery_protection_origin_check = false
     config.api_only = true
+    Rails.application.config.session_store :cookie_store, key: '_bookkeeping_app_session'
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, key: '_bookkeeping_app_session'
   end
 end
