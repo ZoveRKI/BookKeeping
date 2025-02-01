@@ -33,6 +33,7 @@ const HomePage: React.FC = () => {
     const month = currentDate.getMonth() + 1;
     const [selectedValue, setSelectedValue] = useState<string>('');
     const [title, setTitle] = useState<string>("");
+    const [days, setDays] = useState<number>(0);
 
     const { data: existingTimeData, loading: existingTimeDataLoading } = useQuery(GET_USER_EXISTING_TIME_QUERY);
 
@@ -97,6 +98,8 @@ const HomePage: React.FC = () => {
             )
 
             if (currentYearMonthDateSelectBox) {
+                const days = new Date(currentYearMonthDateSelectBox.year, currentYearMonthDateSelectBox.month, 0).getDate();
+                setDays(days);
                 setTitle(`${currentYearMonthDateSelectBox.year}年${currentYearMonthDateSelectBox.month}月`)
             } else {
                 setTitle(`${year}年${month}月`); // 如果找不到匹配的时间，设置一个默认值
@@ -148,6 +151,7 @@ const HomePage: React.FC = () => {
             <div>
                 <ExpenseTable
                     yearMonthId={currentYearMonth.currentYearMonthId}
+                    currentYearMonthDays={days}
                     expenseTableData={tableData?.checkExpenseTableData.expenseTableData}
                     onRefetch={refetch} // 传递 refetch 方法
                 />
