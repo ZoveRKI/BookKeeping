@@ -1,14 +1,5 @@
 import { gql } from '@apollo/client';
 
-export const CHECK_TIME_EXISTS_QUERY = gql`
-  query CheckTimeExists($year: Int!, $month: Int!) {
-    checkTimeExists(year: $year, month: $month) {
-        isSuccess
-        yearMonthId
-    }
-  }
-`;
-
 export const CHECK_EXPENSE_TABLE_DATA_QUERY = gql`
   query CheckExpenseTableData($yearMonthId: ID!) {
     checkExpenseTableData(yearMonthId: $yearMonthId) {

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useQuery, useMutation } from '@apollo/client';
 import {
-    CHECK_TIME_EXISTS_QUERY,
     CHECK_EXPENSE_TABLE_DATA_QUERY,
     GET_USER_EXISTING_TIME_QUERY,
     GET_DETAIL_TABLE_DATA_QUERY
@@ -16,6 +15,11 @@ interface ExistingTime {
     yearMonthId: string;
     year: number;
     month: number;
+}
+
+interface CurrentYearMonth {
+    isCurrentYearMonthExists: boolean;
+    currentYearMonthId: string | null;
 }
 
 interface DateSelectBoxItems {
@@ -33,32 +37,37 @@ const HomePage: React.FC = () => {
     // console.log('HomePage Selected Value', selectedValue);
     // console.log('Title', title);
 
-    const { data: titleData, loading: titleLoading } = useQuery(CHECK_TIME_EXISTS_QUERY, {
-        variables: {
-            year: year,
-            month: month
-        }
-    })
-    // console.log('HomePage Title Data', titleData);
-
     const { data: existingTimeData, loading: existingTimeDataLoading } = useQuery(GET_USER_EXISTING_TIME_QUERY);
     // console.log('Existing Time Data', existingTimeData);
 
+    const isCurrentYearMonthExists: ExistingTime = existingTimeData?.getUserExistingTime.existingTime.find(
+        (item: ExistingTime) => item.year === year && item.month === month
+    )
+
+    const currentYearMonth: CurrentYearMonth = isCurrentYearMonthExists
+        ? {
+            isCurrentYearMonthExists: true,
+            currentYearMonthId: isCurrentYearMonthExists.yearMonthId
+        } : {
+            isCurrentYearMonthExists: false,
+            currentYearMonthId: null
+        }
+
     const { data: detailTableData, loading: detailTableDataLoading, refetch } = useQuery(GET_DETAIL_TABLE_DATA_QUERY, {
-        skip: !titleData?.checkTimeExists.yearMonthId || selectedValue === '',
+        skip: !currentYearMonth.currentYearMonthId || selectedValue === '',
         variables: {
             yearMonthId: selectedValue
         }
     })
-    console.log('Detail Table Data', detailTableData);
+    // console.log('Detail Table Data', detailTableData);
 
     const { data: tableData, loading: tableDataLoading } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
-        skip: !titleData?.checkTimeExists.yearMonthId || selectedValue === '',
+        skip: !currentYearMonth.currentYearMonthId || selectedValue === '',
         variables: {
             yearMonthId: selectedValue
         }
     })
-    console.log('HomePage Table Data', tableData);
+    // console.log('HomePage Table Data', tableData);
 
     const [addTime] = useMutation(ADD_TIME_MUTATION, {
         variables: {
@@ -89,13 +98,13 @@ const HomePage: React.FC = () => {
     // console.log('Date Select Box Items', dateSelectBoxItems);
 
     useEffect(() => {
-        if (titleData?.checkTimeExists.isSuccess === false) {
+        if (!existingTimeDataLoading && currentYearMonth.isCurrentYearMonthExists === false) {
             addTime();
             window.location.reload();
-        } else if (titleData?.checkTimeExists.yearMonthId) {
-            setSelectedValue(titleData.checkTimeExists.yearMonthId);
+        } else if (currentYearMonth.currentYearMonthId) {
+            setSelectedValue(currentYearMonth.currentYearMonthId);
         }
-    }, [titleData, addTime]);
+    }, [existingTimeData]);
 
     useEffect(() => {
         if (existingTimeData?.getUserExistingTime.existingTime) {
@@ -113,7 +122,7 @@ const HomePage: React.FC = () => {
         }
     }, [selectedValue, existingTimeData]);
 
-    if (titleLoading || existingTimeDataLoading || tableDataLoading || detailTableDataLoading) {
+    if (existingTimeDataLoading || tableDataLoading || detailTableDataLoading) {
         return (
             <LoadingAnimation />
         );
@@ -156,7 +165,7 @@ const HomePage: React.FC = () => {
             </div>
             <div>
                 <ExpenseTable
-                    yearMonthId={titleData?.checkTimeExists.yearMonthId}
+                    yearMonthId={currentYearMonth.currentYearMonthId}
                     expenseTableData={tableData?.checkExpenseTableData.expenseTableData}
                     onRefetch={refetch} // 传递 refetch 方法
                 />
