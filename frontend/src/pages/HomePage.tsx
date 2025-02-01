@@ -35,24 +35,18 @@ const HomePage: React.FC = () => {
 
     const { data: titleData, loading: titleLoading } = useQuery(CHECK_TIME_EXISTS_QUERY, {
         variables: {
-            userId: localStorage.getItem("userId"),
             year: year,
             month: month
         }
     })
     // console.log('HomePage Title Data', titleData);
 
-    const { data: existingTimeData, loading: existingTimeDataLoading } = useQuery(GET_USER_EXISTING_TIME_QUERY, {
-        variables: {
-            userId: localStorage.getItem("userId")
-        }
-    });
+    const { data: existingTimeData, loading: existingTimeDataLoading } = useQuery(GET_USER_EXISTING_TIME_QUERY);
     // console.log('Existing Time Data', existingTimeData);
 
     const { data: detailTableData, loading: detailTableDataLoading, refetch } = useQuery(GET_DETAIL_TABLE_DATA_QUERY, {
         skip: !titleData?.checkTimeExists.yearMonthId || selectedValue === '',
         variables: {
-            userId: localStorage.getItem("userId"),
             yearMonthId: selectedValue
         }
     })
@@ -61,7 +55,6 @@ const HomePage: React.FC = () => {
     const { data: tableData, loading: tableDataLoading } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
         skip: !titleData?.checkTimeExists.yearMonthId || selectedValue === '',
         variables: {
-            userId: localStorage.getItem("userId"),
             yearMonthId: selectedValue
         }
     })
@@ -70,7 +63,6 @@ const HomePage: React.FC = () => {
     const [addTime] = useMutation(ADD_TIME_MUTATION, {
         variables: {
             input: {
-                userId: localStorage.getItem("userId"),
                 year: year,
                 month: month,
             }

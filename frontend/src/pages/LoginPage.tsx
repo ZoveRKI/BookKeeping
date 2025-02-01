@@ -29,7 +29,6 @@ const LoginPage: React.FC = () => {
 
             if (data?.login.isSuccess) {
                 // 登录成功后跳转到首页
-                localStorage.setItem("userId", data?.login.userId);
                 navigate('/home');
             } else {
                 // 显示错误信息

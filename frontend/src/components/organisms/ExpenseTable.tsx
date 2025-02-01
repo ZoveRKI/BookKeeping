@@ -116,7 +116,6 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
         saveRowData({
             variables: {
                 input: {
-                    userId: localStorage.getItem("userId"),
                     yearMonthId: yearMonthId,
                     date: updatedRowdata.date,
                     dailyExpense: dailyExpense,
@@ -149,7 +148,6 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
         deleteRowData({
             variables: {
                 input: {
-                    userId: localStorage.getItem("userId"),
                     yearMonthId: yearMonthId,
                     date: deletedRowData.date
                 }

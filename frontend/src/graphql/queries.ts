@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const CHECK_TIME_EXISTS_QUERY = gql`
-  query CheckTimeExists($userId: ID!, $year: Int!, $month: Int!) {
-    checkTimeExists(userId: $userId, year: $year, month: $month) {
+  query CheckTimeExists($year: Int!, $month: Int!) {
+    checkTimeExists(year: $year, month: $month) {
         isSuccess
         yearMonthId
     }
@@ -10,8 +10,8 @@ export const CHECK_TIME_EXISTS_QUERY = gql`
 `;
 
 export const CHECK_EXPENSE_TABLE_DATA_QUERY = gql`
-  query CheckExpenseTableData($userId: ID!, $yearMonthId: ID!) {
-    checkExpenseTableData(userId: $userId, yearMonthId: $yearMonthId) {
+  query CheckExpenseTableData($yearMonthId: ID!) {
+    checkExpenseTableData(yearMonthId: $yearMonthId) {
         hasData
         expenseTableData {
           date
@@ -24,8 +24,8 @@ export const CHECK_EXPENSE_TABLE_DATA_QUERY = gql`
 `;
 
 export const GET_USER_EXISTING_TIME_QUERY = gql`
-  query GetUserExistingTime($userId: ID!) {
-    getUserExistingTime(userId: $userId) {
+  query GetUserExistingTime {
+    getUserExistingTime {
         existingTime {
           yearMonthId
           year
@@ -36,8 +36,8 @@ export const GET_USER_EXISTING_TIME_QUERY = gql`
 `;
 
 export const GET_DETAIL_TABLE_DATA_QUERY = gql`
-  query GetDetailTableData($userId: ID!, $yearMonthId: ID!) {
-    getDetailTableData(userId: $userId, yearMonthId: $yearMonthId) {
+  query GetDetailTableData($yearMonthId: ID!) {
+    getDetailTableData(yearMonthId: $yearMonthId) {
       recordedDate
       totalMonthlyExpense
       averageDailyExpense

@@ -5,7 +5,6 @@ export const LOGIN_MUTATION = gql`
     login(input: $input) {
       isSuccess
       messages
-      userId
     }
   }
 `;
