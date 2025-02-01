@@ -1,6 +1,5 @@
 module Mutations
   class SaveRowData < BaseMutation
-    argument :user_id, ID, required: true
     argument :year_month_id, ID, required: true
     argument :date, Int, required: true
     argument :daily_expense, Float, required: true
@@ -10,9 +9,14 @@ module Mutations
     field :message, String, null: true
     field :date, Int, null: true
 
-    def resolve(user_id:, year_month_id:, date:, daily_expense:, additional_expense: nil)
+    def resolve(year_month_id:, date:, daily_expense:, additional_expense: nil)
+      authenticate_user!
+      user = context[:current_user]
+
+      return { is_success: false, message: "You must be logged in" } unless user
+
       user_year_month_day_relation = UserYearMonthDayRelation.find_or_create_by(
-        user_id: user_id,
+        user_id: user.id,
         year_month_id: year_month_id,
         day: date,
       )
@@ -40,13 +44,13 @@ module Mutations
       end
 
       monthly_expense_detail_data = ComputeMonthlyExpenseDetailDataService.new(
-        user_id: user_id,
+        user_id: user.id,
         year_month_id: year_month_id
       ).call
 
       if monthly_expense_detail_data.present?
         monthly_expense_detail = MonthlyExpenseDetail.find_or_initialize_by(
-          user_id: user_id,
+          user_id: user.id,
           year_month_id: year_month_id,
         )
 

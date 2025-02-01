@@ -24,16 +24,17 @@ module Types
     # My Query
     # 查找用户是否已经拥有某个年月
     field :check_time_exists, Types::CheckTimeExistsType, null: false do
-      argument :user_id, ID, required: true
       argument :year, Int, required: true
       argument :month, Int, required: true
     end
 
-    def check_time_exists(user_id:, year:, month:)
+    def check_time_exists(year:, month:)
+      user = context[:current_user]
+
       # 查找对应的 YearMonth 记录
       year_month = YearMonth.find_by(year: year, month: month)
 
-      if year_month && UserYearMonthDayRelation.exists?(user_id: user_id, year_month_id: year_month.id)
+      if year_month && UserYearMonthDayRelation.exists?(user_id: user.id, year_month_id: year_month.id)
         { is_success: true, year_month_id: year_month.id }
       else
         { is_success: false }
@@ -42,12 +43,13 @@ module Types
 
     # 查找用户是否已经拥有某个年月的具体数据
     field :check_expense_table_data, Types::CheckExpenseTableDataType, null: false do
-      argument :user_id, ID, required: true
       argument :year_month_id, ID, required: true
     end
 
-    def check_expense_table_data(user_id:, year_month_id:)
-      user_year_month_day_relations = UserYearMonthDayRelation.where(user_id: user_id, year_month_id: year_month_id).order(:day)
+    def check_expense_table_data(year_month_id:)
+      user = context[:current_user]
+
+      user_year_month_day_relations = UserYearMonthDayRelation.where(user_id: user.id, year_month_id: year_month_id).order(:day)
 
       expense_table_data = []
 
@@ -92,11 +94,12 @@ module Types
 
     # 查找用户已经拥有的所有年月
     field :get_user_existing_time, Types::GetUserExistingTimeType, null: false do
-      argument :user_id, ID, required: true
     end
 
-    def get_user_existing_time(user_id:)
-      user_year_months = UserYearMonthDayRelation.where(user_id: user_id).select(:year_month_id).distinct
+    def get_user_existing_time()
+      user = context[:current_user]
+
+      user_year_months = UserYearMonthDayRelation.where(user_id: user.id).select(:year_month_id).distinct
 
       year_month_list = []
       if user_year_months.present?
@@ -116,14 +119,15 @@ module Types
 
     # 查找用户某年某月花销详细数据
     field :get_detail_table_data,  Types::GetDetailTableDataType, null: false do
-      argument :user_id, ID, required: true
       argument :year_month_id, ID, required: true
     end
 
-    def get_detail_table_data(user_id:, year_month_id:)
-      monthly_expense_detail = MonthlyExpenseDetail.find_by(user_id: user_id, year_month_id: year_month_id)
+    def get_detail_table_data(year_month_id:)
+      user = context[:current_user]
 
-      user_year_month_day_relations = UserYearMonthDayRelation.where(user_id: user_id, year_month_id: year_month_id)
+      monthly_expense_detail = MonthlyExpenseDetail.find_by(user_id: user.id, year_month_id: year_month_id)
+
+      user_year_month_day_relations = UserYearMonthDayRelation.where(user_id: user.id, year_month_id: year_month_id)
 
       if monthly_expense_detail.present?
         {

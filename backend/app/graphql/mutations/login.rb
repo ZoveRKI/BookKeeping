@@ -5,7 +5,6 @@ module Mutations
 
     field :is_success, Boolean, null: false
     field :messages, [String], null: true
-    field :user_id, ID, null: true
 
     def resolve(user_name:, password:)
       # 从数据库中查找用户
@@ -13,9 +12,11 @@ module Mutations
 
       # 简单验证密码是否匹配
       if user && user.authenticate(password)
-        { is_success: true, messages: [], user_id: user.id }
+        context[:session][:current_user_id] = user.id
+
+        { is_success: true, messages: [] }
       else
-        { is_success: false, messages: ["Invalid username or password"], user_id: nil }
+        { is_success: false, messages: ["Invalid username or password"] }
       end
     end
   end
