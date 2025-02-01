@@ -92,7 +92,7 @@ const HomePage: React.FC = () => {
         if (existingTimeData?.getUserExistingTime.existingTime) {
             const currentYearMonthDateSelectBox: ExistingTime = existingTimeData?.getUserExistingTime.existingTime.find(
                 (item: ExistingTime) => {
-                    return item.yearMonthId === String(selectedValue)
+                    return item.yearMonthId === selectedValue
                 }
             )
 
