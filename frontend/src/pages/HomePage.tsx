@@ -27,6 +27,25 @@ interface DateSelectBoxItems {
     label: string;
 }
 
+interface DetailTableData {
+    recordedDate: number;
+    totalMonthlyExpense: number;
+    averageDailyExpense: number;
+    predictTotalMonthlyExpense: number;
+}
+
+export interface ExpenseTableRowProps {
+    date: number; // 日期 (1-31)
+    dailyExpense: string | number; // 日常花销
+    additionalExpense: string | number | []; // 额外花销
+    isEdited: boolean; // 是否已修改
+}
+
+interface ExpenseTableData {
+    hasData: boolean;
+    expenseTableData: ExpenseTableRowProps[];
+}
+
 const HomePage: React.FC = () => {
     const currentDate = new Date();
     const year = currentDate.getFullYear();
@@ -35,9 +54,12 @@ const HomePage: React.FC = () => {
     const [title, setTitle] = useState<string>("");
     const [days, setDays] = useState<number>(0);
 
+    // 获取用户已有的时间数据
     const { data: existingTimeData, loading: existingTimeDataLoading } = useQuery(GET_USER_EXISTING_TIME_QUERY);
 
-    const isCurrentYearMonthExists: ExistingTime = existingTimeData?.getUserExistingTime.existingTime.find(
+    const getUserExistingTimeData: ExistingTime[] = existingTimeData?.getUserExistingTime.existingTime
+
+    const isCurrentYearMonthExists: ExistingTime | undefined = getUserExistingTimeData?.find(
         (item: ExistingTime) => item.year === year && item.month === month
     )
 
@@ -50,6 +72,7 @@ const HomePage: React.FC = () => {
             currentYearMonthId: null
         }
 
+    // 获取当月详细表格数据
     const { data: detailTableData, loading: detailTableDataLoading, refetch } = useQuery(GET_DETAIL_TABLE_DATA_QUERY, {
         skip: !currentYearMonth.currentYearMonthId || selectedValue === '',
         variables: {
@@ -57,6 +80,9 @@ const HomePage: React.FC = () => {
         }
     })
 
+    const getDetailTableData: DetailTableData = detailTableData?.getDetailTableData
+
+    // 获取当月花销表格数据
     const { data: tableData, loading: tableDataLoading } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
         skip: !currentYearMonth.currentYearMonthId || selectedValue === '',
         variables: {
@@ -64,6 +90,9 @@ const HomePage: React.FC = () => {
         }
     })
 
+    const checkExpenseTableData: ExpenseTableData = tableData?.checkExpenseTableData
+
+    // 如无任何数据，则添加当前时间数据
     const [addTime] = useMutation(ADD_TIME_MUTATION, {
         variables: {
             input: {
@@ -73,9 +102,10 @@ const HomePage: React.FC = () => {
         },
     });
 
-    const dateSelectBoxItems: DateSelectBoxItems[] = existingTimeData?.getUserExistingTime.existingTime.map((item: ExistingTime) => {
+    // 获取用户已有的时间数据（年月选择框）
+    const dateSelectBoxItems: DateSelectBoxItems[] = getUserExistingTimeData?.map((item: ExistingTime) => {
         return {
-            value: Number(item.yearMonthId),
+            value: item.yearMonthId,
             label: `${item.year}年${item.month}月`
         }
     }) || [];
@@ -90,8 +120,8 @@ const HomePage: React.FC = () => {
     }, [existingTimeData]);
 
     useEffect(() => {
-        if (existingTimeData?.getUserExistingTime.existingTime) {
-            const currentYearMonthDateSelectBox: ExistingTime = existingTimeData?.getUserExistingTime.existingTime.find(
+        if (getUserExistingTimeData) {
+            const currentYearMonthDateSelectBox: ExistingTime | undefined = getUserExistingTimeData?.find(
                 (item: ExistingTime) => {
                     return item.yearMonthId === selectedValue
                 }
@@ -114,10 +144,10 @@ const HomePage: React.FC = () => {
     }
 
     const DetailTableData: DetailTableDataProps = {
-        elapsedDays: detailTableData?.getDetailTableData.recordedDate,
-        totalMonthlyExpense: detailTableData?.getDetailTableData.totalMonthlyExpense,
-        averageDailyExpense: detailTableData?.getDetailTableData.averageDailyExpense,
-        predictTotalMonthlyExpense: detailTableData?.getDetailTableData.predictTotalMonthlyExpense
+        elapsedDays: getDetailTableData?.recordedDate,
+        totalMonthlyExpense: getDetailTableData?.totalMonthlyExpense,
+        averageDailyExpense: getDetailTableData?.averageDailyExpense,
+        predictTotalMonthlyExpense: getDetailTableData?.predictTotalMonthlyExpense
     }
 
     return (
@@ -152,7 +182,7 @@ const HomePage: React.FC = () => {
                 <ExpenseTable
                     yearMonthId={currentYearMonth.currentYearMonthId}
                     currentYearMonthDays={days}
-                    expenseTableData={tableData?.checkExpenseTableData.expenseTableData}
+                    expenseTableData={checkExpenseTableData?.expenseTableData}
                     onRefetch={refetch} // 传递 refetch 方法
                 />
             </div>

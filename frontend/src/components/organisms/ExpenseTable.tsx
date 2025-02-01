@@ -9,19 +9,13 @@ import {
     SAVE_ROW_DATA_MUTATION,
     DELETE_ROW_DATA_MUTATION
 } from "../../graphql/mutations";
+import { ExpenseTableRowProps } from "../../pages/HomePage";
 
 interface ExpenseTableProps {
     yearMonthId: string | null;
     currentYearMonthDays: number;
     expenseTableData: ExpenseTableRowProps[] | null;
     onRefetch: () => void; // 添加 refetch 方法作为 Prop; 考虑使用Zustand状态管理工具来代替这种方法
-}
-
-interface ExpenseTableRowProps {
-    date: number; // 日期 (1-31)
-    dailyExpense: string | number; // 日常花销
-    additionalExpense: string | number | []; // 额外花销
-    isEdited: boolean; // 是否已修改
 }
 
 const ExpenseTable: React.FC<ExpenseTableProps> = ({
