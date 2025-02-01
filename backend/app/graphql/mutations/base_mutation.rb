@@ -2,6 +2,10 @@
 
 module Mutations
   class BaseMutation < GraphQL::Schema::RelayClassicMutation
+    def authenticate_user!
+      raise GraphQL::ExecutionError, "You must be logged in" unless context[:current_user]
+    end
+
     argument_class Types::BaseArgument
     field_class Types::BaseField
     input_object_class Types::BaseInputObject
