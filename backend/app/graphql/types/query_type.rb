@@ -22,25 +22,6 @@ module Types
     # They will be entry points for queries on your schema.
 
     # My Query
-    # 查找用户是否已经拥有某个年月
-    field :check_time_exists, Types::CheckTimeExistsType, null: false do
-      argument :year, Int, required: true
-      argument :month, Int, required: true
-    end
-
-    def check_time_exists(year:, month:)
-      user = context[:current_user]
-
-      # 查找对应的 YearMonth 记录
-      year_month = YearMonth.find_by(year: year, month: month)
-
-      if year_month && UserYearMonthDayRelation.exists?(user_id: user.id, year_month_id: year_month.id)
-        { is_success: true, year_month_id: year_month.id }
-      else
-        { is_success: false }
-      end
-    end
-
     # 查找用户是否已经拥有某个年月的具体数据
     field :check_expense_table_data, Types::CheckExpenseTableDataType, null: false do
       argument :year_month_id, ID, required: true
