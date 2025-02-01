@@ -90,14 +90,14 @@ const HomePage: React.FC = () => {
 
     useEffect(() => {
         if (existingTimeData?.getUserExistingTime.existingTime) {
-            const currentYearMonth: ExistingTime = existingTimeData?.getUserExistingTime.existingTime.find(
+            const currentYearMonthDateSelectBox: ExistingTime = existingTimeData?.getUserExistingTime.existingTime.find(
                 (item: ExistingTime) => {
                     return item.yearMonthId === String(selectedValue)
                 }
             )
 
-            if (currentYearMonth) {
-                setTitle(`${currentYearMonth.year}年${currentYearMonth.month}月`)
+            if (currentYearMonthDateSelectBox) {
+                setTitle(`${currentYearMonthDateSelectBox.year}年${currentYearMonthDateSelectBox.month}月`)
             } else {
                 setTitle(`${year}年${month}月`); // 如果找不到匹配的时间，设置一个默认值
             }
