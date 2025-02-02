@@ -16,14 +16,14 @@ import {
 
 interface ExpenseTableProps {
     yearMonthId: string | null;
-    currentYearMonthDays: number;
+    totalDaysOfSelectedYearMonth: number;
     expenseTableData: ExpenseTableRowProps[] | null;
     onRefetch: () => void; // 添加 refetch 方法作为 Prop; 考虑使用Zustand状态管理工具来代替这种方法
 }
 
 const ExpenseTable: React.FC<ExpenseTableProps> = ({
     yearMonthId,
-    currentYearMonthDays,
+    totalDaysOfSelectedYearMonth,
     expenseTableData,
     onRefetch: refetch, //ES6 解构赋值语法的重命名形式
 }) => {
@@ -232,7 +232,7 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
                 </tbody>
             </table>
             <div className="add-row-button">
-                {rows.length >= currentYearMonthDays
+                {rows.length >= totalDaysOfSelectedYearMonth
                     ? null
                     : <>
                         <AddRowButton onClick={addRow} />

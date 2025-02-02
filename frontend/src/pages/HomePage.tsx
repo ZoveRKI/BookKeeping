@@ -121,16 +121,16 @@ const HomePage: React.FC = () => {
 
     useEffect(() => {
         if (getUserExistingTimeData) {
-            const currentYearMonthDateSelectBox: ExistingTime | undefined = getUserExistingTimeData?.find(
+            const yearMonthOfDateSelectionBox: ExistingTime | undefined = getUserExistingTimeData?.find(
                 (item: ExistingTime) => {
                     return item.yearMonthId === selectedValue
                 }
             )
 
-            if (currentYearMonthDateSelectBox) {
-                const days = new Date(currentYearMonthDateSelectBox.year, currentYearMonthDateSelectBox.month, 0).getDate();
+            if (yearMonthOfDateSelectionBox) {
+                const days = new Date(yearMonthOfDateSelectionBox.year, yearMonthOfDateSelectionBox.month, 0).getDate();
                 setDays(days);
-                setTitle(`${currentYearMonthDateSelectBox.year}年${currentYearMonthDateSelectBox.month}月`)
+                setTitle(`${yearMonthOfDateSelectionBox.year}年${yearMonthOfDateSelectionBox.month}月`)
             } else {
                 setTitle(`${year}年${month}月`); // 如果找不到匹配的时间，设置一个默认值
             }
@@ -181,7 +181,7 @@ const HomePage: React.FC = () => {
             <div>
                 <ExpenseTable
                     yearMonthId={currentYearMonth.currentYearMonthId}
-                    currentYearMonthDays={days}
+                    totalDaysOfSelectedYearMonth={days}
                     expenseTableData={checkExpenseTableData?.expenseTableData}
                     onRefetch={refetch} // 传递 refetch 方法
                 />
