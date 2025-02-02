@@ -5,9 +5,11 @@ class ComputeMonthlyExpenseDetailDataService
   end
 
   def call
+    year_month = YearMonth.find(@year_month_id)
+
     total_monthly_expense = 0
-    current_month = Date.today().month()
-    current_year = Date.today().year()
+    current_month = year_month.month()
+    current_year = year_month.year()
     currentMonthDay = Time.days_in_month(current_month, current_year)
 
     user_year_month_day_relations = UserYearMonthDayRelation.where(user_id: @user_id, year_month_id: @year_month_id)
