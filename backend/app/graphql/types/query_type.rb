@@ -23,108 +23,12 @@ module Types
 
     # My Query
     # 查找用户是否已经拥有某个年月的具体数据
-    field :check_expense_table_data, Types::CheckExpenseTableDataType, null: false do
-      argument :year_month_id, ID, required: true
-    end
-
-    def check_expense_table_data(year_month_id:)
-      user = context[:current_user]
-
-      user_year_month_day_relations = UserYearMonthDayRelation.where(user_id: user.id, year_month_id: year_month_id).order(:day)
-
-      expense_table_data = []
-
-      if user_year_month_day_relations.present?
-        user_year_month_day_relations.each do |user_year_month_day_relation|
-          day = user_year_month_day_relation.day
-
-          daily_expense = DailyExpense.find_by(user_year_month_day_relation_id: user_year_month_day_relation.id)
-          amount_of_daily = daily_expense&.daily_expense
-
-          list_of_additional_expenses = []
-
-          additional_expenses = AdditionalExpense.where(user_year_month_day_relation_id: user_year_month_day_relation.id)
-
-          if additional_expenses.present?
-            additional_expenses.each do |additional_expense|
-              list_of_additional_expenses.push(
-                additional_expense.additional_expense
-              )
-            end
-          end
-
-          expense_table_data.push({
-            date: day,
-            daily_expense: amount_of_daily,
-            additional_expense: list_of_additional_expenses,
-            is_edited: false
-          })
-        end
-
-        table_data_length = expense_table_data.length
-
-        if table_data_length > 1 || (table_data_length == 1 && expense_table_data[0][:daily_expense].present?)
-          { has_data: true, expense_table_data: expense_table_data }
-        else
-          { has_data: false }
-        end
-      else
-        { has_data: false }
-      end
-    end
+    field :check_expense_table_data, resolver: Queries::CheckExpenseTableData
 
     # 查找用户已经拥有的所有年月
-    field :get_user_existing_time, Types::GetUserExistingTimeType, null: false do
-    end
-
-    def get_user_existing_time()
-      user = context[:current_user]
-
-      user_year_months = UserYearMonthDayRelation.where(user_id: user.id).select(:year_month_id).distinct
-
-      year_month_list = []
-      if user_year_months.present?
-        user_year_months.each do |user_year_month|
-          year_month = YearMonth.find_by(id: user_year_month.year_month_id)
-
-          year_month_list.push({
-            year_month_id: year_month.id,
-            year: year_month.year,
-            month: year_month.month
-          })
-        end
-      end
-
-      { existing_time: year_month_list }
-    end
+    field :get_user_existing_time, resolver: Queries::GetUserExistingTime
 
     # 查找用户某年某月花销详细数据
-    field :get_detail_table_data,  Types::GetDetailTableDataType, null: false do
-      argument :year_month_id, ID, required: true
-    end
-
-    def get_detail_table_data(year_month_id:)
-      user = context[:current_user]
-
-      monthly_expense_detail = MonthlyExpenseDetail.find_by(user_id: user.id, year_month_id: year_month_id)
-
-      user_year_month_day_relations = UserYearMonthDayRelation.where(user_id: user.id, year_month_id: year_month_id)
-
-      if monthly_expense_detail.present?
-        {
-          recorded_date: user_year_month_day_relations.count,
-          total_monthly_expense: monthly_expense_detail.total_monthly_expense,
-          average_daily_expense: monthly_expense_detail.average_daily_expense,
-          predict_total_monthly_expense: monthly_expense_detail.predict_total_monthly_expense
-        }
-      else
-        {
-          recorded_date: user_year_month_day_relations.count,
-          total_monthly_expense: nil,
-          average_daily_expense: nil,
-          predict_total_monthly_expense: nil
-        }
-      end
-    end
+    field :get_detail_table_data, resolver: Queries::GetDetailTableData
   end
 end
