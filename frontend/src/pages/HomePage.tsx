@@ -180,7 +180,7 @@ const HomePage: React.FC = () => {
             </div>
             <div>
                 <ExpenseTable
-                    yearMonthId={currentYearMonth.currentYearMonthId}
+                    yearMonthId={selectedValue}
                     totalDaysOfSelectedYearMonth={days}
                     expenseTableData={checkExpenseTableData?.expenseTableData}
                     onRefetch={refetch} // 传递 refetch 方法
