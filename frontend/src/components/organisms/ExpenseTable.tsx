@@ -31,7 +31,7 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
     const addRow = () => {
         const today = new Date().getDate();
-        if (rows.some((row) => row.date === today)) {
+        if (rows.some((row) => row.date === today) && rows.length >= totalDaysOfSelectedYearMonth) {
             alert("已有今天的数据，不能再添加！");
             return;
         }
