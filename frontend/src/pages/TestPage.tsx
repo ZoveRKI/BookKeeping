@@ -9,6 +9,7 @@ import DeleteRowButton from "../components/atoms/DeleteRowButton";
 import SaveRowButton from "../components/atoms/SaveRowButton";
 import { LoadingAnimation } from '../components/organisms/LoadingAnimation';
 import { DetailTable } from '../components/organisms/DetailTable';
+// import ExpenseTable from '../components/organisms/ExpenseTable';
 
 const TestPage: React.FC = () => {
     const elapsedDays = new Date().getDate();
@@ -48,6 +49,12 @@ const TestPage: React.FC = () => {
                     }
                 />
             </div>
+            <br />
+            <br />
+            <MuiButton variant="contained">Add Today</MuiButton>
+            <br />
+            <br />
+            {/* <ExpenseTable /> */}
         </>
     );
 };
