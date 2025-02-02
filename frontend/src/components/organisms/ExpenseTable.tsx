@@ -10,6 +10,9 @@ import {
     DELETE_ROW_DATA_MUTATION
 } from "../../graphql/mutations";
 import { ExpenseTableRowProps } from "../../pages/HomePage";
+import {
+    Button as MuiButton,
+} from "@mui/material";
 
 interface ExpenseTableProps {
     yearMonthId: string | null;
@@ -47,6 +50,21 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
 
         setRows(newRows.sort((a, b) => a.date - b.date));
     };
+
+    const addTodayRow = () => {
+        const today = new Date().getDate();
+        if (rows.some((row) => row.date === today)) {
+            alert("已有今天的数据，不能再添加！");
+            return;
+        }
+
+        const newRowsOfToday = [
+            ...rows,
+            { date: today, dailyExpense: '', additionalExpense: '', isEdited: false },
+        ];
+
+        setRows(newRowsOfToday.sort((a, b) => a.date - b.date));
+    }
 
     const updateRow = (index: number, key: keyof Omit<ExpenseTableRowProps, "date">, value: string | string[]) => {
         setRows((prev) =>
@@ -216,7 +234,22 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
             <div className="add-row-button">
                 {rows.length >= currentYearMonthDays
                     ? null
-                    : <AddRowButton onClick={addRow} />
+                    : <>
+                        <AddRowButton onClick={addRow} />
+                        <MuiButton
+                            sx={{
+                                color: 'blue',
+                                backgroundColor: 'white',
+                                height: '25px',
+                                width: '120px',
+
+                            }}
+                            variant="outlined"
+                            onClick={addTodayRow}
+                        >
+                            Add Today
+                        </MuiButton>
+                    </>
                 }
             </div>
         </div>
