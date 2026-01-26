@@ -185,7 +185,7 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
                             <td>
                                 <div className="table-editable-cell">
                                     <EditableCell
-                                        initialValue={row.dailyExpense.toString()}
+                                        initialValue={row.dailyExpense?.toString() || ''}
                                         onSave={(value) => updateRow(index, "dailyExpense", value)}
                                     />
                                 </div>
