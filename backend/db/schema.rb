@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_12_31_185530) do
+ActiveRecord::Schema[8.0].define(version: 2026_06_14_000000) do
   create_table "additional_expenses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_year_month_day_relation_id", null: false
     t.decimal "additional_expense", precision: 15, scale: 5, null: false
@@ -58,6 +58,16 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_185530) do
     t.index ["year_month_id"], name: "index_user_year_month_day_relations_on_year_month_id"
   end
 
+  create_table "user_year_months", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "year_month_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "year_month_id"], name: "index_user_year_months_on_user_id_and_year_month_id", unique: true
+    t.index ["user_id"], name: "index_user_year_months_on_user_id"
+    t.index ["year_month_id"], name: "index_user_year_months_on_year_month_id"
+  end
+
   create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "user_name", null: false
     t.string "password_digest", null: false
@@ -80,4 +90,6 @@ ActiveRecord::Schema[8.0].define(version: 2024_12_31_185530) do
   add_foreign_key "notes", "additional_expenses"
   add_foreign_key "user_year_month_day_relations", "users"
   add_foreign_key "user_year_month_day_relations", "year_months"
+  add_foreign_key "user_year_months", "users"
+  add_foreign_key "user_year_months", "year_months"
 end
