@@ -13,13 +13,22 @@ default: &default
   adapter: mysql2
   encoding: utf8mb4
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
-  password:
+  username: <%= ENV.fetch("DB_USERNAME") { "root" } %>
+  password: <%= ENV["DB_PASSWORD"] %>
   host: <%= ENV.fetch("DB_HOST") { "127.0.0.1" } %>
+  port: <%= ENV.fetch("DB_PORT") { 3306 } %>
   ssl_mode: :disabled
   sslverify: false
 
 
 development:
   <<: *default
-  database: bookkeeping_backend_development
+  database: <%= ENV.fetch("DB_NAME") { "bookkeeping_backend_development" } %>
+
+test:
+  <<: *default
+  database: <%= ENV.fetch("DB_TEST_NAME") { "bookkeeping_backend_test" } %>
+
+production:
+  <<: *default
+  database: <%= ENV.fetch("DB_NAME") { "bookkeeping_backend_production" } %>
