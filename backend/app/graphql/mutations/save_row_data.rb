@@ -15,6 +15,11 @@ module Mutations
 
       return { is_success: false, message: "You must be logged in" } unless user
 
+      UserYearMonth.find_or_create_by!(
+        user_id: user.id,
+        year_month_id: year_month_id,
+      )
+
       user_year_month_day_relation = UserYearMonthDayRelation.find_or_create_by(
         user_id: user.id,
         year_month_id: year_month_id,

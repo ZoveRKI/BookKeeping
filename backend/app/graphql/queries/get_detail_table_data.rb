@@ -8,18 +8,21 @@ module Queries
 
       monthly_expense_detail = MonthlyExpenseDetail.find_by(user_id: user.id, year_month_id: year_month_id)
 
-      user_year_month_day_relations = UserYearMonthDayRelation.where(user_id: user.id, year_month_id: year_month_id)
+      recorded_date = UserYearMonthDayRelation
+        .joins(:daily_expense)
+        .where(user_id: user.id, year_month_id: year_month_id)
+        .count
 
       if monthly_expense_detail.present?
         {
-          recorded_date: user_year_month_day_relations.count,
+          recorded_date: recorded_date,
           total_monthly_expense: monthly_expense_detail.total_monthly_expense,
           average_daily_expense: monthly_expense_detail.average_daily_expense,
           predict_total_monthly_expense: monthly_expense_detail.predict_total_monthly_expense
         }
       else
         {
-          recorded_date: user_year_month_day_relations.count,
+          recorded_date: recorded_date,
           total_monthly_expense: nil,
           average_daily_expense: nil,
           predict_total_monthly_expense: nil
