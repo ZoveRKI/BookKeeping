@@ -1,0 +1,16 @@
+#!/bin/sh
+set -e
+
+rm -f /rails/tmp/pids/server.pid
+
+until mysqladmin ping \
+  -h "${DB_HOST:-db}" \
+  -u "${DB_USERNAME:-root}" \
+  --silent; do
+  echo "Waiting for MySQL..."
+  sleep 2
+done
+
+bundle exec rails db:prepare
+
+exec "$@"

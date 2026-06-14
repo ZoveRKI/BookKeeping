@@ -1,50 +1,25 @@
-# React + TypeScript + Vite
+# BookKeeping Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React + TypeScript + Vite 前端，使用 pnpm 管理依赖。开发环境由根目录的
+Docker Compose 统一启动，无需在宿主机安装 Node.js 或 pnpm。
 
-Currently, two official plugins are available:
+```powershell
+# 在项目根目录启动
+docker compose up --build
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# 添加依赖
+docker compose exec frontend pnpm add <package-name>
 
-## Expanding the ESLint configuration
+# 添加开发依赖
+docker compose exec frontend pnpm add -D <package-name>
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+# 运行构建
+docker compose exec frontend pnpm build
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+# 运行 lint
+docker compose exec frontend pnpm lint
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+pnpm 版本固定在 `package.json` 的 `packageManager` 字段中。提交依赖变更时，
+需要同时提交 `package.json` 和 `pnpm-lock.yaml`，不要生成或提交
+`package-lock.json`。
