@@ -1,0 +1,15 @@
+@startuml user_year_months
+
+entity "user_year_months" as user_year_months {
+    + id: bigint <<PK>>
+    --
+    # user_id: bigint <<FK=users.id, Not Null>>
+    # year_month_id: bigint <<FK=year_months.id, Not Null>>
+    --
+    created_at: datetime <<Not Null>>
+    updated_at: datetime <<Not Null>>
+    --
+    - (user_id, year_month_id) <<Composite Unique>>
+}
+
+@enduml

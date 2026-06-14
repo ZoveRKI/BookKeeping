@@ -3,8 +3,11 @@
 package "Time" {
     !include ../tables/users.puml
     !include ../tables/year_months.puml
+    !include ../tables/user_year_months.puml
     !include ../tables/user_year_month_day_relations.puml
 }
 
+users ||--o{ user_year_months
+year_months ||--o{ user_year_months
 users ||--o{ user_year_month_day_relations
 year_months ||--o{ user_year_month_day_relations
