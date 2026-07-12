@@ -87,7 +87,8 @@ const HomePage: React.FC = () => {
         skip: !currentYearMonth.currentYearMonthId || selectedValue === '',
         variables: {
             yearMonthId: selectedValue
-        }
+        },
+        fetchPolicy: 'no-cache'
     })
 
     const checkExpenseTableData: ExpenseTableData = tableData?.checkExpenseTableData
