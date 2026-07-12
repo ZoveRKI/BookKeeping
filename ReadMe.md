@@ -2,6 +2,8 @@
 
 React/Vite + Rails GraphQL + MySQL
 
+![Login Page](login-animation.gif)
+
 ## Database
 
 ![Database schema](image.png)
