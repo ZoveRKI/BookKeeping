@@ -3,17 +3,13 @@
 entity "monthly_expense_details" as monthly_expense_details {
     + id: bigint <<PK>>
     --
-    # user_id: bigint <<FK=users.id, Not Null>>
-    # year_month_id: bigint <<FK=year_months.id, Not Null>>
+    # user_year_month_id: bigint <<FK=user_year_months.id, Not Null, Unique>>
     --
     average_daily_expense: decimal <<Not Null>>
-    total_monthly_expense: bigint <<Not Null>>
+    total_monthly_expense: decimal <<Not Null>>
     predict_total_monthly_expense: decimal <<Not Null>>
     created_at: datetime <<Not Null>>
     updated_at: datetime <<Not Null>>
-    --
-    - (user_id, year_month_id, average_daily_expense,
-    total_monthly_expense, predict_total_monthly_expense) <<Composite Unique>>
 }
 
 @enduml

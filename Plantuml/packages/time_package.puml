@@ -9,5 +9,4 @@ package "Time" {
 
 users ||--o{ user_year_months
 year_months ||--o{ user_year_months
-users ||--o{ user_year_month_day_relations
-year_months ||--o{ user_year_month_day_relations
+user_year_months ||--o{ user_year_month_day_relations
