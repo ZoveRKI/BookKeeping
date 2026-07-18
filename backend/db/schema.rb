@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_06_14_000000) do
+ActiveRecord::Schema[8.0].define(version: 2024_12_31_185530) do
   create_table "additional_expenses", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_year_month_day_relation_id", null: false
     t.decimal "additional_expense", precision: 15, scale: 5, null: false
@@ -27,16 +27,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_06_14_000000) do
   end
 
   create_table "monthly_expense_details", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "year_month_id", null: false
+    t.bigint "user_year_month_id", null: false
     t.decimal "average_daily_expense", precision: 15, scale: 5, null: false
     t.decimal "total_monthly_expense", precision: 15, scale: 5, null: false
     t.decimal "predict_total_monthly_expense", precision: 15, scale: 5, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id", "year_month_id", "average_daily_expense", "total_monthly_expense", "predict_total_monthly_expense"], name: "idx_on_user_id_year_month_id_average_daily_expense__5f9d929b93", unique: true
-    t.index ["user_id"], name: "index_monthly_expense_details_on_user_id"
-    t.index ["year_month_id"], name: "index_monthly_expense_details_on_year_month_id"
+    t.index ["user_year_month_id"], name: "index_monthly_expense_details_on_user_year_month_id", unique: true
   end
 
   create_table "notes", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -48,14 +45,12 @@ ActiveRecord::Schema[8.0].define(version: 2026_06_14_000000) do
   end
 
   create_table "user_year_month_day_relations", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "year_month_id", null: false
+    t.bigint "user_year_month_id", null: false
     t.bigint "day", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["user_id", "year_month_id", "day"], name: "idx_on_user_id_year_month_id_day_6b2aa1c97a", unique: true
-    t.index ["user_id"], name: "index_user_year_month_day_relations_on_user_id"
-    t.index ["year_month_id"], name: "index_user_year_month_day_relations_on_year_month_id"
+    t.index ["user_year_month_id", "day"], name: "idx_on_user_year_month_id_day_f858fd539b", unique: true
+    t.index ["user_year_month_id"], name: "index_user_year_month_day_relations_on_user_year_month_id"
   end
 
   create_table "user_year_months", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
@@ -85,11 +80,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_06_14_000000) do
 
   add_foreign_key "additional_expenses", "user_year_month_day_relations"
   add_foreign_key "daily_expenses", "user_year_month_day_relations"
-  add_foreign_key "monthly_expense_details", "users"
-  add_foreign_key "monthly_expense_details", "year_months"
+  add_foreign_key "monthly_expense_details", "user_year_months"
   add_foreign_key "notes", "additional_expenses"
-  add_foreign_key "user_year_month_day_relations", "users"
-  add_foreign_key "user_year_month_day_relations", "year_months"
+  add_foreign_key "user_year_month_day_relations", "user_year_months"
   add_foreign_key "user_year_months", "users"
   add_foreign_key "user_year_months", "year_months"
 end

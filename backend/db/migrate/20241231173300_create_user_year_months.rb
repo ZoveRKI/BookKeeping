@@ -1,5 +1,5 @@
 class CreateUserYearMonths < ActiveRecord::Migration[8.0]
-  def up
+  def change
     create_table :user_year_months do |t|
       t.references :user, null: false, foreign_key: true
       t.references :year_month, null: false, foreign_key: true
