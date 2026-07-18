@@ -12,9 +12,9 @@ class ComputeMonthlyExpenseDetailDataService
     current_year = year_month.year()
     currentMonthDay = Time.days_in_month(current_month, current_year)
 
-    user_year_month_day_relations = UserYearMonthDayRelation
-      .joins(:daily_expense)
-      .where(user_id: @user_id, year_month_id: @year_month_id)
+    user_year_month = UserYearMonth.find_by(user_id: @user_id, year_month_id: @year_month_id)
+    user_year_month_day_relations = user_year_month&.user_year_month_day_relations || UserYearMonthDayRelation.none
+    user_year_month_day_relations = user_year_month_day_relations.joins(:daily_expense)
     now_days_count = user_year_month_day_relations.count
 
     ActiveRecord::Base.transaction do

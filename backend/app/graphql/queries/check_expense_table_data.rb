@@ -6,7 +6,9 @@ module Queries
     def resolve(year_month_id:)
       user = context[:current_user]
 
-      user_year_month_day_relations = UserYearMonthDayRelation.where(user_id: user.id, year_month_id: year_month_id).order(:day)
+      user_year_month = user.user_year_months.find_by(year_month_id: year_month_id)
+      user_year_month_day_relations = user_year_month&.user_year_month_day_relations || UserYearMonthDayRelation.none
+      user_year_month_day_relations = user_year_month_day_relations.order(:day)
 
       expense_table_data = []
 

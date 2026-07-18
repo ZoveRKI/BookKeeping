@@ -15,16 +15,9 @@ module Mutations
 
       return { is_success: false, message: "You must be logged in" } unless user
 
-      UserYearMonth.find_or_create_by!(
-        user_id: user.id,
-        year_month_id: year_month_id,
-      )
+      user_year_month = user.user_year_months.find_or_create_by!(year_month_id: year_month_id)
 
-      user_year_month_day_relation = UserYearMonthDayRelation.find_or_create_by(
-        user_id: user.id,
-        year_month_id: year_month_id,
-        day: date,
-      )
+      user_year_month_day_relation = user_year_month.user_year_month_day_relations.find_or_create_by!(day: date)
 
       expense_of_daily = DailyExpense.find_or_initialize_by(
         user_year_month_day_relation_id: user_year_month_day_relation.id,
@@ -54,10 +47,7 @@ module Mutations
       ).call
 
       if monthly_expense_detail_data.present?
-        monthly_expense_detail = MonthlyExpenseDetail.find_or_initialize_by(
-          user_id: user.id,
-          year_month_id: year_month_id,
-        )
+        monthly_expense_detail = user_year_month.monthly_expense_detail || user_year_month.build_monthly_expense_detail
 
         monthly_expense_detail.total_monthly_expense = monthly_expense_detail_data[:total_monthly_expense]
         monthly_expense_detail.average_daily_expense = monthly_expense_detail_data[:average_daily_expense]

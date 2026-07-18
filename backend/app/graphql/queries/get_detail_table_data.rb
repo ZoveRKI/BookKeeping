@@ -6,12 +6,10 @@ module Queries
     def resolve(year_month_id:)
       user = context[:current_user]
 
-      monthly_expense_detail = MonthlyExpenseDetail.find_by(user_id: user.id, year_month_id: year_month_id)
+      user_year_month = user.user_year_months.find_by(year_month_id: year_month_id)
+      monthly_expense_detail = user_year_month&.monthly_expense_detail
 
-      recorded_date = UserYearMonthDayRelation
-        .joins(:daily_expense)
-        .where(user_id: user.id, year_month_id: year_month_id)
-        .count
+      recorded_date = user_year_month ? user_year_month.user_year_month_day_relations.joins(:daily_expense).count : 0
 
       if monthly_expense_detail.present?
         {

@@ -56,11 +56,9 @@ class UserYearMonthFlowTest < ActiveSupport::TestCase
 
     year_month = YearMonth.find_by!(year: 2026, month: 6)
 
-    assert UserYearMonth.exists?(user: @user, year_month: year_month)
-    assert_not UserYearMonthDayRelation.exists?(
-      user: @user,
-      year_month: year_month
-    )
+    user_year_month = UserYearMonth.find_by!(user: @user, year_month: year_month)
+
+    assert_not user_year_month.user_year_month_day_relations.exists?
 
     existing_time = execute(GET_EXISTING_TIME_QUERY)
       .dig("data", "getUserExistingTime", "existingTime")
@@ -97,6 +95,14 @@ class UserYearMonthFlowTest < ActiveSupport::TestCase
     )
 
     assert result.dig("data", "saveRowData", "isSuccess")
+
+    user_year_month = UserYearMonth.find_by!(user: @user, year_month: year_month)
+    relation = user_year_month.user_year_month_day_relations.find_by!(day: 1)
+    monthly_expense_detail = user_year_month.monthly_expense_detail
+
+    assert_equal user_year_month.id, relation.user_year_month_id
+    assert_equal user_year_month.id, monthly_expense_detail.user_year_month_id
+    assert_equal 1, MonthlyExpenseDetail.where(user_year_month: user_year_month).count
 
     detail = execute(
       GET_DETAIL_QUERY,
