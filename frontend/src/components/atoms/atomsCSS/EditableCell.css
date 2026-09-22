@@ -1,22 +1,9 @@
-/* EditableCell.css */
-.editable-cell {
-    padding: '8px';
-    min-width: 10px;
-    max-width: 100px;
-    cursor: 'pointer';
-    font-size: 25px;
-    text-align: center;
-    /* border: 1px solid #c91212; */
-}
-
-.editable-cell-input {
-    width: 100%;
-    font-size: 25px;
-    text-align: center;
-    box-sizing: border-box;
-}
-
-.init-text {
-    color: #aaa;
-    font-style: italic;
-}
+.editable-cell { display: inline-flex; align-items: center; gap: 8px; padding: 9px 10px; margin-left: -10px; max-width: 100%; border: 1px solid transparent; border-radius: 7px; background: transparent; font-size: 13px; font-variant-numeric: tabular-nums; }
+.editable-cell span { overflow-wrap: anywhere; }
+.editable-cell svg { color: #b7c1b5; opacity: 0; }
+.editable-cell:hover:not(:disabled), .editable-cell:focus-visible { background: #f4f7ef; border-color: #e0e8d8; }
+.editable-cell:hover svg, .editable-cell:focus-visible svg { opacity: 1; }
+.editable-cell.is-empty { font-size: 12px; color: #96a48f; }
+.editable-cell.is-empty svg { opacity: 1; }
+.editable-cell-input { width: 128px; max-width: 100%; min-width: 0; padding: 9px; margin-left: -10px; border: 1px solid var(--green); border-radius: 7px; background: white; color: var(--ink); font-size: 13px; font-variant-numeric: tabular-nums; }
+@media (hover: none) { .editable-cell svg { opacity: 1; } }

@@ -1,68 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import { useState, type FC } from 'react';
+import Icon from './Icon';
+import { formatAmount } from '../../utils/expenses';
 import './atomsCSS/EditableCell.css';
 
-type EditableCellProps = {
+interface EditableCellProps {
     initialValue?: string;
     onSave?: (value: string) => void;
-};
+    label?: string;
+    disabled?: boolean;
+}
 
-const EditableCell: React.FC<EditableCellProps> = ({
-    initialValue = '',
-    onSave
-}) => {
-    const [isEditing, setIsEditing] = useState(false);
-    const [value, setValue] = useState<string>('');
+const EditableCell: FC<EditableCellProps> = ({ initialValue = '', onSave, label = '编辑金额', disabled }) => {
+    const [draft, setDraft] = useState<string | null>(null);
 
-    useEffect(() => {
-        setValue(initialValue as string);
-    }, [initialValue]);
-
-    const handleDoubleClick = () => {
-        setIsEditing(true);
+    const finish = () => {
+        if (draft === null) return;
+        onSave?.(draft.trim());
+        setDraft(null);
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setValue(e.target.value);
-    };
+    if (draft !== null) {
+        return <input className="editable-cell-input" aria-label={label} type="text" inputMode="decimal" value={draft} autoFocus disabled={disabled}
+            onChange={event => setDraft(event.target.value)} onBlur={finish}
+            onFocus={event => event.target.select()}
+            onKeyDown={event => {
+                if (event.key === 'Enter') event.currentTarget.blur();
+                if (event.key === 'Escape') { event.preventDefault(); setDraft(null); }
+            }} />;
+    }
 
-    const handleBlur = () => {
-        setIsEditing(false);
-        if (onSave) {
-            onSave(value);
-        }
-    };
-
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') {
-            setIsEditing(false);
-            if (onSave) {
-                onSave(value);
-            }
-        }
-    };
-
-    return (
-        <div
-            onDoubleClick={handleDoubleClick}
-            className='editable-cell'
-        >
-            {isEditing ? (
-                <input
-                    type="text"
-                    value={value}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    onKeyDown={handleKeyDown}
-                    autoFocus
-                    className='editable-cell-input'
-                />
-            ) : value ? (
-                <span>{value}</span>
-            ) : (
-                <span className='init-text'>{'*'}</span>
-            )}
-        </div>
-    );
+    return <button type="button" className={`editable-cell ${initialValue === '' ? 'is-empty' : ''}`} aria-label={`${label}：${initialValue || '未填写'}`} disabled={disabled} onClick={() => setDraft(initialValue)}>
+        <span>{initialValue === '' ? '填写金额' : Number.isFinite(Number(initialValue)) ? formatAmount(Number(initialValue)) : initialValue}</span>
+        <Icon name="edit" size={12} />
+    </button>;
 };
 
 export default EditableCell;

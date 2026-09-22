@@ -1,52 +1,27 @@
-import React from 'react';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import './atomsCSS/CustomSelectBox.css'
+import { useId, type FC } from 'react';
+import Icon from './Icon';
+import './atomsCSS/CustomSelectBox.css';
+
 interface CustomSelectBoxProps {
     title: string;
     menuItems: { value: string; label: string }[];
-    selectedValue: string; // 父组件传递的值
-    setSelectedValue: React.Dispatch<React.SetStateAction<string>>; // 父组件的 setState
+    selectedValue: string;
+    setSelectedValue: (value: string) => void;
+    disabled?: boolean;
 }
 
-const CustomSelectBox: React.FC<CustomSelectBoxProps> = ({
-    title,
-    menuItems,
-    selectedValue,
-    setSelectedValue,
-}) => {
-    const handleChange = (event: SelectChangeEvent) => {
-        setSelectedValue(event.target.value);
-    };
-
+const CustomSelectBox: FC<CustomSelectBoxProps> = ({ title, menuItems, selectedValue, setSelectedValue, disabled }) => {
+    const id = useId();
     return (
-        <Box className="custom-select-box">
-            <FormControl>
-                <InputLabel id="custom-select-label">{title}</InputLabel>
-                <Select
-                    labelId="custom-select-label"
-                    id="custom-select"
-                    value={selectedValue}
-                    label={title}
-                    onChange={handleChange}
-                    MenuProps={{
-                        disableScrollLock: true, // 禁用滚动锁定
-                    }}
-                >
-                    {/* <MenuItem value="">
-                        <em>——————</em>
-                    </MenuItem> */}
-                    {menuItems.map((item) => (
-                        <MenuItem key={item.value} value={String(item.value)}>
-                            {item.label}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-        </Box>
+        <div className="custom-select-box">
+            <label className="sr-only" htmlFor={id}>{title}</label>
+            <Icon name="calendar" size={17} />
+            <select id={id} value={selectedValue} onChange={event => setSelectedValue(event.target.value)} disabled={disabled || menuItems.length === 0}>
+                {menuItems.length === 0 && <option value="">暂无账本</option>}
+                {menuItems.map(item => <option key={item.value} value={item.value}>{item.label}</option>)}
+            </select>
+            <Icon name="down" size={15} />
+        </div>
     );
 };
 

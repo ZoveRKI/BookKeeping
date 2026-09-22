@@ -1,65 +1,77 @@
-.table-container {
-    width: 70%;
-    /* 表格宽度 */
-    margin: 0 auto;
-    /* 居中表格和操作面板 */
-}
-
-.expense-table {
-    width: 100%;
-    text-align: center;
-    border-collapse: collapse;
-}
-
-.expense-table th {
-    background-color: #f4f4f4;
-    padding: 8px;
-}
-
-.expense-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-}
-
-.table-row {
-    position: relative;
-    /* 为每行启用定位 */
-}
-
-.row-actions {
-    margin-left: 8px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    gap: 8px;
-}
-
-.action-button {
-    cursor: pointer;
-    white-space: nowrap;
-    /* 禁止文字换行 */
-}
-
-.add-row-button {
-    display: flex;
-    /* 让子元素在同一行排列 */
-    align-items: center;
-    /* 让按钮在垂直方向居中 */
-    gap: 8px;
-    /* 按钮之间的间距 */
-    margin-top: 10px;
-    padding: 5px 10px;
-    font-size: 14px;
-    cursor: pointer;
-}
-
-.table-editable-cell {
-    display: flex;
-    /* 使用 Flex 布局 */
-    justify-content: center;
-    /* 水平居中 */
-    /* align-items: center; */
-    /* 垂直居中 */
-    /* height: 100%; */
+.expense-panel { overflow: hidden; }
+.expense-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 26px 25px 19px; }
+.count-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 23px; height: 21px; padding: 0 6px; margin-left: 7px; border-radius: 6px; background: #f0f3e9; color: #7f926d; font-size: 10px; font-weight: 500; vertical-align: 2px; }
+.expense-toolbar { display: flex; align-items: center; gap: 12px; }
+.expense-toolbar .button { min-height: 37px; font-size: 11px; padding: 8px 12px; }
+.search-field { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border: 1px solid #e4e9df; border-radius: 9px; color: #97a08f; background: #fafbf8; }
+.search-field:focus-within { border-color: #8aa682; }
+.search-field input { width: 128px; min-width: 0; border: 0; background: transparent; outline: 0; padding: 0; font-size: 11px; color: var(--ink); }
+.search-field input::placeholder { color: #98a08f; }
+.table-filterbar { display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 0 25px; border-bottom: 1px solid var(--line); }
+.table-tabs { display: flex; gap: 27px; }
+.table-tabs button { position: relative; padding: 12px 0 15px; border: 0; background: transparent; color: var(--muted); font-size: 12px; }
+.table-tabs button.active { color: var(--green); font-weight: 600; }
+.table-tabs button.active::after { position: absolute; content: ''; bottom: -1px; left: 0; right: 0; height: 2px; background: var(--green); border-radius: 2px; }
+.table-tabs button > span { margin-left: 6px; padding: 2px 5px; font-size: 9px; background: #f8edda; color: #a28142; border-radius: 4px; }
+.edit-hint { display: flex; align-items: center; gap: 5px; color: #9ba48f; font-size: 10px; }
+.table-notice { margin: 15px 23px 5px; }
+.table-notice .icon-button { width: 25px; height: 25px; }
+.table-scroll { overflow-x: auto; }
+.expense-table { width: 100%; text-align: left; border-collapse: collapse; font-size: 12px; }
+.expense-table th { padding: 14px 16px; background: #fafbf7; color: #8c9683; font-size: 10px; font-weight: 500; white-space: nowrap; }
+.expense-table th:first-child, .expense-table td:first-child { padding-left: 25px; }
+.expense-table th:last-child, .expense-table td:last-child { padding-right: 23px; }
+.expense-table td { padding: 13px 16px; border-bottom: 1px solid #f0f2ec; }
+.expense-table tbody tr:last-child td { border-bottom: 0; }
+.expense-table tbody tr:hover { background: #fcfdf9; }
+.expense-table .edited-row { background: #fdfdf5; }
+.expense-table .date-cell { display: flex; align-items: center; gap: 11px; min-height: 75px; }
+.date-tile { display: grid; place-items: center; width: 35px; height: 38px; border-radius: 9px; background: #f1f4eb; color: #5b7558; font-size: 15px; font-weight: 550; font-variant-numeric: tabular-nums; flex-shrink: 0; }
+.date-tile.today { background: #e6efda; color: #436b41; }
+.date-cell strong { display: block; white-space: nowrap; font-size: 11px; font-weight: 550; }
+.date-cell small { display: block; margin-top: 6px; color: #9ca492; font-size: 9px; }
+.draft-date-select { border: 1px solid #e1e7d8; border-radius: 5px; background: white; font-size: 11px; color: var(--ink); padding: 3px 2px; max-width: 110px; }
+.row-total { font-weight: 600; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.status-pill { display: inline-flex; align-items: center; gap: 4px; border-radius: 5px; padding: 4px 7px; background: #eff5e8; color: #7c9566; font-size: 9px; white-space: nowrap; }
+.status-pill.draft { background: #fbf1d9; color: #a48840; }
+.status-dot { width: 4px; height: 4px; background: currentColor; border-radius: 50%; }
+.status-pill .spinner { width: 11px; height: 11px; border-width: 1px; }
+.row-actions { text-align: right; white-space: nowrap; }
+.actions-heading { text-align: right; }
+.row-actions .icon-button { width: 30px; height: 30px; }
+.table-footer { display: flex; align-items: center; justify-content: space-between; gap: 15px; min-height: 60px; padding: 12px 24px; background: #fcfdf9; border-top: 1px solid var(--line); color: #929d86; font-size: 10px; line-height: 1.8; }
+.table-footer strong { font-weight: 550; color: #657759; }
+.table-footer .button { font-size: 10px; min-height: 30px; padding: 5px 8px; gap: 5px; }
+.table-empty { padding: 42px 20px 39px; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.empty-illustration { display: grid; place-items: center; width: 67px; height: 70px; margin-bottom: 20px; border: 1px solid #e6edda; border-radius: 19px; background: #f1f5e8; color: #88a16e; transform: rotate(-7deg); }
+.table-empty h3 { font-size: 14px; font-weight: 550; margin-bottom: 11px; }
+.table-empty p { font-size: 11px; color: #97a08b; line-height: 1.8; margin-bottom: 20px; }
+.table-empty .button { font-size: 11px; min-height: 36px; }
+@media (max-width: 1200px) { .expense-table th, .expense-table td { padding-inline: 11px; } .expense-toolbar { gap: 8px; } }
+@media (max-width: 960px) { .expense-heading { align-items: flex-start; } .expense-toolbar { flex-direction: column-reverse; align-items: stretch; } .search-field input { width: 117px; } .expense-table th, .expense-table td { padding-inline: 9px; } .expense-table th:first-child, .expense-table td:first-child { padding-left: 18px; } .expense-table th:last-child, .expense-table td:last-child { padding-right: 16px; } }
+@media (max-width: 600px) {
+    .expense-heading { padding: 22px 18px 15px; flex-wrap: wrap; gap: 18px; }
+    .expense-toolbar { width: 100%; flex-direction: row; gap: 10px; }
+    .search-field { min-width: 0; flex: 1; }
+    .search-field input { width: 100%; }
+    .table-filterbar { padding-inline: 18px; }
+    .table-tabs { gap: 22px; }
+    .edit-hint { font-size: 9px; }
+    .expense-table, .expense-table tbody { display: block; }
+    .expense-table thead { position: absolute; height: 1px; width: 1px; overflow: hidden; clip-path: inset(50%); }
+    .expense-table tbody tr { display: grid; grid-template-columns: 1fr 1fr 1fr; position: relative; padding: 18px; gap: 16px 8px; border-bottom: 1px solid var(--line); }
+    .expense-table td, .expense-table th, .expense-table td:first-child, .expense-table td:last-child { padding: 0; border: 0; }
+    .expense-table .date-cell { grid-column: 1 / 3; grid-row: 1; min-height: 0; gap: 10px; }
+    .expense-table .status-cell { position: absolute; top: 22px; right: 19px; }
+    .expense-table .row-actions { grid-row: 3; grid-column: 1 / -1; border-top: 1px dashed #e7ecdf; padding-top: 9px; margin-top: -5px; }
+    .expense-table td[data-label]::before { content: attr(data-label); display: block; font-size: 9px; font-weight: 400; color: var(--muted); margin-bottom: 5px; }
+    .expense-table td[data-label] { grid-row: 2; min-width: 0; }
+    .expense-table .row-total { padding-top: 0; font-size: 12px; }
+    .expense-table .row-total::before { margin-bottom: 16px; }
+    .editable-cell { font-size: 12px; gap: 4px; padding: 9px 5px; margin-left: -5px; }
+    .editable-cell svg { width: 10px; opacity: .6; }
+    .editable-cell.is-empty { font-size: 10px; }
+    .editable-cell-input { width: 100%; margin-left: 0; padding: 9px 5px; font-size: 12px; }
+    .table-footer { padding: 13px 18px; gap: 8px; font-size: 9px; }
+    .table-notice { margin-inline: 15px; }
 }

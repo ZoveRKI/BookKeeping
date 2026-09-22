@@ -1,19 +1,8 @@
-import React from 'react';
-import SaveIcon from '@mui/icons-material/Save';
+import type { ButtonHTMLAttributes, FC } from 'react';
+import Icon from './Icon';
 
-interface SaveRowButtonProps {
-    onClick?: React.MouseEventHandler<SVGSVGElement>;
-}
-
-const SaveRowButton: React.FC<SaveRowButtonProps> = ({
-    onClick
-}) => {
-    return (
-        <SaveIcon
-            sx={{ color: 'green' }}
-            onClick={onClick}
-        />
-    )
-}
+const SaveRowButton: FC<ButtonHTMLAttributes<HTMLButtonElement>> = props => (
+    <button type="button" className="icon-button save" aria-label="保存记录" title="保存记录" {...props}><Icon name="check" size={19} /></button>
+);
 
 export default SaveRowButton;

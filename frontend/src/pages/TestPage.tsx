@@ -1,61 +1,30 @@
-import React from 'react';
-import {
-    Button as MuiButton,
-    TextField as MuiTextField
-} from "@mui/material";
-import EditableCell from "../components/atoms/EditableCell";
-import AddRowButton from "../components/atoms/AddRowButton";
-import DeleteRowButton from "../components/atoms/DeleteRowButton";
-import SaveRowButton from "../components/atoms/SaveRowButton";
+import { useState, type FC } from 'react';
+import { Link } from 'react-router-dom';
+import EditableCell from '../components/atoms/EditableCell';
+import AddRowButton from '../components/atoms/AddRowButton';
+import DeleteRowButton from '../components/atoms/DeleteRowButton';
+import SaveRowButton from '../components/atoms/SaveRowButton';
 import { LoadingAnimation } from '../components/organisms/LoadingAnimation';
 import { DetailTable } from '../components/organisms/DetailTable';
-// import ExpenseTable from '../components/organisms/ExpenseTable';
+import Brand from '../components/atoms/Brand';
 
-const TestPage: React.FC = () => {
-    const elapsedDays = new Date().getDate();
-
+const TestPage: FC = () => {
+    const [amount, setAmount] = useState('128');
     return (
-        <>
-            <h1>Welcome to the Test Page</h1>
-            <MuiButton variant="contained">Sign In</MuiButton>
-            <br />
-            <br />
-            <MuiTextField id="outlined-basic" label="UserName" variant="outlined" />
-            <MuiTextField id="outlined-basic" label="Password" variant="outlined" />
-            <EditableCell />
-            <AddRowButton />
-            <DeleteRowButton />
-            <SaveRowButton />
-            <br />
-            <br />
-            <LoadingAnimation />
-            <br />
-            <br />
-            <div style={{
-                width: '50%',
-                margin: '0 auto',
-                position: 'absolute',
-                left: '25%',
-                top: '0.5%'
-            }}>
-                <DetailTable
-                    DetailTableData={
-                        {
-                            elapsedDays: elapsedDays,
-                            totalMonthlyExpense: 1000,
-                            averageDailyExpense: 100,
-                            predictTotalMonthlyExpense: 2000
-                        }
-                    }
-                />
+        <main className="component-preview">
+            <Brand />
+            <h1>组件展示</h1>
+            <p>以下为组件演示数据，不会保存到账本。</p>
+            <DetailTable DetailTableData={{ elapsedDays: 12, totalMonthlyExpense: 1200, averageDailyExpense: 100, predictTotalMonthlyExpense: 3000 }} />
+            <div className="panel preview-controls" style={{ padding: 24 }}>
+                <EditableCell initialValue={amount} onSave={setAmount} />
+                <AddRowButton onClick={() => setAmount('0')} />
+                <SaveRowButton onClick={() => setAmount(String(Number(amount) || 0))} />
+                <DeleteRowButton onClick={() => setAmount('')} />
+                <Link to="/" className="button button-primary">查看登录页</Link>
             </div>
-            <br />
-            <br />
-            <MuiButton variant="contained">Add Today</MuiButton>
-            <br />
-            <br />
-            {/* <ExpenseTable /> */}
-        </>
+            <LoadingAnimation />
+        </main>
     );
 };
 

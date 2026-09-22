@@ -1,0 +1,31 @@
+.insights-grid { display: grid; grid-template-columns: minmax(0, 1.8fr) minmax(270px, 1fr); gap: 20px; margin-bottom: 26px; }
+.trend-panel, .breakdown-panel { padding: 24px; }
+.segmented-control { display: flex; padding: 3px; border-radius: 8px; background: #f3f5ef; flex-shrink: 0; }
+.segmented-control button { padding: 6px 10px; border: 0; border-radius: 6px; font-size: 10px; background: transparent; color: var(--muted); }
+.segmented-control button[aria-pressed="true"] { background: #fff; color: var(--ink); box-shadow: 0 1px 4px #21382b0d; }
+.trend-plot { position: relative; margin-top: 20px; }
+.trend-plot > svg { width: 100%; height: auto; overflow: visible; }
+.chart-label { fill: #98a195; font-size: 10px; font-family: inherit; }
+.chart-hit-targets { position: absolute; display: flex; inset: 11% 2.4% 16% 7.4%; }
+.chart-hit-targets button { min-width: 0; flex: 1; padding: 0; border: 0; background: transparent; border-radius: 4px; }
+.chart-hit-targets button:focus-visible { background: #8dad8215; outline-width: 1px; }
+.chart-empty { position: absolute; inset: 16% 0 20% 8%; display: flex; align-items: center; justify-content: center; gap: 10px; color: #8e9f86; font-size: 12px; pointer-events: none; }
+.chart-empty span { background: #ffffffdb; padding: 5px 0; }
+.chart-footer { display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--muted); font-size: 10px; margin-top: 11px; }
+.chart-footer > span:first-child, .breakdown-legend div > span { display: flex; align-items: center; gap: 8px; }
+.legend-dot { display: inline-block; width: 7px; height: 7px; background: #4d7f63; border-radius: 50%; flex-shrink: 0; }
+.legend-dot.extra { background: #ccdfa1; }
+.subtle-icon { color: #99a38f; }
+.donut-wrap { display: flex; justify-content: center; margin: 22px 0 19px; }
+.expense-donut { display: grid; place-items: center; width: 144px; height: 144px; border-radius: 50%; transform: rotate(-90deg); }
+.donut-center { display: flex; flex-direction: column; align-items: center; justify-content: center; width: 115px; height: 115px; border-radius: 50%; background: white; transform: rotate(90deg); }
+.donut-center span { color: var(--muted); font-size: 10px; margin-bottom: 7px; }
+.donut-center strong { max-width: 108px; font-size: 17px; letter-spacing: -.5px; overflow-wrap: anywhere; font-weight: 600; }
+.breakdown-legend { display: grid; gap: 11px; font-size: 11px; }
+.breakdown-legend > div { display: flex; align-items: center; gap: 8px; }
+.breakdown-legend strong { font-weight: 550; margin-left: auto; font-variant-numeric: tabular-nums; }
+.breakdown-legend small { width: 32px; text-align: right; font-size: 10px; color: var(--muted); }
+@media (min-width: 1500px) { .trend-plot { margin-top: 8px; } .donut-wrap { margin-top: 27px; margin-bottom: 25px; } .expense-donut { width: 160px; height: 160px; } .donut-center { width: 130px; height: 130px; } }
+@media (max-width: 1100px) { .insights-grid { grid-template-columns: minmax(0, 1.55fr) minmax(230px, 1fr); gap: 16px; } .trend-panel, .breakdown-panel { padding: 21px 19px; } .trend-panel { display: flex; flex-direction: column; } .trend-plot { margin-block: auto; padding-top: 15px; } }
+@media (max-width: 980px) { .insights-grid { grid-template-columns: 1fr; } .trend-plot { padding-top: 0; margin-top: 20px; } .breakdown-panel { display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; } .breakdown-panel .panel-heading { grid-column: 1 / -1; } .donut-wrap { margin-bottom: 0; } .breakdown-legend { align-content: center; } }
+@media (max-width: 420px) { .trend-panel, .breakdown-panel { padding: 21px 17px; } .segmented-control button { padding: 6px 8px; } .panel-heading p { font-size: 11px; } .chart-empty { font-size: 10px; gap: 5px; } .chart-empty svg { width: 18px; } .breakdown-panel { column-gap: 12px; } .expense-donut { width: 122px; height: 122px; } .donut-center { width: 96px; height: 96px; } .donut-center strong { font-size: 14px; max-width: 89px; } .breakdown-legend > div { flex-wrap: wrap; gap: 7px; } .breakdown-legend div > span { width: 100%; } .breakdown-legend strong { margin-left: 15px; } .breakdown-legend small { margin-left: auto; } }

@@ -1,19 +1,8 @@
-import React from 'react';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import type { ButtonHTMLAttributes, FC } from 'react';
+import Icon from './Icon';
 
-interface AddRowButtonProps {
-    onClick?: React.MouseEventHandler<SVGSVGElement>;
-}
-
-const AddRowButton: React.FC<AddRowButtonProps> = ({
-    onClick
-}) => {
-    return (
-        <AddCircleOutlineIcon
-            sx={{ color: 'blue' }}
-            onClick={onClick}
-        />
-    )
-}
+const AddRowButton: FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({ children = '添加记录', className = 'button button-secondary', ...props }) => (
+    <button type="button" className={className} {...props}><Icon name="plus" size={17} />{children}</button>
+);
 
 export default AddRowButton;
