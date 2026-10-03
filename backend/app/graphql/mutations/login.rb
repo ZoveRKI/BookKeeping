@@ -4,7 +4,7 @@ module Mutations
     argument :password, String, required: true
 
     field :is_success, Boolean, null: false
-    field :messages, [String], null: true
+    field :messages, [ String ], null: true
 
     def resolve(user_name:, password:)
       # 从数据库中查找用户
@@ -16,7 +16,7 @@ module Mutations
 
         { is_success: true, messages: [] }
       else
-        { is_success: false, messages: ["Invalid username or password"] }
+        { is_success: false, messages: [ "Invalid username or password" ] }
       end
     end
   end

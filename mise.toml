@@ -1,0 +1,5 @@
+[tools]
+node = "26.10"
+pnpm = "12.8"
+ruby = "4.0"
+"gem:bundler" = "4.0"

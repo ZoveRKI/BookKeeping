@@ -3,10 +3,26 @@ set -e
 
 rm -f /rails/tmp/pids/server.pid
 
-until mysqladmin ping \
-  -h "${DB_HOST:-db}" \
-  -u "${DB_USERNAME:-root}" \
-  --silent; do
+# Check connectivity through the same driver used by Rails.
+until bundle exec ruby -rmysql2 <<'RUBY'
+begin
+  client = Mysql2::Client.new(
+    host: ENV.fetch("DB_HOST", "db"),
+    port: Integer(ENV.fetch("DB_PORT", "3306")),
+    username: ENV.fetch("DB_USERNAME", "root"),
+    password: ENV["DB_PASSWORD"],
+    connect_timeout: 5,
+    read_timeout: 5,
+    write_timeout: 5
+  )
+  client.query("SELECT 1")
+  client.close
+rescue Mysql2::Error => error
+  warn "MySQL connection failed: #{error.message}"
+  exit 1
+end
+RUBY
+do
   echo "Waiting for MySQL..."
   sleep 2
 done

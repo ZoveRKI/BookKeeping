@@ -7,6 +7,6 @@ class CreateYearMonths < ActiveRecord::Migration[8.0]
       t.timestamps
     end
 
-    add_index :year_months, [:year, :month], unique: true
+    add_index :year_months, [ :year, :month ], unique: true
   end
 end

@@ -61,8 +61,8 @@ docker compose exec backend bundle exec rails runner 'User.create!(user_name: "e
 If you want to restart：
 
 ```
-docker compose down -v
-docker compose up --build
+docker compose build backend frontend
+docker compose up -d backend frontend
 ```
 
 ## 自定义端口和数据库
@@ -76,6 +76,45 @@ MYSQL_PORT=3306
 MYSQL_DATABASE=bookkeeping_backend_development
 TZ=Asia/Tokyo
 ```
+
+## RuboCop
+
+在 VS Code 中打开整个 `BookKeeping` 目录时，可以在根目录创建指向 `backend/Gemfile` 和 `backend/Gemfile.lock` 的符号链接，让 Ruby LSP 找到后端的 RuboCop 依赖。链接已加入 `.gitignore`，新 clone 后需要在本机创建一次；已存在时跳过创建命令。
+
+准备好 mise 和 `mise.toml` 指定的本机 Ruby、Bundler，并安装 VS Code 的 **Ruby LSP** 扩展，将其 Ruby version manager 设置为 `mise`。本机编辑器使用本机安装的 gems，代码风格规则统一由 `backend/.rubocop.yml` 定义。
+
+以下命令中的 `bundle install` 安装锁文件指定的本机依赖，`bundle exec rubocop` 检查后端代码并输出检查结果。
+
+### macOS
+
+在终端进入新 clone 的仓库根目录后执行：
+
+```sh
+ln -s backend/Gemfile Gemfile
+ln -s backend/Gemfile.lock Gemfile.lock
+
+cd backend
+mise x -- bundle install
+mise x -- bundle exec rubocop
+cd ..
+```
+
+### Windows
+
+在**管理员 PowerShell** 中进入新 clone 的仓库根目录后执行。管理员权限用于创建符号链接，也能满足 `graphiql-rails` 安装时创建链接的权限要求。下面使用 Scoop 安装的 mise 实际路径，避免 shim 的参数转发问题；通过其他方式安装 mise 时，请将 `$miseExe` 改为对应的可执行文件路径。
+
+```powershell
+New-Item -ItemType SymbolicLink -Path Gemfile -Target backend/Gemfile
+New-Item -ItemType SymbolicLink -Path Gemfile.lock -Target backend/Gemfile.lock
+
+$miseExe = Join-Path $env:USERPROFILE 'scoop/apps/mise/current/bin/mise.exe'
+Set-Location backend
+& $miseExe x -- bundle install
+& $miseExe x -- bundle exec rubocop
+Set-Location ..
+```
+
+完成后，在 VS Code 命令面板执行 **Ruby LSP: Restart**，并在「输出 → Ruby LSP」确认已检测到 RuboCop。两个链接只供本机使用，无需设置 Git 的 `core.symlinks`。
 
 ## Hint
 ### Rails

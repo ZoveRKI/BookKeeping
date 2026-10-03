@@ -1,0 +1,9 @@
+# Use LF for text files across Windows, Linux, and macOS.
+* text=auto eol=lf
+
+# Windows batch scripts keep CRLF in the working tree.
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Encrypted data must remain byte-for-byte unchanged.
+*.enc -text
