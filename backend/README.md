@@ -25,22 +25,7 @@ bundle exec brakeman --no-pager
 
 ## VS Code
 
-从 VS Code 的「文件 → 从文件打开工作区」打开根目录的 `BookKeeping.code-workspace`。它将 `backend` 注册为独立的工作区文件夹，使 Ruby LSP 能直接找到后端的 `Gemfile` 和 `.rubocop.yml`。
-
-工作区已指定 Ruby LSP 使用 mise 选择 Ruby，并通过 RuboCop 提供诊断和保存时格式化；Ruby 使用 2 个空格缩进。
-
-应用和编辑器统一使用 `backend/Gemfile` 中的 RuboCop 依赖。Ruby LSP 扩展会自动管理自身需要的辅助依赖，无需另外维护根目录的工具 `Gemfile`。
-
-本机编辑器需要本机 Ruby 和后端 gems，Docker 内的依赖不会自动提供给本机编辑器。在本目录执行 `mise x -- bundle check` 检查依赖；缺少依赖时执行 `mise x -- bundle install`。安装后，通过 `mise x -- bundle exec rubocop` 检查后端代码。这些命令不会启动 Rails 或迁移数据库。
-
-Windows 使用 Scoop 安装 mise 时，可在本目录通过下面的 PowerShell 命令检查依赖，避免 Scoop shim 的参数转发问题。需要安装时，将最后的 `check` 改为 `install`；如果 `graphiql-rails` 报创建符号链接的权限错误，可在管理员终端完成安装。
-
-```powershell
-$miseExe = Join-Path $env:USERPROFILE 'scoop/apps/mise/current/bin/mise.exe'
-& $miseExe x -- bundle check
-```
-
-打开工作区后，在「输出 → Ruby LSP」确认后端使用了 RuboCop。若刚安装了依赖，执行命令面板中的 `Ruby LSP: Restart` 重新检测。
+新 clone 后的 macOS、Windows 本机设置步骤统一见根目录的 [RuboCop 说明](../ReadMe.md#rubocop)。
 
 ## 测试
 

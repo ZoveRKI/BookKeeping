@@ -4,3 +4,7 @@ node_modules
 .pnpm-store
 .env
 mise.local.toml
+
+# Local Ruby LSP links to the backend bundle
+/Gemfile
+/Gemfile.lock
