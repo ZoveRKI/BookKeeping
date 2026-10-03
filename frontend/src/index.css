@@ -1,4 +1,89 @@
+:root {
+    color-scheme: light;
+    --page-background: #fff;
+    --text-primary: #000;
+    --surface: #fff;
+    --control-text: rgb(0 0 0 / 87%);
+    --text-muted: rgb(0 0 0 / 60%);
+    --control-arrow: rgb(0 0 0 / 54%);
+    --border: #ddd;
+    --control-border: rgb(0 0 0 / 23%);
+    --control-hover: rgb(0 0 0 / 87%);
+    --input-border: #767676;
+    --placeholder: #aaa;
+    --primary: #1976d2;
+    --primary-hover: #1565c0;
+    --primary-on: #fff;
+    --primary-border: rgb(25 118 210 / 50%);
+    --primary-soft: rgb(25 118 210 / 4%);
+    --primary-selected: rgb(25 118 210 / 8%);
+    --primary-selected-hover: rgb(25 118 210 / 12%);
+    --primary-selected-active: rgb(25 118 210 / 20%);
+    --hover: rgb(0 0 0 / 4%);
+    --active: rgb(0 0 0 / 12%);
+    --disabled-text: rgb(0 0 0 / 26%);
+    --disabled-input: rgb(0 0 0 / 38%);
+    --disabled-background: rgb(0 0 0 / 12%);
+    --disabled-border: rgb(0 0 0 / 26%);
+    --table-header: #f4f4f4;
+    --summary-header: #ffe100;
+    --summary-header-text: #000;
+    --login-background: #f5f5f5;
+    --login-border: #ccc;
+    --error-text: #333;
+    --loading-overlay: rgb(128 128 128 / 35%);
+    --action-add: blue;
+    --action-save: green;
+    --action-delete: red;
+}
+
+:root[data-theme='dark'] {
+    color-scheme: dark;
+    --page-background: #15181e;
+    --text-primary: #e8eaf0;
+    --surface: #20252e;
+    --control-text: #e8eaf0;
+    --text-muted: #adb5c4;
+    --control-arrow: #adb5c4;
+    --border: #414957;
+    --control-border: #626c7d;
+    --control-hover: #e8eaf0;
+    --input-border: #8994a6;
+    --placeholder: #9aa5b5;
+    --primary: #90caf9;
+    --primary-hover: #b7ddfc;
+    --primary-on: #102333;
+    --primary-border: rgb(144 202 249 / 60%);
+    --primary-soft: rgb(144 202 249 / 8%);
+    --primary-selected: rgb(144 202 249 / 16%);
+    --primary-selected-hover: rgb(144 202 249 / 24%);
+    --primary-selected-active: rgb(144 202 249 / 32%);
+    --hover: rgb(255 255 255 / 8%);
+    --active: rgb(255 255 255 / 16%);
+    --disabled-text: rgb(255 255 255 / 38%);
+    --disabled-input: rgb(255 255 255 / 45%);
+    --disabled-background: rgb(255 255 255 / 12%);
+    --disabled-border: rgb(255 255 255 / 26%);
+    --table-header: #292f3a;
+    --summary-header: #695e16;
+    --summary-header-text: #fff3ae;
+    --login-background: #15181e;
+    --login-border: #414957;
+    --error-text: #e8eaf0;
+    --loading-overlay: rgb(80 85 96 / 45%);
+    --action-add: #90b7ff;
+    --action-save: #81c995;
+    --action-delete: #ff8a80;
+}
+
 html {
     overflow-y: auto;
     scrollbar-gutter: stable;
+    background-color: var(--page-background);
+    color: var(--text-primary);
+}
+
+body {
+    background-color: var(--page-background);
+    color: var(--text-primary);
 }

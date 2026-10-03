@@ -12,12 +12,12 @@
 }
 
 .expense-table th {
-    background-color: #f4f4f4;
+    background-color: var(--table-header, #f4f4f4);
     padding: 8px;
 }
 
 .expense-table td {
-    border: 1px solid #ddd;
+    border: 1px solid var(--border, #ddd);
     padding: 8px;
 }
 

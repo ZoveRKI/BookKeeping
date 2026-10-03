@@ -5,7 +5,7 @@
     align-items: center;
     height: 100vh;
     /* 让容器占满整个视口 */
-    background-color: #f5f5f5;
+    background-color: var(--login-background, #f5f5f5);
     /* 可选背景色 */
 }
 
@@ -15,10 +15,10 @@
     align-items: center;
     justify-content: center;
     padding: 10px 20px 20px 20px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--login-border, #ccc);
     border-radius: 10px;
     box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
-    background-color: white;
+    background-color: var(--surface, white);
     width: 300px;
     height: 300px;
 }

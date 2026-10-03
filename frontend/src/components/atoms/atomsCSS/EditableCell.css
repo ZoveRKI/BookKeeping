@@ -30,7 +30,9 @@
     min-width: 0;
     margin: 0;
     padding: 0;
-    border: 1px solid #767676;
+    border: 1px solid var(--input-border, #767676);
+    background-color: var(--surface, white);
+    color: var(--text-primary, black);
     font: inherit;
     letter-spacing: inherit;
     text-align: center;
@@ -38,6 +40,6 @@
 }
 
 .init-text {
-    color: #aaa;
+    color: var(--placeholder, #aaa);
     font-style: italic;
 }

@@ -236,8 +236,8 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
                         <AddRowButton onClick={addRow} />
                         <Button
                             style={{
-                                color: 'blue',
-                                backgroundColor: 'white',
+                                color: 'var(--action-add, blue)',
+                                backgroundColor: 'var(--surface, white)',
                                 height: '25px',
                                 width: '120px',
 

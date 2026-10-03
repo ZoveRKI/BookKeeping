@@ -26,32 +26,32 @@
 }
 
 .button--contained {
-    color: white;
-    background-color: #1976d2;
+    color: var(--primary-on, white);
+    background-color: var(--primary, #1976d2);
     box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px rgb(0 0 0 / 14%), 0 1px 5px rgb(0 0 0 / 12%);
 }
 
 .button--outlined {
-    border: 1px solid rgb(25 118 210 / 50%);
+    border: 1px solid var(--primary-border, rgb(25 118 210 / 50%));
     padding: 5px 15px;
-    color: #1976d2;
+    color: var(--primary, #1976d2);
     background-color: transparent;
 }
 
 @media (hover: hover) {
     .button--contained:hover {
-        background-color: #1565c0;
+        background-color: var(--primary-hover, #1565c0);
         box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px rgb(0 0 0 / 14%), 0 1px 10px rgb(0 0 0 / 12%);
     }
 
     .button--outlined:hover {
-        border-color: #1976d2;
-        background-color: rgb(25 118 210 / 4%);
+        border-color: var(--primary, #1976d2);
+        background-color: var(--primary-soft, rgb(25 118 210 / 4%));
     }
 }
 
 .button:focus-visible {
-    outline: 2px solid #1976d2;
+    outline: 2px solid var(--primary, #1976d2);
     outline-offset: 2px;
 }
 
@@ -60,16 +60,16 @@
 }
 
 .button:disabled {
-    color: rgb(0 0 0 / 26%);
+    color: var(--disabled-text, rgb(0 0 0 / 26%));
     box-shadow: none;
     pointer-events: none;
     cursor: default;
 }
 
 .button--contained:disabled {
-    background-color: rgb(0 0 0 / 12%);
+    background-color: var(--disabled-background, rgb(0 0 0 / 12%));
 }
 
 .button--outlined:disabled {
-    border-color: rgb(0 0 0 / 12%);
+    border-color: var(--disabled-background, rgb(0 0 0 / 12%));
 }
