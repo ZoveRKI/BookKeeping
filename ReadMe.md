@@ -61,8 +61,8 @@ docker compose exec backend bundle exec rails runner 'User.create!(user_name: "e
 If you want to restart：
 
 ```
-docker compose down -v
-docker compose up --build
+docker compose build backend frontend
+docker compose up -d backend frontend
 ```
 
 ## 自定义端口和数据库

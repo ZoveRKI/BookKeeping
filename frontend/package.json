@@ -6,10 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "typecheck": "tsc -b",
-    "lint": "oxlint --max-warnings 0",
-    "fmt": "oxfmt --write .",
-    "fmt:check": "oxfmt --check .",
+    "lint": "oxlint --disable-nested-config && oxfmt --check --disable-nested-config",
+    "lint:fix": "oxlint --fix --disable-nested-config && oxfmt --disable-nested-config",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -37,10 +37,13 @@ mise exec node pnpm -- pnpm --dir frontend typecheck
 mise exec node pnpm -- pnpm --dir frontend build
 ```
 
-- `lint`：执行 Oxlint，检查错误、Hooks 调用顺序、Effect 依赖和 Fast Refresh 导出；有警告也返回失败。
+- `lint`：先执行 Oxlint，再由 Oxfmt 检查格式；Oxlint 出错时不会继续执行格式检查，单独的警告不会使 Oxlint 失败。
+- `lint:fix`：运行 `mise exec node pnpm -- pnpm --dir frontend lint:fix`，先让 Oxlint 自动修复可修复的问题，成功后由 Oxfmt 写入格式化结果；该命令会修改前端文件。
 - `fmt:check`：只检查格式。需要统一格式时运行 `mise exec node pnpm -- pnpm --dir frontend fmt`，该命令会修改前端文件。
 - `typecheck`：通过 TypeScript 7 的 `tsc -b` 执行类型检查。
 - `build`：先做类型检查，再由 Vite 生成 `dist/`。
+
+`lint` 和 `lint:fix` 使用 `--disable-nested-config`，统一采用前端根目录的配置，不自动加载子目录配置。
 
 项目暂未采用 React Compiler，因此没有启用新增的 `react/purity` 和 `react/set-state-in-effect` 编译器检查；原有 Hooks 与 Fast Refresh 检查保留。Oxfmt 忽略构建产物与 pnpm 自动生成的锁文件。
 

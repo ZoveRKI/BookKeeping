@@ -1,21 +1,5 @@
-# Track minor releases; mise resolves the latest available patch.
 [tools]
 node = "26.10"
 pnpm = "12.8"
 ruby = "4.0"
 "gem:bundler" = "4.0"
-
-[tasks."frontend:install"]
-description = "Install the locked frontend dependencies"
-dir = "{{config_root}}/frontend"
-run = "pnpm install --frozen-lockfile"
-
-[tasks."frontend:check"]
-description = "Check lint, formatting, types, and the production build"
-dir = "{{config_root}}/frontend"
-run = ["pnpm lint", "pnpm fmt:check", "pnpm build"]
-
-[tasks."frontend:fmt"]
-description = "Format frontend source and configuration"
-dir = "{{config_root}}/frontend"
-run = "pnpm fmt"
