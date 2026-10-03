@@ -25,7 +25,7 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
     expenseTableData,
     onRefetch: refetch, //ES6 解构赋值语法的重命名形式
 }) => {
-    const [rows, setRows] = useState<ExpenseTableRowProps[]>([]);
+    const [rows, setRows] = useState<ExpenseTableRowProps[]>(() => expenseTableData || []);
 
     const addRow = () => {
         const today = new Date().getDate();
