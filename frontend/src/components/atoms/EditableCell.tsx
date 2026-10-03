@@ -44,9 +44,12 @@ const EditableCell: React.FC<EditableCellProps> = ({
     return (
         <div
             onDoubleClick={handleDoubleClick}
-            className='editable-cell'
+            className={`editable-cell${isEditing ? ' editable-cell--editing' : ''}`}
         >
-            {isEditing ? (
+            <span className={`editable-cell-value${value ? '' : ' init-text'}`} title={value || undefined}>
+                {value || '*'}
+            </span>
+            {isEditing && (
                 <input
                     type="text"
                     value={value}
@@ -56,10 +59,6 @@ const EditableCell: React.FC<EditableCellProps> = ({
                     autoFocus
                     className='editable-cell-input'
                 />
-            ) : value ? (
-                <span>{value}</span>
-            ) : (
-                <span className='init-text'>{'*'}</span>
             )}
         </div>
     );

@@ -10,9 +10,7 @@ import {
     DELETE_ROW_DATA_MUTATION
 } from "../../graphql/mutations";
 import { ExpenseTableRowProps } from "../../pages/HomePage";
-import {
-    Button as MuiButton,
-} from "@mui/material";
+import Button from "../atoms/Button";
 
 interface ExpenseTableProps {
     yearMonthId: string | null;
@@ -27,7 +25,7 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
     expenseTableData,
     onRefetch: refetch, //ES6 解构赋值语法的重命名形式
 }) => {
-    const [rows, setRows] = useState<ExpenseTableRowProps[]>([]);
+    const [rows, setRows] = useState<ExpenseTableRowProps[]>(() => expenseTableData || []);
 
     const addRow = () => {
         const today = new Date().getDate();
@@ -218,11 +216,11 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
                                 </div>
                             </td>
                             <div className="row-actions">
-                                {row.isEdited && (
-                                    <div className="action-button">
+                                <div className="action-button">
+                                    {row.isEdited && (
                                         <SaveRowButton onClick={() => saveRow(index)} />
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                                 <div className="action-button">
                                     <DeleteRowButton onClick={() => deleteRow(index)} />
                                 </div>
@@ -236,10 +234,10 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
                     ? null
                     : <>
                         <AddRowButton onClick={addRow} />
-                        <MuiButton
-                            sx={{
-                                color: 'blue',
-                                backgroundColor: 'white',
+                        <Button
+                            style={{
+                                color: 'var(--action-add, blue)',
+                                backgroundColor: 'var(--surface, white)',
                                 height: '25px',
                                 width: '120px',
 
@@ -248,7 +246,7 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
                             onClick={addTodayRow}
                         >
                             Add Today
-                        </MuiButton>
+                        </Button>
                     </>
                 }
             </div>

@@ -10,6 +10,8 @@ import ExpenseTable from '../components/organisms/ExpenseTable';
 import CustomSelectBox from '../components/atoms/CustomSelectBox';
 import { LoadingAnimation } from '../components/organisms/LoadingAnimation';
 import { DetailTable, DetailTableDataProps } from '../components/organisms/DetailTable';
+import Button from '../components/atoms/Button';
+import './HomePage.css';
 
 interface ExistingTime {
     yearMonthId: string;
@@ -43,7 +45,15 @@ export interface ExpenseTableRowProps {
 
 interface ExpenseTableData {
     hasData: boolean;
-    expenseTableData: ExpenseTableRowProps[];
+    expenseTableData: ExpenseTableRowProps[] | null;
+}
+
+interface LoadedMonth {
+    yearMonthId: string;
+    title: string;
+    days: number;
+    details: DetailTableData;
+    rows: ExpenseTableRowProps[] | null;
 }
 
 const HomePage: React.FC = () => {
@@ -51,13 +61,12 @@ const HomePage: React.FC = () => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth() + 1;
     const [selectedValue, setSelectedValue] = useState<string>('');
-    const [title, setTitle] = useState<string>("");
-    const [days, setDays] = useState<number>(0);
+    const [loadedMonth, setLoadedMonth] = useState<LoadedMonth | null>(null);
 
     // 获取用户已有的时间数据
-    const { data: existingTimeData, loading: existingTimeDataLoading } = useQuery(GET_USER_EXISTING_TIME_QUERY);
+    const { data: existingTimeData, loading: existingTimeDataLoading, error: existingTimeError, refetch: refetchExistingTime } = useQuery(GET_USER_EXISTING_TIME_QUERY);
 
-    const getUserExistingTimeData: ExistingTime[] = existingTimeData?.getUserExistingTime.existingTime
+    const getUserExistingTimeData: ExistingTime[] | undefined = existingTimeData?.getUserExistingTime.existingTime
 
     const isCurrentYearMonthExists: ExistingTime | undefined = getUserExistingTimeData?.find(
         (item: ExistingTime) => item.year === year && item.month === month
@@ -73,25 +82,27 @@ const HomePage: React.FC = () => {
         }
 
     // 获取当月详细表格数据
-    const { data: detailTableData, loading: detailTableDataLoading, refetch } = useQuery(GET_DETAIL_TABLE_DATA_QUERY, {
-        skip: !currentYearMonth.currentYearMonthId || selectedValue === '',
-        variables: {
-            yearMonthId: selectedValue
-        }
-    })
-
-    const getDetailTableData: DetailTableData = detailTableData?.getDetailTableData
-
-    // 获取当月花销表格数据
-    const { data: tableData, loading: tableDataLoading } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
+    const { data: detailTableData, loading: detailTableDataLoading, error: detailTableError, refetch } = useQuery(GET_DETAIL_TABLE_DATA_QUERY, {
         skip: !currentYearMonth.currentYearMonthId || selectedValue === '',
         variables: {
             yearMonthId: selectedValue
         },
-        fetchPolicy: 'no-cache'
+        notifyOnNetworkStatusChange: true,
     })
 
-    const checkExpenseTableData: ExpenseTableData = tableData?.checkExpenseTableData
+    const getDetailTableData: DetailTableData | undefined = detailTableData?.getDetailTableData
+
+    // 获取当月花销表格数据
+    const { data: tableData, loading: tableDataLoading, error: tableError, refetch: refetchTable } = useQuery(CHECK_EXPENSE_TABLE_DATA_QUERY, {
+        skip: !currentYearMonth.currentYearMonthId || selectedValue === '',
+        variables: {
+            yearMonthId: selectedValue
+        },
+        fetchPolicy: 'no-cache',
+        notifyOnNetworkStatusChange: true,
+    })
+
+    const checkExpenseTableData: ExpenseTableData | undefined = tableData?.checkExpenseTableData
 
     // 如无任何数据，则添加当前时间数据
     const [addTime] = useMutation(ADD_TIME_MUTATION, {
@@ -112,81 +123,120 @@ const HomePage: React.FC = () => {
     }) || [];
 
     useEffect(() => {
-        if (!existingTimeDataLoading && currentYearMonth.isCurrentYearMonthExists === false) {
+        if (existingTimeDataLoading || existingTimeError || !existingTimeData) return;
+
+        if (currentYearMonth.isCurrentYearMonthExists === false) {
             addTime();
             window.location.reload();
         } else if (currentYearMonth.currentYearMonthId) {
             setSelectedValue(currentYearMonth.currentYearMonthId);
         }
-    }, [existingTimeData]);
+    }, [existingTimeData, existingTimeDataLoading, existingTimeError, currentYearMonth.isCurrentYearMonthExists, currentYearMonth.currentYearMonthId, addTime]);
 
+    // Keep one complete month on screen until both queries for the next month finish.
     useEffect(() => {
-        if (getUserExistingTimeData) {
-            const yearMonthOfDateSelectionBox: ExistingTime | undefined = getUserExistingTimeData?.find(
-                (item: ExistingTime) => {
-                    return item.yearMonthId === selectedValue
-                }
-            )
+        if (existingTimeDataLoading || detailTableDataLoading || tableDataLoading ||
+            existingTimeError || detailTableError || tableError ||
+            !getDetailTableData || !checkExpenseTableData) return;
 
-            if (yearMonthOfDateSelectionBox) {
-                const days = new Date(yearMonthOfDateSelectionBox.year, yearMonthOfDateSelectionBox.month, 0).getDate();
-                setDays(days);
-                setTitle(`${yearMonthOfDateSelectionBox.year}年${yearMonthOfDateSelectionBox.month}月`)
-            } else {
-                setTitle(`${year}年${month}月`); // 如果找不到匹配的时间，设置一个默认值
-            }
-        }
-    }, [selectedValue, existingTimeData]);
+        const selectedMonth = getUserExistingTimeData?.find((item) => item.yearMonthId === selectedValue);
+        if (!selectedMonth) return;
 
-    if (existingTimeDataLoading || tableDataLoading || detailTableDataLoading) {
-        return (
+        setLoadedMonth({
+            yearMonthId: selectedValue,
+            title: `${selectedMonth.year}年${selectedMonth.month}月`,
+            days: new Date(selectedMonth.year, selectedMonth.month, 0).getDate(),
+            details: getDetailTableData,
+            rows: checkExpenseTableData.expenseTableData,
+        });
+    }, [selectedValue, getUserExistingTimeData, getDetailTableData, checkExpenseTableData,
+        existingTimeDataLoading, detailTableDataLoading, tableDataLoading,
+        existingTimeError, detailTableError, tableError]);
+
+    const hasLoadError = Boolean(existingTimeError || detailTableError || tableError);
+    const isLoading = existingTimeDataLoading || tableDataLoading || detailTableDataLoading ||
+        (!hasLoadError && (!loadedMonth || loadedMonth.yearMonthId !== selectedValue));
+    const retryLoad = () => {
+        void Promise.allSettled([
+            ...(existingTimeError ? [refetchExistingTime()] : []),
+            ...(detailTableError ? [refetch()] : []),
+            ...(tableError ? [refetchTable()] : []),
+        ]);
+    };
+
+    if (!loadedMonth) {
+        return hasLoadError && !isLoading ? (
+            <div className="home-initial-error" role="alert">
+                <p>账本加载失败，请重试。</p>
+                <Button onClick={retryLoad}>重试</Button>
+            </div>
+        ) : (
             <LoadingAnimation />
         );
     }
 
     const DetailTableData: DetailTableDataProps = {
-        elapsedDays: getDetailTableData?.recordedDate,
-        totalMonthlyExpense: getDetailTableData?.totalMonthlyExpense,
-        averageDailyExpense: getDetailTableData?.averageDailyExpense,
-        predictTotalMonthlyExpense: getDetailTableData?.predictTotalMonthlyExpense
+        elapsedDays: loadedMonth.details.recordedDate,
+        totalMonthlyExpense: loadedMonth.details.totalMonthlyExpense,
+        averageDailyExpense: loadedMonth.details.averageDailyExpense,
+        predictTotalMonthlyExpense: loadedMonth.details.predictTotalMonthlyExpense
     }
 
     return (
         <>
-            <div>
-                <h1>{title}</h1>
+            <div aria-busy={isLoading} ref={(element) => { if (element) element.inert = isLoading; }}>
+                <div>
+                    <h1>{loadedMonth.title}</h1>
+                </div>
+                <div style={{
+                    position: 'absolute',
+                    top: '15px',
+                    right: '20px'
+                }}>
+                    <CustomSelectBox
+                        title='Date'
+                        menuItems={dateSelectBoxItems}
+                        selectedValue={selectedValue}
+                        setSelectedValue={setSelectedValue}
+                    />
+                </div>
+                <div style={{
+                    width: '50%',
+                    margin: '0 auto',
+                    position: 'absolute',
+                    left: '25%',
+                    top: '0.5%'
+                }}>
+                    <DetailTable
+                        DetailTableData={DetailTableData}
+                    />
+                </div>
+                <div ref={(element) => {
+                    if (element) element.inert = hasLoadError && loadedMonth.yearMonthId !== selectedValue;
+                }}>
+                    <ExpenseTable
+                        key={loadedMonth.yearMonthId}
+                        yearMonthId={loadedMonth.yearMonthId}
+                        totalDaysOfSelectedYearMonth={loadedMonth.days}
+                        expenseTableData={loadedMonth.rows}
+                        onRefetch={refetch} // 传递 refetch 方法
+                    />
+                </div>
             </div>
-            <div style={{
-                position: 'absolute',
-                top: '15px',
-                right: '20px'
-            }}>
-                <CustomSelectBox
-                    title='Date'
-                    menuItems={dateSelectBoxItems}
-                    selectedValue={selectedValue}
-                    setSelectedValue={setSelectedValue}
-                />
-            </div>
-            <div style={{
-                width: '50%',
-                margin: '0 auto',
-                position: 'absolute',
-                left: '25%',
-                top: '0.5%'
-            }}>
-                <DetailTable
-                    DetailTableData={DetailTableData}
-                />
-            </div>
-            <div>
-                <ExpenseTable
-                    yearMonthId={selectedValue}
-                    totalDaysOfSelectedYearMonth={days}
-                    expenseTableData={checkExpenseTableData?.expenseTableData}
-                    onRefetch={refetch} // 传递 refetch 方法
-                />
-            </div>
+            {isLoading && (
+                <div className="home-month-loading-overlay" role="status">
+                    <LoadingAnimation />
+                    <span className="home-month-loading-text">正在加载月份数据…</span>
+                </div>
+            )}
+            {hasLoadError && !isLoading && (
+                <div className="home-month-error" role="alert">
+                    <span>{loadedMonth.yearMonthId !== selectedValue
+                        ? `新月份加载失败，仍显示${loadedMonth.title}，请重试或选择其他月份。`
+                        : '数据加载失败，请重试。'}</span>
+                    <Button onClick={retryLoad}>重试</Button>
+                </div>
+            )}
         </>
     )
 };

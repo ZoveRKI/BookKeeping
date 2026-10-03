@@ -1,8 +1,6 @@
 import React from 'react';
-import {
-    Button as MuiButton,
-    TextField as MuiTextField
-} from "@mui/material";
+import Button from '../components/atoms/Button';
+import TextField from '../components/atoms/TextField';
 import EditableCell from "../components/atoms/EditableCell";
 import AddRowButton from "../components/atoms/AddRowButton";
 import DeleteRowButton from "../components/atoms/DeleteRowButton";
@@ -17,11 +15,11 @@ const TestPage: React.FC = () => {
     return (
         <>
             <h1>Welcome to the Test Page</h1>
-            <MuiButton variant="contained">Sign In</MuiButton>
+            <Button variant="contained">Sign In</Button>
             <br />
             <br />
-            <MuiTextField id="outlined-basic" label="UserName" variant="outlined" />
-            <MuiTextField id="outlined-basic" label="Password" variant="outlined" />
+            <TextField id="test-user-name" label="UserName" />
+            <TextField id="test-password" label="Password" />
             <EditableCell />
             <AddRowButton />
             <DeleteRowButton />
@@ -51,7 +49,7 @@ const TestPage: React.FC = () => {
             </div>
             <br />
             <br />
-            <MuiButton variant="contained">Add Today</MuiButton>
+            <Button variant="contained">Add Today</Button>
             <br />
             <br />
             {/* <ExpenseTable /> */}

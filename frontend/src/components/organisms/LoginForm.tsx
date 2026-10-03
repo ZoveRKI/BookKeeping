@@ -1,8 +1,6 @@
 import React from 'react';
-import {
-    Button as MuiButton,
-    TextField as MuiTextField
-} from "@mui/material";
+import Button from '../atoms/Button';
+import TextField from '../atoms/TextField';
 import './organismsCSS/LoginForm.css'
 
 interface LoginFormProps {
@@ -25,28 +23,26 @@ export const LoginForm: React.FC<LoginFormProps> = ({
             <div className="login-box">
                 <h1>LogIn</h1>
                 <form onSubmit={handleSubmit}>
-                    <MuiTextField
-                        id="outlined-basic"
+                    <TextField
+                        id="login-user-name"
                         label="UserName"
-                        variant="outlined"
                         fullWidth
                         value={userName}
                         onChange={(e) => setUserName(e.target.value)}
                     />
-                    <MuiTextField
-                        id="outlined-basic"
+                    <TextField
+                        id="login-password"
                         label="Password"
-                        variant="outlined"
                         fullWidth
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <MuiButton
+                    <Button
                         type="submit"
                         variant="contained"
                     >
                         Sign In
-                    </MuiButton>
+                    </Button>
                 </form>
             </div>
         </div>

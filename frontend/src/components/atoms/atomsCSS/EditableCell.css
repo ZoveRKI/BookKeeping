@@ -1,22 +1,45 @@
 /* EditableCell.css */
 .editable-cell {
-    padding: '8px';
-    min-width: 10px;
-    max-width: 100px;
-    cursor: 'pointer';
+    position: relative;
+    width: 100px;
+    min-width: 0;
+    max-width: 100%;
+    cursor: pointer;
     font-size: 25px;
     text-align: center;
-    /* border: 1px solid #c91212; */
+}
+
+.editable-cell-value {
+    display: block;
+    overflow: hidden;
+    white-space: pre;
+    text-overflow: ellipsis;
+}
+
+/* Keep the same line box while the input is overlaid on the displayed value. */
+.editable-cell--editing .editable-cell-value {
+    visibility: hidden;
 }
 
 .editable-cell-input {
+    position: absolute;
+    inset: 0;
+    display: block;
     width: 100%;
-    font-size: 25px;
+    height: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--input-border, #767676);
+    background-color: var(--surface, white);
+    color: var(--text-primary, black);
+    font: inherit;
+    letter-spacing: inherit;
     text-align: center;
     box-sizing: border-box;
 }
 
 .init-text {
-    color: #aaa;
+    color: var(--placeholder, #aaa);
     font-style: italic;
 }
