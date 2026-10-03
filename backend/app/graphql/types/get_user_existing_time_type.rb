@@ -6,6 +6,6 @@ module Types
   end
 
   class GetUserExistingTimeType < Types::BaseObject
-    field :existing_time, [ExistingTimeType], null: false
+    field :existing_time, [ ExistingTimeType ], null: false
   end
 end

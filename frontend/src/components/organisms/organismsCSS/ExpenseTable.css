@@ -1,69 +1,69 @@
 .table-container {
-    width: 70%;
-    /* 表格宽度 */
-    margin: 0 auto;
-    /* 居中表格和操作面板 */
+  width: 70%;
+  /* 表格宽度 */
+  margin: 0 auto;
+  /* 居中表格和操作面板 */
 }
 
 .expense-table {
-    width: 100%;
-    text-align: center;
-    border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
 }
 
 .expense-table th {
-    background-color: var(--table-header, #f4f4f4);
-    padding: 8px;
+  background-color: var(--table-header, #f4f4f4);
+  padding: 8px;
 }
 
 .expense-table td {
-    border: 1px solid var(--border, #ddd);
-    padding: 8px;
+  border: 1px solid var(--border, #ddd);
+  padding: 8px;
 }
 
 .table-row {
-    position: relative;
-    /* 为每行启用定位 */
+  position: relative;
+  /* 为每行启用定位 */
 }
 
 .row-actions {
-    margin-left: 8px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    gap: 8px;
+  margin-left: 8px;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  gap: 8px;
 }
 
 .action-button {
-    width: 24px;
-    flex-shrink: 0;
-    cursor: pointer;
-    white-space: nowrap;
-    /* 禁止文字换行 */
+  width: 24px;
+  flex-shrink: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  /* 禁止文字换行 */
 }
 
 .add-row-button {
-    display: flex;
-    /* 让子元素在同一行排列 */
-    align-items: center;
-    /* 让按钮在垂直方向居中 */
-    gap: 8px;
-    /* 按钮之间的间距 */
-    margin-top: 10px;
-    padding: 5px 10px;
-    font-size: 14px;
-    cursor: pointer;
+  display: flex;
+  /* 让子元素在同一行排列 */
+  align-items: center;
+  /* 让按钮在垂直方向居中 */
+  gap: 8px;
+  /* 按钮之间的间距 */
+  margin-top: 10px;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
 }
 
 .table-editable-cell {
-    /* Keep column sizing independent of the amount and its editing control. */
-    contain: inline-size;
-    display: flex;
-    /* 使用 Flex 布局 */
-    justify-content: center;
-    /* 水平居中 */
-    /* align-items: center; */
-    /* 垂直居中 */
-    /* height: 100%; */
+  /* Keep column sizing independent of the amount and its editing control. */
+  contain: inline-size;
+  display: flex;
+  /* 使用 Flex 布局 */
+  justify-content: center;
+  /* 水平居中 */
+  /* align-items: center; */
+  /* 垂直居中 */
+  /* height: 100%; */
 }

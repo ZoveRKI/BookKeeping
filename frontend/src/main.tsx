@@ -1,7 +1,7 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import AppRoutes from './AppRoutes'
-import { ApolloProvider } from '@apollo/client';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import AppRoutes from './AppRoutes';
+import { ApolloProvider } from '@apollo/client/react';
 import client from './apolloClient';
 import ThemeToggle from './components/atoms/ThemeToggle';
 import { applyTheme, readStoredTheme } from './theme';
@@ -16,4 +16,4 @@ createRoot(document.getElementById('root')!).render(
       <ThemeToggle />
     </ApolloProvider>
   </StrictMode>,
-)
+);

@@ -1,134 +1,137 @@
 .text-field {
-    display: inline-flex;
-    flex-direction: column;
-    position: relative;
-    min-width: 0;
-    margin: 0;
-    border: 0;
-    border-radius: 4px;
-    padding: 0;
-    font-family: Roboto, Helvetica, Arial, sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 1.4375;
-    letter-spacing: 0.00938em;
-    color: var(--control-text, rgb(0 0 0 / 87%));
-    vertical-align: top;
+  display: inline-flex;
+  flex-direction: column;
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  border: 0;
+  border-radius: 4px;
+  padding: 0;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.4375;
+  letter-spacing: 0.00938em;
+  color: var(--control-text, rgb(0 0 0 / 87%));
+  vertical-align: top;
 }
 
 .text-field--full-width {
-    width: 100%;
+  width: 100%;
 }
 
 .text-field__input {
-    display: block;
-    box-sizing: content-box;
-    min-width: 0;
-    height: 1.4375em;
-    margin: 0;
-    border: 0;
-    border-radius: inherit;
-    padding: 16.5px 14px;
-    font: inherit;
-    letter-spacing: inherit;
-    color: currentColor;
-    background: none;
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
+  display: block;
+  box-sizing: content-box;
+  min-width: 0;
+  height: 1.4375em;
+  margin: 0;
+  border: 0;
+  border-radius: inherit;
+  padding: 16.5px 14px;
+  font: inherit;
+  letter-spacing: inherit;
+  color: currentColor;
+  background: none;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .text-field__input::placeholder {
-    opacity: 0;
+  opacity: 0;
 }
 
 .text-field__input:focus::placeholder {
-    opacity: 0.42;
+  opacity: 0.42;
 }
 
 .text-field__label {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    max-width: calc(100% - 24px);
-    overflow: hidden;
-    color: var(--text-muted, rgb(0 0 0 / 60%));
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    transform: translate(14px, 16px) scale(1);
-    transform-origin: top left;
-    transition: color 200ms, transform 200ms, max-width 200ms;
-    pointer-events: none;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  max-width: calc(100% - 24px);
+  overflow: hidden;
+  color: var(--text-muted, rgb(0 0 0 / 60%));
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transform: translate(14px, 16px) scale(1);
+  transform-origin: top left;
+  transition:
+    color 200ms,
+    transform 200ms,
+    max-width 200ms;
+  pointer-events: none;
 }
 
 .text-field__outline {
-    position: absolute;
-    top: -5px;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    min-width: 0;
-    margin: 0;
-    border: 1px solid var(--control-border, rgb(0 0 0 / 23%));
-    border-radius: inherit;
-    padding: 0 8px;
-    overflow: hidden;
-    pointer-events: none;
+  position: absolute;
+  top: -5px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  min-width: 0;
+  margin: 0;
+  border: 1px solid var(--control-border, rgb(0 0 0 / 23%));
+  border-radius: inherit;
+  padding: 0 8px;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 .text-field__outline legend {
-    display: block;
-    width: auto;
-    max-width: 0.01px;
-    height: 11px;
-    padding: 0;
-    overflow: hidden;
-    font-size: 0.75em;
-    white-space: nowrap;
-    visibility: hidden;
-    transition: max-width 50ms;
+  display: block;
+  width: auto;
+  max-width: 0.01px;
+  height: 11px;
+  padding: 0;
+  overflow: hidden;
+  font-size: 0.75em;
+  white-space: nowrap;
+  visibility: hidden;
+  transition: max-width 50ms;
 }
 
 .text-field__outline legend span {
-    display: inline-block;
-    padding: 0 5px;
+  display: inline-block;
+  padding: 0 5px;
 }
 
 .text-field:hover .text-field__outline {
-    border-color: var(--control-hover, rgb(0 0 0 / 87%));
+  border-color: var(--control-hover, rgb(0 0 0 / 87%));
 }
 
 .text-field__input:focus ~ .text-field__label,
 .text-field__input:not(:placeholder-shown) ~ .text-field__label {
-    max-width: calc(133% - 32px);
-    transform: translate(14px, -9px) scale(0.75);
+  max-width: calc(133% - 32px);
+  transform: translate(14px, -9px) scale(0.75);
 }
 
 .text-field__input:focus ~ .text-field__outline legend,
 .text-field__input:not(:placeholder-shown) ~ .text-field__outline legend {
-    max-width: 100%;
-    transition: max-width 100ms 50ms;
+  max-width: 100%;
+  transition: max-width 100ms 50ms;
 }
 
 .text-field__input:focus ~ .text-field__label {
-    color: var(--primary, #1976d2);
+  color: var(--primary, #1976d2);
 }
 
 .text-field__input:focus ~ .text-field__outline {
-    border-width: 2px;
-    border-color: var(--primary, #1976d2);
+  border-width: 2px;
+  border-color: var(--primary, #1976d2);
 }
 
 .text-field__input:disabled {
-    color: var(--disabled-input, rgb(0 0 0 / 38%));
-    -webkit-text-fill-color: var(--disabled-input, rgb(0 0 0 / 38%));
+  color: var(--disabled-input, rgb(0 0 0 / 38%));
+  -webkit-text-fill-color: var(--disabled-input, rgb(0 0 0 / 38%));
 }
 
 .text-field__input:disabled ~ .text-field__label {
-    color: var(--disabled-input, rgb(0 0 0 / 38%));
+  color: var(--disabled-input, rgb(0 0 0 / 38%));
 }
 
 .text-field__input:disabled ~ .text-field__outline {
-    border-color: var(--disabled-border, rgb(0 0 0 / 26%));
+  border-color: var(--disabled-border, rgb(0 0 0 / 26%));
 }

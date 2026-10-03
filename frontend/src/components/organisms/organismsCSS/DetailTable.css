@@ -1,16 +1,16 @@
 .detail-table {
-    width: 100%;
-    text-align: center;
-    border-collapse: collapse;
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
 }
 
 .detail-table th {
-    background-color: var(--summary-header, #ffe100);
-    color: var(--summary-header-text, black);
-    padding: 8px;
+  background-color: var(--summary-header, #ffe100);
+  color: var(--summary-header-text, black);
+  padding: 8px;
 }
 
 .detail-table td {
-    border: 1px solid var(--border, #ddd);
-    padding: 8px;
+  border: 1px solid var(--border, #ddd);
+  padding: 8px;
 }

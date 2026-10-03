@@ -1,47 +1,38 @@
 {
   "name": "frontend",
-  "private": true,
   "version": "0.0.0",
+  "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.12.1",
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@swc/core",
-      "esbuild"
-    ]
-  },
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "typecheck": "tsc -b",
+    "lint": "oxlint --max-warnings 0",
+    "fmt": "oxfmt --write .",
+    "fmt:check": "oxfmt --check .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@apollo/client": "^3.12.4",
-    "cors": "^2.8.5",
-    "graphql": "^16.10.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^6.28.1"
+    "@apollo/client": "^4.3.1",
+    "graphql": "^17.0.2",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router-dom": "^7.18.4",
+    "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@eslint/js": "^9.17.0",
-    "@graphql-codegen/cli": "^5.0.3",
-    "@types/graphql": "^14.5.0",
-    "@types/react": "^18.3.18",
-    "@types/react-dom": "^18.3.5",
-    "@types/react-router-dom": "^5.3.3",
-    "@vitejs/plugin-react-swc": "^3.5.0",
-    "css-loader": "^7.1.2",
-    "eslint": "^9.17.0",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.16",
-    "globals": "^15.14.0",
-    "less": "^4.2.2",
-    "less-loader": "^12.2.0",
-    "style-loader": "^4.0.0",
-    "typescript": "~5.6.2",
-    "typescript-eslint": "^8.18.2",
-    "vite": "^6.0.5"
+    "@types/node": "^26.6.4",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react-swc": "^4.3.3",
+    "less": "^4.9.1",
+    "oxfmt": "^0.71.0",
+    "oxlint": "^1.86.0",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.2"
+  },
+  "engines": {
+    "node": ">=26.10.0 <27",
+    "pnpm": ">=12.8.0 <13"
   }
 }

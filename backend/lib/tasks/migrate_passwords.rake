@@ -3,12 +3,11 @@
 namespace :data_migration do
   desc "Migrate password to password_digest"
   task migrate_passwords: :environment do
-    require 'bcrypt'
+    require "bcrypt"
 
     puts "Doing"
 
     User.find_each do |user|
-
       if user[:password].present? && user[:password_digest].blank?
 
         user.password = user[:password]
