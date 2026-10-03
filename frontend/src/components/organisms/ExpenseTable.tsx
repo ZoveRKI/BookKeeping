@@ -10,9 +10,7 @@ import {
     DELETE_ROW_DATA_MUTATION
 } from "../../graphql/mutations";
 import { ExpenseTableRowProps } from "../../pages/HomePage";
-import {
-    Button as MuiButton,
-} from "@mui/material";
+import Button from "../atoms/Button";
 
 interface ExpenseTableProps {
     yearMonthId: string | null;
@@ -236,8 +234,8 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
                     ? null
                     : <>
                         <AddRowButton onClick={addRow} />
-                        <MuiButton
-                            sx={{
+                        <Button
+                            style={{
                                 color: 'blue',
                                 backgroundColor: 'white',
                                 height: '25px',
@@ -248,7 +246,7 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
                             onClick={addTodayRow}
                         >
                             Add Today
-                        </MuiButton>
+                        </Button>
                     </>
                 }
             </div>

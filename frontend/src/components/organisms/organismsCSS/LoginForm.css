@@ -28,10 +28,10 @@
     margin-bottom: 20px;
 }
 
-.login-box .MuiTextField-root {
+.login-box .text-field {
     margin-bottom: 16px;
 }
 
-.login-box .MuiButton-root {
+.login-box .button {
     width: 100%
 }
