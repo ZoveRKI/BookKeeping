@@ -216,11 +216,11 @@ const ExpenseTable: React.FC<ExpenseTableProps> = ({
                                 </div>
                             </td>
                             <div className="row-actions">
-                                {row.isEdited && (
-                                    <div className="action-button">
+                                <div className="action-button">
+                                    {row.isEdited && (
                                         <SaveRowButton onClick={() => saveRow(index)} />
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                                 <div className="action-button">
                                     <DeleteRowButton onClick={() => deleteRow(index)} />
                                 </div>
